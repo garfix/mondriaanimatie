@@ -24,6 +24,7 @@ function createRandomFrame() {
     };
 
     var allowAlmostOpenLines = random(0, 1);
+    var minimumLineDistance = 5;
 
     // add frame borders
     frame.lines.push({ direction: 'horizontal', pos: 0, piece: [0, 100], color: 'none'});
@@ -34,10 +35,10 @@ function createRandomFrame() {
     // ensure a minimum of both types of lines
     var directions = [];
 
-    for (var i = 0; i < random(2, 15); i++) {
+    for (var i = 0; i < random(2, 10); i++) {
         directions.push('horizontal');
     }
-    for (var i = 0; i < random(2, 15); i++) {
+    for (var i = 0; i < random(2, 10); i++) {
         directions.push('vertical');
     }
 
@@ -46,8 +47,12 @@ function createRandomFrame() {
     for (var i = 0; i < directions.length; i++) {
 
         var direction = directions[i];
-        var pos = createPosition(frame.lines, direction);
+        var pos = createPosition(frame.lines, direction, minimumLineDistance);
         var piece = createPiece(frame.lines, direction, pos, allowAlmostOpenLines);
+
+        if (!pos) {
+            continue;
+        }
 
         var line = {
             width: 2,
@@ -80,5 +85,3 @@ function createRandomFrame() {
 
     return frame;
 }
-
-

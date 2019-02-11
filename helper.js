@@ -38,10 +38,29 @@ function sortLines(lines) {
         return a.pos - b.pos;
     });
 
-    return {hor: hor, ver: ver};
+    return {horizontal: hor, vertical: ver};
 }
 
 // Creates segments that have enough distance to the other lines, for a new line to be places
-function findFreeSegments(sortedLines) {
+function findFreeSegments(sortedLines, minimumLineDistance) {
 
+    var segments = [];
+
+    if (sortedLines.length === 0) {
+        return [];
+    }
+
+    for (var i = 0; i < sortedLines.length - 1; i++) {
+        var line1 = sortedLines[i];
+        var line2 = sortedLines[i + 1];
+
+        var minPos = line1.pos + minimumLineDistance;
+        var maxPos = line2.pos - minimumLineDistance;
+
+        if (minPos <= maxPos) {
+            segments.push([minPos, maxPos]);
+        }
+    }
+
+    return segments;
 }
