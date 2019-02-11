@@ -1,0 +1,28 @@
+html, body {
+	padding: 0;
+	margin: 0;
+    background-color: #888;
+}
+#canvas {
+    position: relative;
+    margin: auto;
+    background-color: #ffffff;
+}
+.rectangle {
+	position: absolute;
+}
+.red {
+	background-color: red;
+}
+.yellow {
+	background-color: yellow;
+}
+.blue {
+	background-color: blue;	
+}
+.black {
+    background-color: black;
+}
+.none {
+
+}
