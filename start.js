@@ -23,6 +23,8 @@ function createRandomFrame() {
         areas: []
     };
 
+    var boxes = [];
+
     var allowAlmostOpenLines = random(0, 1);
     var minimumLineDistance = 5;
 
@@ -32,56 +34,60 @@ function createRandomFrame() {
     frame.lines.push({ direction: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
     frame.lines.push({ direction: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
 
-    // ensure a minimum of both types of lines
-    var directions = [];
+    boxes.push({left: 0, right: 100, top: 0, bottom: 100});
 
-    for (var i = 0; i < random(2, 10); i++) {
-        directions.push('horizontal');
-    }
-    for (var i = 0; i < random(2, 10); i++) {
-        directions.push('vertical');
-    }
+    // create a set of instructions
+    var instructions = [];
 
-    shuffleArray(directions);
+    // each painting has at least a horizontal and a vertical line
 
-    for (var i = 0; i < directions.length; i++) {
+    instructions.push('horizontal-line');
+    instructions.push('vertical-line');
 
-        var direction = directions[i];
-        var pos = createPosition(frame.lines, direction, minimumLineDistance);
-        var piece = createPiece(frame.lines, direction, pos, allowAlmostOpenLines);
+    // add some horizontal and vertical lines, and some areas
 
-        if (!pos) {
-            continue;
+    for (var i = 0; i < random(3, 30); i++) {
+        var r = random(0, 9);
+        if (r < 4) {
+            instructions.push('horizontal-line');
+        } else if (r < 8) {
+            instructions.push('vertical-line');
+        } else {
+            instructions.push('area');
         }
-
-        var line = {
-            width: 2,
-            color: 'black',
-            direction: direction,
-            pos: pos,
-            piece: piece,
-        };
-
-        frame.lines.push(line);
     }
 
-    for (var i = 0; i < random(1, 3); i++) {
+    for (var i = 0; i < instructions.length; i++) {
 
-        var color = createColor();
-        var space = createSpace(frame.lines);
+        var instruction = instructions[i];
 
-        if (!space) {
-            break;
+        if (instruction === 'horizontal-line') {
+            var line = createLine(frame.lines, 'horizontal', minimumLineDistance, allowAlmostOpenLines);
+            frame.lines.push(line);
+            boxes = updateBoxes(boxes, line);
+        } else if (instruction === 'vertical-line') {
+            var line = createLine(frame.lines, 'vertical', minimumLineDistance, allowAlmostOpenLines);
+            frame.lines.push(line);
+            boxes = updateBoxes(boxes, line);
+        } else if (instruction === 'area') {
+            frame.areas.push(createArea(boxes));
         }
-
-        var area = {
-            color: color,
-            space: space,
-        };
-
-        frame.areas.push(area);
-
     }
 
     return frame;
+}
+
+function createLine(lines, direction, minimumLineDistance, allowAlmostOpenLines) {
+    var pos = createPosition(lines, direction, minimumLineDistance);
+    var piece = createPiece(lines, direction, pos, allowAlmostOpenLines);
+
+    var line = {
+        width: 2,
+        color: 'black',
+        direction: direction,
+        pos: pos,
+        piece: piece,
+    };
+
+    return line;
 }

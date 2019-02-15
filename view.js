@@ -48,11 +48,11 @@ function drawArea(canvas, area) {
 
     var rect = createRectangle();
 
-    rect.style.top = area.space.vertical[0] + '%';
-    rect.style.left = area.space.horizontal[0] + '%';
+    rect.style.top = area.top + '%';
+    rect.style.left = area.left + '%';
 
-    rect.style.height = (area.space.vertical[1] - area.space.vertical[0]) + '%';
-    rect.style.width = (area.space.horizontal[1] - area.space.horizontal[0]) + "%";
+    rect.style.height = (area.bottom - area.top) + '%';
+    rect.style.width = (area.right - area.left) + "%";
 
     rect.classList.add(area.color);
 

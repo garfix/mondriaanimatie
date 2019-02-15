@@ -91,6 +91,10 @@ Een schilderij met zwarte lijnen heeft
 
 ## Compositie-elementen
 
+Mondriaan maakt nieuwe rechthoeken door een andere rechthoek op te delen in 2 of meer stukken.
+
+Vlakken ontstaan alleen in simpele kamers. Het is mogelijk dat er daarna lijnen doorheen getrokken worden.
+
 * De dubbele lijn: twee dunne lijnen die vlak naast elkaar liggen
 * Groot vlak: vlak in simple kamer dat het grootste deel van de lijst in beslag neemt
 * Ladder: twee parallele lijnen met daartussen een aantal lijnen op ongeveer dezelfde afstand

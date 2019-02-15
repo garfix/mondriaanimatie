@@ -4,8 +4,7 @@ function createColor() {
     return colors[r];
 }
 
-function createPosition(lines, direction, minimumLineDistance)
-{
+function createPosition(lines, direction, minimumLineDistance) {
     var sorted = sortLines(lines);
     var sortedLines = sorted[direction];
     var segments = findFreeSegments(sortedLines, minimumLineDistance);
@@ -20,70 +19,18 @@ function createPosition(lines, direction, minimumLineDistance)
     return random(segment[0], segment[1]);
 }
 
-function createSpace(lines) {
+function createArea(boxes) {
 
-    // sort
-    var sorted = sortLines(lines);
-    
-    for (var i = 0; i < 20; i++) {
+    var r = random(0, boxes.length - 1);
 
-        var maxHorIndex = sorted.horizontal.length - 1;
-        var hor1Index = random(0, maxHorIndex - 1);
-        var hor2Index = Math.min(maxHorIndex, random(hor1Index + 1, hor1Index + 2));
+    var area = boxes[r];
 
-        var hor1 = sorted.horizontal[hor1Index];
-        var hor2 = sorted.horizontal[hor2Index];
+    area.color = createColor();
 
-        var maxVerIndex = sorted.vertical.length - 1;
-        var ver1Index = random(0, maxVerIndex - 1);
-        var ver2Index = Math.min(maxVerIndex, random(ver1Index + 1, ver1Index + 2));
-
-        var ver1 = sorted.vertical[ver1Index];
-        var ver2 = sorted.vertical[ver2Index];
-
-        // check if the delimiting lines extend to this position
-        if (hor1.pos < ver1.piece[0] || hor1.pos > ver1.piece[1]) {
-            continue;
-        }
-        if (hor1.pos < ver2.piece[0] || hor1.pos > ver2.piece[1]) {
-            continue;
-        }
-
-        if (hor2.pos < ver1.piece[0] || hor2.pos > ver1.piece[1]) {
-            continue;
-        }
-
-        if (hor2.pos < ver2.piece[0] || hor2.pos > ver2.piece[1]) {
-            continue;
-        }
-
-
-        if (ver1.pos < hor1.piece[0] || ver1.pos > hor1.piece[1]) {
-            continue;
-        }
-        if (ver1.pos < hor2.piece[0] || ver1.pos > hor2.piece[1]) {
-            continue;
-        }
-
-        if (ver2.pos < hor1.piece[0] || ver2.pos > hor1.piece[1]) {
-            continue;
-        }
-
-        if (ver2.pos < hor2.piece[0] || ver2.pos > hor2.piece[1]) {
-            continue;
-        }
-
-        return {
-            horizontal: [ver1.pos, ver2.pos],
-            vertical: [hor1.pos, hor2.pos]
-        }
-    }
-    
-    return false;
+    return area;
 }
 
-function createPiece(lines, direction, pos, allowAlmostOpenLines)
-{
+function createPiece(lines, direction, pos, allowAlmostOpenLines) {
     var r;
 
     if (allowAlmostOpenLines) {
@@ -124,4 +71,44 @@ function createPiece(lines, direction, pos, allowAlmostOpenLines)
         // fallback
         return [0, 100];
     }
+}
+
+function updateBoxes(boxes, line) {
+
+    var newBoxes = [];
+
+    for (var i = 0; i < boxes.length; i++) {
+
+        var box = boxes[i];
+
+        if (line.direction === "horizontal") {
+
+            if (box.top < line.pos && box.bottom > line.pos &&
+                box.left >= line.piece[0] && box.right <= line.piece[1]) {
+
+                newBoxes = newBoxes.concat([
+                    {left: box.left, right: box.right, top: box.top, bottom: line.pos},
+                    {left: box.left, right: box.right, top: line.pos, bottom: box.bottom}]);
+
+            } else {
+                newBoxes.push(box)
+            }
+
+        } else {
+
+            if (box.left < line.pos && box.right > line.pos &&
+                box.top >= line.piece[0] && box.bottom <= line.piece[1]) {
+
+                newBoxes = newBoxes.concat([
+                    { left: box.left, right: line.pos, top: box.top, bottom: box.bottom },
+                    { left: line.pos, right: box.right, top: box.top, bottom: box.bottom }]);
+
+            } else {
+                newBoxes.push(box)
+            }
+
+        }
+    }
+
+    return newBoxes;
 }
