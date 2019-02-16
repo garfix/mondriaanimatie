@@ -1,6 +1,6 @@
 function createColor() {
     var colors = ['red', 'blue', 'yellow'];
-    var r = random(0, colors.length);
+    var r = random(0, colors.length - 1);
     return colors[r];
 }
 
@@ -19,24 +19,44 @@ function createPosition(lines, direction, minimumLineDistance) {
     return random(segment[0], segment[1]);
 }
 
-function createArea(boxes) {
+function pickABox(boxes) {
 
-    var r = random(0, boxes.length - 1);
+    // filter allowed boxes
+    var allowedIndexes = [];
 
-    var area = boxes[r];
+    for (var i = 0; i < boxes.length; i++) {
+        var box = boxes[i];
+        if (box.left === 0 && box.right === 100) {
+            continue;
+        }
 
-    area.color = createColor();
+        if (box.top === 0 && box.bottom === 100) {
+            continue;
+        }
 
-    return area;
+        if (box.color !== 'none') {
+            continue;
+        }
+
+        allowedIndexes.push(i);
+    }
+
+    if (allowedIndexes.length === 0) {
+        return false;
+    }
+
+    var r = random(0, allowedIndexes.length - 1);
+
+    return allowedIndexes[r];
 }
 
 function createPiece(lines, direction, pos, allowAlmostOpenLines) {
     var r;
 
     if (allowAlmostOpenLines) {
-        r = random(2, 3);
-    } else {
         r = random(1, 3);
+    } else {
+        r = random(2, 3);
     }
 
     if (r === 1) {
@@ -87,8 +107,8 @@ function updateBoxes(boxes, line) {
                 box.left >= line.piece[0] && box.right <= line.piece[1]) {
 
                 newBoxes = newBoxes.concat([
-                    {left: box.left, right: box.right, top: box.top, bottom: line.pos},
-                    {left: box.left, right: box.right, top: line.pos, bottom: box.bottom}]);
+                    {left: box.left, right: box.right, top: box.top, bottom: line.pos, color: box.color },
+                    {left: box.left, right: box.right, top: line.pos, bottom: box.bottom, color: box.color }]);
 
             } else {
                 newBoxes.push(box)
@@ -100,8 +120,8 @@ function updateBoxes(boxes, line) {
                 box.top >= line.piece[0] && box.bottom <= line.piece[1]) {
 
                 newBoxes = newBoxes.concat([
-                    { left: box.left, right: line.pos, top: box.top, bottom: box.bottom },
-                    { left: line.pos, right: box.right, top: box.top, bottom: box.bottom }]);
+                    { left: box.left, right: line.pos, top: box.top, bottom: box.bottom, color: box.color },
+                    { left: line.pos, right: box.right, top: box.top, bottom: box.bottom, color: box.color }]);
 
             } else {
                 newBoxes.push(box)
@@ -109,6 +129,8 @@ function updateBoxes(boxes, line) {
 
         }
     }
+
+    //console.log(newBoxes)
 
     return newBoxes;
 }

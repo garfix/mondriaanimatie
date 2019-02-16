@@ -25,7 +25,7 @@ function createRandomFrame() {
 
     var boxes = [];
 
-    var allowAlmostOpenLines = random(0, 1);
+    var allowAlmostOpenLines = 0;//random(0, 1);
     var minimumLineDistance = 5;
 
     // add frame borders
@@ -34,7 +34,7 @@ function createRandomFrame() {
     frame.lines.push({ direction: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
     frame.lines.push({ direction: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
 
-    boxes.push({left: 0, right: 100, top: 0, bottom: 100});
+    boxes.push({ left: 0, right: 100, top: 0, bottom: 100, color: 'none' });
 
     // create a set of instructions
     var instructions = [];
@@ -48,9 +48,9 @@ function createRandomFrame() {
 
     for (var i = 0; i < random(3, 30); i++) {
         var r = random(0, 9);
-        if (r < 4) {
+        if (r < 3) {
             instructions.push('horizontal-line');
-        } else if (r < 8) {
+        } else if (r < 6) {
             instructions.push('vertical-line');
         } else {
             instructions.push('area');
@@ -61,6 +61,8 @@ function createRandomFrame() {
 
         var instruction = instructions[i];
 
+console.log(instruction)
+
         if (instruction === 'horizontal-line') {
             var line = createLine(frame.lines, 'horizontal', minimumLineDistance, allowAlmostOpenLines);
             frame.lines.push(line);
@@ -70,8 +72,15 @@ function createRandomFrame() {
             frame.lines.push(line);
             boxes = updateBoxes(boxes, line);
         } else if (instruction === 'area') {
-            frame.areas.push(createArea(boxes));
+            var boxIndex = pickABox(boxes);
+            if (boxIndex !== false) {
+                var box = boxes[boxIndex];
+                box.color = createColor();
+                frame.areas.push(box);
+            }
         }
+
+console.log(boxes);
     }
 
     return frame;

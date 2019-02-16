@@ -100,4 +100,6 @@ Vlakken ontstaan alleen in simpele kamers. Het is mogelijk dat er daarna lijnen 
 * Ladder: twee parallele lijnen met daartussen een aantal lijnen op ongeveer dezelfde afstand
 * Raster: de afstanden tussen alle lijnen zijn evengroot
 
+Voor het rekenen met vlakken is het handiger om de bijna gesloten lijnen te behandelen als gesloten lijnen en en alleen af te beelden als bijna gesloten.
+
 [1] https://www.kunstkopie.nl/a/mondriaan-piet/newyorkcity-2.html
