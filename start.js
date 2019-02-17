@@ -74,9 +74,10 @@ console.log(instruction)
         } else if (instruction === 'area') {
             var boxIndex = pickABox(boxes);
             if (boxIndex !== false) {
-                var box = boxes[boxIndex];
+                var box = Object.assign({}, boxes[boxIndex]);
                 box.color = createColor();
                 frame.areas.push(box);
+                boxes = replaceBox(boxes, boxIndex, box);
             }
         }
 

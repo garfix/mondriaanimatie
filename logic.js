@@ -50,6 +50,21 @@ function pickABox(boxes) {
     return allowedIndexes[r];
 }
 
+function replaceBox(boxes, index, box) {
+
+    var newBoxes = [];
+
+    for (var i = 0; i < boxes.length; i++) {
+        if (i === index) {
+            newBoxes.push(box);
+        } else {
+            newBoxes.push(boxes[i]);
+        }
+    }
+
+    return newBoxes;
+}
+
 function createPiece(lines, direction, pos, allowAlmostOpenLines) {
     var r;
 
