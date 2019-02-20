@@ -1,16 +1,11 @@
 # Types of painting
 
-## Black-lines
+Two types of painting interest me here:
+
+## Paris style
 
 These paintings only have black lines.
 
-## Grid
-
-These paintings have very thin frame-to-frame lines that are spaced evenly over the canvas.
-
 ## New York style
 
-These paintings have colored lines. And no planes.
-
-## Compositie-elementen
-
+These paintings have colored lines and no planes.
