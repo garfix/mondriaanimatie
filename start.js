@@ -27,6 +27,9 @@ function createRandomFrame() {
 
     var allowAlmostOpenLines = 0;//random(0, 1);
     var minimumLineDistance = 5;
+    var planeColors = ['red', 'yellow', 'blue', 'grey', 'black'];
+
+    shuffleArray(planeColors);
 
     // add frame borders
     frame.lines.push({ direction: 'horizontal', pos: 0, piece: [0, 100], color: 'none'});
@@ -75,7 +78,11 @@ console.log(instruction)
             var boxIndex = pickABox(boxes);
             if (boxIndex !== false) {
                 var box = Object.assign({}, boxes[boxIndex]);
-                box.color = createColor();
+                box.color = planeColors.shift();
+                if (planeColors.length === 0) {
+                    planeColors = ['red', 'yellow', 'blue', 'grey', 'black'];
+                    shuffleArray(planeColors);
+                }
                 frame.areas.push(box);
                 boxes = replaceBox(boxes, boxIndex, box);
             }
