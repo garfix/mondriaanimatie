@@ -8,8 +8,13 @@ html, body {
     margin: auto;
     background-color: #ffffff;
 }
-.rectangle {
+.line {
 	position: absolute;
+    z-index: 20;
+}
+.plane {
+    position: absolute;
+    z-index: 10;
 }
 .red {
 	background-color: red;
@@ -22,6 +27,9 @@ html, body {
 }
 .black {
     background-color: black;
+}
+.grey {
+    background-color: #c0c0c0;
 }
 .none {
 

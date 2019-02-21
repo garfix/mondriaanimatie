@@ -6,7 +6,8 @@ function start(canvasElementId) {
     var canvas = document.getElementById(canvasElementId);
     var frame = createRandomFrame();
 
-    draw(canvas, frame);
+    //draw(canvas, frame);
+    animate(canvas, frame);
 }
 
 function resize() {
@@ -20,7 +21,8 @@ function createRandomFrame() {
 
     var frame = {
         lines: [],
-        areas: []
+        areas: [],
+        all: []
     };
 
     var boxes = [];
@@ -32,10 +34,15 @@ function createRandomFrame() {
     shuffleArray(planeColors);
 
     // add frame borders
-    frame.lines.push({ direction: 'horizontal', pos: 0, piece: [0, 100], color: 'none'});
-    frame.lines.push({ direction: 'horizontal', pos: 100, piece: [0, 100], color: 'none'});
-    frame.lines.push({ direction: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
-    frame.lines.push({ direction: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
+    frame.lines.push({ type: 'line', direction: 'horizontal', pos: 0, piece: [0, 100], color: 'none'});
+    frame.lines.push({ type: 'line', direction: 'horizontal', pos: 100, piece: [0, 100], color: 'none'});
+    frame.lines.push({ type: 'line', direction: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
+    frame.lines.push({ type: 'line', direction: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
+
+    // frame.all.push({ type: 'line', direction: 'horizontal', pos: 0, piece: [0, 100], color: 'none'});
+    // frame.all.push({ type: 'line', direction: 'horizontal', pos: 100, piece: [0, 100], color: 'none'});
+    // frame.all.push({ type: 'line', direction: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
+    // frame.all.push({ type: 'line', direction: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
 
     boxes.push({ left: 0, right: 100, top: 0, bottom: 100, color: 'none' });
 
@@ -69,22 +76,26 @@ console.log(instruction)
         if (instruction === 'horizontal-line') {
             var line = createLine(frame.lines, 'horizontal', minimumLineDistance, allowAlmostOpenLines);
             frame.lines.push(line);
+            frame.all.push(line);
             boxes = updateBoxes(boxes, line);
         } else if (instruction === 'vertical-line') {
             var line = createLine(frame.lines, 'vertical', minimumLineDistance, allowAlmostOpenLines);
             frame.lines.push(line);
+            frame.all.push(line);
             boxes = updateBoxes(boxes, line);
         } else if (instruction === 'area') {
             var boxIndex = pickABox(boxes);
             if (boxIndex !== false) {
-                var box = Object.assign({}, boxes[boxIndex]);
-                box.color = planeColors.shift();
+                var plane = Object.assign({}, boxes[boxIndex]);
+                plane.type = 'plane';
+                plane.color = planeColors.shift();
                 if (planeColors.length === 0) {
                     planeColors = ['red', 'yellow', 'blue', 'grey', 'black'];
                     shuffleArray(planeColors);
                 }
-                frame.areas.push(box);
-                boxes = replaceBox(boxes, boxIndex, box);
+                frame.areas.push(plane);
+                frame.all.push(plane);
+                boxes = replaceBox(boxes, boxIndex, plane);
             }
         }
 
@@ -99,6 +110,7 @@ function createLine(lines, direction, minimumLineDistance, allowAlmostOpenLines)
     var piece = createPiece(lines, direction, pos, allowAlmostOpenLines);
 
     var line = {
+        type: 'line',
         width: 2,
         color: 'black',
         direction: direction,
