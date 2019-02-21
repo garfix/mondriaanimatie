@@ -11,18 +11,21 @@ function start(canvasElementId) {
 function nextFrame(canvas) {
 
     var frame = createRandomFrame();
-    var duration = 500;
-    var frameDuration = frame.all.length * duration + 1000;
+    var elementDuration = 500;
+    var holdDuration = 1000;
+    var buildDuration = (frame.all.length * elementDuration) + holdDuration;
+    var tearDownDuration = 1000;
+    var fullDuration = buildDuration + tearDownDuration;
 
-    animate(canvas, frame, duration);
+    build(canvas, frame, elementDuration);
 
     setTimeout(function () {
+        tearDown(canvas, frame)
+    }, buildDuration);
 
-        canvas.innerHTML = "";
-
+    setTimeout(function () {
         nextFrame(canvas)
-
-    }, frameDuration)
+    }, fullDuration);
 }
 
 function resize() {
@@ -53,11 +56,6 @@ function createRandomFrame() {
     frame.lines.push({ type: 'line', direction: 'horizontal', pos: 100, piece: [0, 100], color: 'none'});
     frame.lines.push({ type: 'line', direction: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
     frame.lines.push({ type: 'line', direction: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
-
-    // frame.all.push({ type: 'line', direction: 'horizontal', pos: 0, piece: [0, 100], color: 'none'});
-    // frame.all.push({ type: 'line', direction: 'horizontal', pos: 100, piece: [0, 100], color: 'none'});
-    // frame.all.push({ type: 'line', direction: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
-    // frame.all.push({ type: 'line', direction: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
 
     boxes.push({ left: 0, right: 100, top: 0, bottom: 100, color: 'none' });
 
@@ -99,13 +97,14 @@ function createRandomFrame() {
         } else if (instruction === 'area') {
             var boxIndex = pickABox(boxes);
             if (boxIndex !== false) {
-                var plane = Object.assign({}, boxes[boxIndex]);
-                plane.type = 'plane';
+                var plane = createPlane(boxes[boxIndex]);
+
                 plane.color = planeColors.shift();
                 if (planeColors.length === 0) {
                     planeColors = ['red', 'yellow', 'blue', 'grey', 'black'];
                     shuffleArray(planeColors);
                 }
+
                 frame.areas.push(plane);
                 frame.all.push(plane);
                 boxes = replaceBox(boxes, boxIndex, plane);
@@ -130,4 +129,11 @@ function createLine(lines, direction, minimumLineDistance, allowAlmostOpenLines)
     };
 
     return line;
+}
+
+function createPlane(box) {
+    var plane = Object.assign({}, box);
+    plane.type = 'plane';
+
+    return plane;
 }

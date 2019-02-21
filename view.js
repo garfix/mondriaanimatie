@@ -1,15 +1,4 @@
-function draw(canvas, frame) {
-
-    for (var i = 0; i < frame.areas.length; i++) {
-        drawArea(canvas, frame.areas[i], 0);
-    }
-
-    for (var i = 0; i < frame.lines.length; i++) {
-        drawLine(canvas, frame.lines[i], 0);
-    }
-}
-
-function animate(canvas, frame, duration) {
+function build(canvas, frame, duration) {
 
     for (var i = 0; i < frame.all.length; i++) {
 
@@ -23,6 +12,10 @@ function animate(canvas, frame, duration) {
             drawArea(canvas, element, start);
         }
     }
+}
+
+function tearDown(canvas, frame) {
+    canvas.innerHTML = "";
 }
 
 function createRectangle()
