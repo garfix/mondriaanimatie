@@ -14,13 +14,16 @@ function nextFrame(canvas) {
     var elementDuration = 500;
     var holdDuration = 1000;
     var buildDuration = (frame.all.length * elementDuration) + holdDuration;
-    var tearDownDuration = 1000;
-    var fullDuration = buildDuration + tearDownDuration;
+    var tearDownDuration = frame.all.length * 100;
+    var interFrameDuration = 500;
+    var fullDuration = buildDuration + tearDownDuration + interFrameDuration;
+
+    canvas.innerHTML = "";
 
     build(canvas, frame, elementDuration);
 
     setTimeout(function () {
-        tearDown(canvas, frame)
+        tearDownAnimation1(canvas, frame)
     }, buildDuration);
 
     setTimeout(function () {
