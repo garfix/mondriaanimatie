@@ -9,9 +9,7 @@ function draw(canvas, frame) {
     }
 }
 
-function animate(canvas, frame) {
-
-    var duration = 500;
+function animate(canvas, frame, duration) {
 
     for (var i = 0; i < frame.all.length; i++) {
 

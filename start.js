@@ -4,10 +4,25 @@ function start(canvasElementId) {
     window.onresize = resize;
 
     var canvas = document.getElementById(canvasElementId);
-    var frame = createRandomFrame();
 
-    //draw(canvas, frame);
-    animate(canvas, frame);
+    nextFrame(canvas);
+}
+
+function nextFrame(canvas) {
+
+    var frame = createRandomFrame();
+    var duration = 500;
+    var frameDuration = frame.all.length * duration + 1000;
+
+    animate(canvas, frame, duration);
+
+    setTimeout(function () {
+
+        canvas.innerHTML = "";
+
+        nextFrame(canvas)
+
+    }, frameDuration)
 }
 
 function resize() {
@@ -71,8 +86,6 @@ function createRandomFrame() {
 
         var instruction = instructions[i];
 
-console.log(instruction)
-
         if (instruction === 'horizontal-line') {
             var line = createLine(frame.lines, 'horizontal', minimumLineDistance, allowAlmostOpenLines);
             frame.lines.push(line);
@@ -98,8 +111,6 @@ console.log(instruction)
                 boxes = replaceBox(boxes, boxIndex, plane);
             }
         }
-
-console.log(boxes);
     }
 
     return frame;
