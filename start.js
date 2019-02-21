@@ -46,7 +46,7 @@ function createRandomFrame() {
         all: []
     };
 
-    var boxes = [];
+    var rooms = [];
 
     var allowAlmostOpenLines = 0;//random(0, 1);
     var minimumLineDistance = 5;
@@ -60,7 +60,7 @@ function createRandomFrame() {
     frame.lines.push({ type: 'line', direction: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
     frame.lines.push({ type: 'line', direction: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
 
-    boxes.push({ left: 0, right: 100, top: 0, bottom: 100, color: 'none' });
+    rooms.push({ left: 0, right: 100, top: 0, bottom: 100, color: 'none' });
 
     // create a set of instructions
     var instructions = [];
@@ -91,16 +91,16 @@ function createRandomFrame() {
             var line = createLine(frame.lines, 'horizontal', minimumLineDistance, allowAlmostOpenLines);
             frame.lines.push(line);
             frame.all.push(line);
-            boxes = updateBoxes(boxes, line);
+            rooms = updateRooms(rooms, line);
         } else if (instruction === 'vertical-line') {
             var line = createLine(frame.lines, 'vertical', minimumLineDistance, allowAlmostOpenLines);
             frame.lines.push(line);
             frame.all.push(line);
-            boxes = updateBoxes(boxes, line);
+            rooms = updateRooms(rooms, line);
         } else if (instruction === 'area') {
-            var boxIndex = pickABox(boxes);
-            if (boxIndex !== false) {
-                var plane = createPlane(boxes[boxIndex]);
+            var roomIndex = pickARoom(rooms);
+            if (roomIndex !== false) {
+                var plane = createPlane(rooms[roomIndex]);
 
                 plane.color = planeColors.shift();
                 if (planeColors.length === 0) {
@@ -110,7 +110,7 @@ function createRandomFrame() {
 
                 frame.areas.push(plane);
                 frame.all.push(plane);
-                boxes = replaceBox(boxes, boxIndex, plane);
+                rooms = replaceRoom(rooms, roomIndex, plane);
             }
         }
     }
@@ -134,8 +134,8 @@ function createLine(lines, direction, minimumLineDistance, allowAlmostOpenLines)
     return line;
 }
 
-function createPlane(box) {
-    var plane = Object.assign({}, box);
+function createPlane(room) {
+    var plane = Object.assign({}, room);
     plane.type = 'plane';
 
     return plane;

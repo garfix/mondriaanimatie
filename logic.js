@@ -19,22 +19,22 @@ function createPosition(lines, direction, minimumLineDistance) {
     return random(segment[0], segment[1]);
 }
 
-function pickABox(boxes) {
+function pickARoom(rooms) {
 
-    // filter allowed boxes
+    // filter allowed rooms
     var allowedIndexes = [];
 
-    for (var i = 0; i < boxes.length; i++) {
-        var box = boxes[i];
-        if (box.left === 0 && box.right === 100) {
+    for (var i = 0; i < rooms.length; i++) {
+        var room = rooms[i];
+        if (room.left === 0 && room.right === 100) {
             continue;
         }
 
-        if (box.top === 0 && box.bottom === 100) {
+        if (room.top === 0 && room.bottom === 100) {
             continue;
         }
 
-        if (box.color !== 'none') {
+        if (room.color !== 'none') {
             continue;
         }
 
@@ -50,19 +50,19 @@ function pickABox(boxes) {
     return allowedIndexes[r];
 }
 
-function replaceBox(boxes, index, box) {
+function replaceRoom(rooms, index, room) {
 
-    var newBoxes = [];
+    var newRooms = [];
 
-    for (var i = 0; i < boxes.length; i++) {
+    for (var i = 0; i < rooms.length; i++) {
         if (i === index) {
-            newBoxes.push(box);
+            newRooms.push(room);
         } else {
-            newBoxes.push(boxes[i]);
+            newRooms.push(rooms[i]);
         }
     }
 
-    return newBoxes;
+    return newRooms;
 }
 
 function createPiece(lines, direction, pos, allowAlmostOpenLines) {
@@ -108,44 +108,44 @@ function createPiece(lines, direction, pos, allowAlmostOpenLines) {
     }
 }
 
-function updateBoxes(boxes, line) {
+function updateRooms(rooms, line) {
 
-    var newBoxes = [];
+    var newRooms = [];
 
-    for (var i = 0; i < boxes.length; i++) {
+    for (var i = 0; i < rooms.length; i++) {
 
-        var box = boxes[i];
+        var room = rooms[i];
 
         if (line.direction === "horizontal") {
 
-            if (box.top < line.pos && box.bottom > line.pos &&
-                box.left >= line.piece[0] && box.right <= line.piece[1]) {
+            if (room.top < line.pos && room.bottom > line.pos &&
+                room.left >= line.piece[0] && room.right <= line.piece[1]) {
 
-                newBoxes = newBoxes.concat([
-                    {left: box.left, right: box.right, top: box.top, bottom: line.pos, color: box.color },
-                    {left: box.left, right: box.right, top: line.pos, bottom: box.bottom, color: box.color }]);
+                newRooms = newRooms.concat([
+                    {left: room.left, right: room.right, top: room.top, bottom: line.pos, color: room.color },
+                    {left: room.left, right: room.right, top: line.pos, bottom: room.bottom, color: room.color }]);
 
             } else {
-                newBoxes.push(box)
+                newRooms.push(room)
             }
 
         } else {
 
-            if (box.left < line.pos && box.right > line.pos &&
-                box.top >= line.piece[0] && box.bottom <= line.piece[1]) {
+            if (room.left < line.pos && room.right > line.pos &&
+                room.top >= line.piece[0] && room.bottom <= line.piece[1]) {
 
-                newBoxes = newBoxes.concat([
-                    { left: box.left, right: line.pos, top: box.top, bottom: box.bottom, color: box.color },
-                    { left: line.pos, right: box.right, top: box.top, bottom: box.bottom, color: box.color }]);
+                newRooms = newRooms.concat([
+                    { left: room.left, right: line.pos, top: room.top, bottom: room.bottom, color: room.color },
+                    { left: line.pos, right: room.right, top: room.top, bottom: room.bottom, color: room.color }]);
 
             } else {
-                newBoxes.push(box)
+                newRooms.push(room)
             }
 
         }
     }
 
-    //console.log(newBoxes)
+    //console.log(newRooms)
 
-    return newBoxes;
+    return newRooms;
 }
