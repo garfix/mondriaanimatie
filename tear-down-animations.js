@@ -43,15 +43,22 @@ function tearDownAnimation2() {
 
     function moveShutter(element, from, to, start, duration) {
 
-        element.style.left = from  + "%";
-
-        canvas.appendChild(element);
-
-        element.style.transition = 'left ' + (duration / 500) + 's';
+        element.style.left = to  + "%";
+        element.style.display = "none";
 
         setTimeout(function(){
-            element.style.left = to + "%";
-        }, start)
+
+            if (from === "-100") {
+                element.classList.add('ltr');
+            } else {
+                element.classList.add('rtl');
+            }
+
+            element.style.display = "block";
+
+        }, start);
+
+        canvas.appendChild(element);
     }
 
     f.duration = shutterCount  * duration;

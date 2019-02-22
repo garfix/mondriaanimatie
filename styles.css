@@ -40,3 +40,31 @@ html, body {
     background-color: #f8f8f8;
     z-index: 100;
 }
+
+@keyframes left-to-right {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes right-to-left {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+.ltr {
+    animation-name: left-to-right;
+    animation-duration: 0.5s;
+}
+
+.rtl {
+    animation-name: right-to-left;
+    animation-duration: 0.5s;
+}
