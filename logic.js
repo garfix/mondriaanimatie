@@ -1,9 +1,3 @@
-function createColor() {
-    var colors = ['red', 'blue', 'yellow'];
-    var r = random(0, colors.length - 1);
-    return colors[r];
-}
-
 function createPosition(lines, direction, minimumLineDistance) {
     var sorted = sortLines(lines);
     var sortedLines = sorted[direction];
@@ -144,8 +138,6 @@ function updateRooms(rooms, line) {
 
         }
     }
-
-    //console.log(newRooms)
 
     return newRooms;
 }

@@ -7,6 +7,7 @@ html, body {
     position: relative;
     margin: auto;
     background-color: #ffffff;
+    overflow: hidden;
 }
 .line {
 	position: absolute;
@@ -33,4 +34,9 @@ html, body {
 }
 .none {
 
+}
+.shutter {
+    position: absolute;
+    background-color: #f8f8f8;
+    z-index: 100;
 }

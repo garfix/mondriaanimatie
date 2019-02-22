@@ -14,18 +14,6 @@ function build(canvas, frame, duration) {
     }
 }
 
-function tearDownAnimation1(canvas, frame) {
-
-    var count = canvas.childNodes.length;
-
-    for (var i = 0; i < count; i++) {
-
-        var element = canvas.childNodes[count - 1 - i];
-
-        hideElement(element, i * 100);
-    }
-}
-
 function hideElement(element, time) {
     setTimeout(function(){
         element.style.display = 'none';

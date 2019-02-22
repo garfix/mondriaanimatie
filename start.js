@@ -11,19 +11,19 @@ function start(canvasElementId) {
 function nextFrame(canvas) {
 
     var frame = createRandomFrame();
+    var tearDownAnimation = createRandomTearDownAnimation(canvas);
     var elementDuration = 500;
     var holdDuration = 1000;
     var buildDuration = (frame.all.length * elementDuration) + holdDuration;
-    var tearDownDuration = frame.all.length * 100;
     var interFrameDuration = 500;
-    var fullDuration = buildDuration + tearDownDuration + interFrameDuration;
+    var fullDuration = buildDuration + tearDownAnimation.duration + interFrameDuration;
 
     canvas.innerHTML = "";
 
     build(canvas, frame, elementDuration);
 
     setTimeout(function () {
-        tearDownAnimation1(canvas, frame)
+        tearDownAnimation();
     }, buildDuration);
 
     setTimeout(function () {
@@ -36,6 +36,16 @@ function resize() {
 
     canvas.style.width = minSize + 'px';
     canvas.style.height = minSize + 'px';
+}
+
+function createRandomTearDownAnimation(canvas) {
+    var r = random(1, 2);
+
+    if (r === 1) {
+        return tearDownAnimation1(canvas);
+    } else {
+        return tearDownAnimation2(canvas);
+    }
 }
 
 function createRandomFrame() {
