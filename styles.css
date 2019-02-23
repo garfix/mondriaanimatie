@@ -41,7 +41,7 @@ html, body {
     z-index: 100;
 }
 
-@keyframes left-to-right {
+@keyframes translate-left-to-right {
     from {
         transform: translateX(-100%);
     }
@@ -50,7 +50,7 @@ html, body {
     }
 }
 
-@keyframes right-to-left {
+@keyframes translate-right-to-left {
     from {
         transform: translateX(100%);
     }
@@ -59,12 +59,46 @@ html, body {
     }
 }
 
-.ltr {
-    animation-name: left-to-right;
-    animation-duration: 0.5s;
+.move-from-left-to-right {
+    animation-name: translate-left-to-right;
 }
 
-.rtl {
-    animation-name: right-to-left;
-    animation-duration: 0.5s;
+.move-from-right-to-left {
+    animation-name: translate-right-to-left;
+}
+
+@keyframes expand-vertical {
+    from {
+        transform: scaleY(0);
+    }
+    to {
+        transform: scaleY(1);
+    }
+}
+
+@keyframes expand-horizontal {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.expand-left-to-right {
+    animation-name: expand-horizontal;
+    transform-origin: left;
+}
+
+.expand-top-to-bottom {
+    animation-name: expand-vertical;
+    transform-origin: top;
+}
+.expand-bottom-to-top {
+    animation-name: expand-vertical;
+    transform-origin: bottom;
+}
+
+.line, .plane, .shutter {
+    will-change: transform;
 }

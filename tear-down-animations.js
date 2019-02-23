@@ -45,20 +45,13 @@ function tearDownAnimation2() {
 
         element.style.left = to  + "%";
         element.style.display = "none";
-
-        setTimeout(function(){
-
-            if (from === "-100") {
-                element.classList.add('ltr');
-            } else {
-                element.classList.add('rtl');
-            }
-
-            element.style.display = "block";
-
-        }, start);
-
         canvas.appendChild(element);
+
+        if (from === "-100") {
+            animate(element, start, duration, 'move-from-left-to-right');
+        } else {
+            animate(element, start, duration, 'move-from-right-to-left');
+        }
     }
 
     f.duration = shutterCount  * duration;

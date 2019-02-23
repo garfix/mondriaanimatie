@@ -9,7 +9,7 @@ function build(canvas, frame, duration) {
         if (element.type === 'line') {
             drawLine(canvas, element, start, duration);
         } else if (element.type === 'plane') {
-            drawArea(canvas, element, start);
+            drawPlane(canvas, element, start, duration);
         }
     }
 }
@@ -51,27 +51,30 @@ function drawLine(canvas, line, start, duration) {
     }
 
     if (line.direction === 'horizontal') {
-        rect.style.width = '0%';
-        canvas.appendChild(rect);
-        rect.style.transition = 'width ' + (duration / 1000) + 's';
 
-        setTimeout(function(){
-            rect.style.width = (line.piece[1] - line.piece[0]) + '%';
-        }, start)
+        rect.style.display = "none";
+        canvas.appendChild(rect);
+        animate(rect, start, duration, 'expand-left-to-right');
+
     } else {
-        rect.style.height = '0%';
+        rect.style.display = "none";
         canvas.appendChild(rect);
-        rect.style.transition = 'height ' + (duration / 1000) + 's';
-
-        setTimeout(function(){
-            rect.style.height = (line.piece[1] - line.piece[0]) + '%';
-        }, start)
+        animate(rect, start, duration, 'expand-top-to-bottom');
     }
 
     rect.classList.add(line.color);
 }
 
-function drawArea(canvas, area, start, duration) {
+function animate(element, start, duration, cssClass) {
+
+    setTimeout(function(){
+        element.classList.add(cssClass);
+        element.style['animation-duration'] = (duration / 1000) + "s";
+        element.style.display = "";
+    }, start)
+}
+
+function drawPlane(canvas, area, start, duration) {
 
     var rect = createRectangle();
 
@@ -85,12 +88,8 @@ function drawArea(canvas, area, start, duration) {
 
     rect.classList.add(area.color);
 
+    rect.style.display = 'none';
     canvas.appendChild(rect);
 
-    rect.style.display = 'none';
-
-    setTimeout(function(){
-        rect.style.display = 'block';
-    }, start)
-
+    animate(rect, start, duration, 'expand-bottom-to-top');
 }
