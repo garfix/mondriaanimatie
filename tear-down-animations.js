@@ -58,3 +58,21 @@ function tearDownAnimation2() {
 
     return f;
 }
+
+function tearDownAnimation3(canvas) {
+
+    const duration = 500;
+
+    var f = function() {
+
+        setTimeout(function(){
+            canvas.style.transform = "translateX(-100%)";
+        }, 1);
+
+        animate(canvas, 0, duration, 'move-from-right-to-left-2');
+    };
+
+    f.duration = duration;
+
+    return f;
+}

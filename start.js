@@ -3,31 +3,42 @@ function start(canvasElementId) {
     resize();
     window.onresize = resize;
 
-    var canvas = document.getElementById(canvasElementId);
+    var border = document.getElementById(canvasElementId);
 
-    nextFrame(canvas);
+    nextFrame(border);
 }
 
-function nextFrame(canvas) {
+function nextFrame(border) {
+
+    var canvas = createRectangle();
+    canvas.position = "absolute";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+
+    // remove old canvas
+    while (border.firstChild) {
+        border.removeChild(border.firstChild);
+    }
+
+    // create new canvas
+    border.appendChild(canvas);
 
     var frame = createRandomFrame();
     var tearDownAnimation = createRandomTearDownAnimation(canvas);
     var elementDuration = 500;
-    var holdDuration = 1000;
-    var buildDuration = (frame.all.length * elementDuration) + holdDuration;
-    var interFrameDuration = 500;
-    var fullDuration = buildDuration + tearDownAnimation.duration + interFrameDuration;
-
-    canvas.innerHTML = "";
+    var holdDuration = 3000;
+    var buildDuration = (frame.all.length * elementDuration);
+    var interFrameDuration = 1000;
+    var fullDuration = buildDuration + holdDuration + tearDownAnimation.duration + interFrameDuration;
 
     build(canvas, frame, elementDuration);
 
     setTimeout(function () {
         tearDownAnimation();
-    }, buildDuration);
+    }, buildDuration + holdDuration);
 
     setTimeout(function () {
-        nextFrame(canvas)
+        nextFrame(border)
     }, fullDuration);
 }
 
@@ -39,12 +50,16 @@ function resize() {
 }
 
 function createRandomTearDownAnimation(canvas) {
-    var r = random(1, 2);
+    var r = random(1, 3);
+
+//var r = 3;
 
     if (r === 1) {
         return tearDownAnimation1(canvas);
-    } else {
+    } else if (r === 2) {
         return tearDownAnimation2(canvas);
+    } else if (r === 3) {
+        return tearDownAnimation3(canvas);
     }
 }
 

@@ -50,6 +50,24 @@ html, body {
     }
 }
 
+@keyframes translate-left-to-right-2 {
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes translate-right-to-left-2 {
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
 @keyframes translate-right-to-left {
     from {
         transform: translateX(100%);
@@ -65,6 +83,16 @@ html, body {
 
 .move-from-right-to-left {
     animation-name: translate-right-to-left;
+}
+
+.move-from-left-to-right-2 {
+    animation-name: translate-left-to-right-2;
+    animation-timing-function: linear;
+}
+
+.move-from-right-to-left-2 {
+    animation-name: translate-right-to-left-2;
+    animation-timing-function: linear;
 }
 
 @keyframes expand-vertical {

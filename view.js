@@ -71,7 +71,7 @@ function animate(element, start, duration, cssClass) {
         element.classList.add(cssClass);
         element.style['animation-duration'] = (duration / 1000) + "s";
         element.style.display = "";
-    }, start)
+    }, start);
 }
 
 function drawPlane(canvas, area, start, duration) {
