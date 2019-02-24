@@ -28,23 +28,49 @@ html, body {
     z-index: 10;
 }
 .red {
-	background-color: red;
+	background-color: hsl(0, 100%, 41%);
 }
+    .red.darker {
+        background-color: hsl(0, 100%, 38%);
+    }
+    .red.lighter {
+        background-color: hsl(0, 100%, 44%);
+    }
 .yellow {
-	background-color: yellow;
+	background-color: hsl(60, 100%, 45%);
 }
+    .yellow.darker {
+        background-color: hsl(60, 100%, 42%);
+    }
+    .yellow.lighter {
+        background-color: hsl(60, 100%, 48%);
+    }
+
 .blue {
-	background-color: blue;	
+	background-color: hsl(240, 100%, 41%);
 }
+    .blue.darker {
+        background-color: hsl(240, 80%, 38%);
+    }
+    .blue.lighter {
+        background-color: hsl(240, 80%, 44%);
+    }
 .black {
-    background-color: black;
+    background-color: #000000;
 }
 .grey {
-    background-color: #c0c0c0;
+    background-color: hsl(0, 0%, 60%);
 }
+    .grey.darker {
+        background-color: hsl(0, 0%, 55%);
+    }
+    .grey.lighter {
+        background-color: hsl(0, 0%, 65%);
+    }
 .none {
 
 }
+
 .shutter {
     position: absolute;
     background-color: #f8f8f8;

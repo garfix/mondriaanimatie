@@ -8,12 +8,13 @@ function createRandomFrame() {
 
     var rooms = [];
 
-    var allowAlmostOpenLines = 0;//random(0, 1);
     var minimumLineDistance = 5;
     var planeColors = [];
+    var colorVariations = ['none', 'darker', 'lighter'];
     var count;
 
     shuffleArray(planeColors);
+    shuffleArray(colorVariations);
 
     // add frame borders
     frame.lines.push({ type: 'line', direction: 'horizontal', pos: 0, piece: [0, 100], color: 'none'});
@@ -56,12 +57,12 @@ function createRandomFrame() {
         var instruction = instructions[i];
 
         if (instruction === 'horizontal-line') {
-            var line = createLine(frame.lines, 'horizontal', minimumLineDistance, allowAlmostOpenLines);
+            var line = createLine(frame.lines, 'horizontal', minimumLineDistance);
             frame.lines.push(line);
             frame.all.push(line);
             rooms = updateRooms(rooms, line);
         } else if (instruction === 'vertical-line') {
-            var line = createLine(frame.lines, 'vertical', minimumLineDistance, allowAlmostOpenLines);
+            var line = createLine(frame.lines, 'vertical', minimumLineDistance);
             frame.lines.push(line);
             frame.all.push(line);
             rooms = updateRooms(rooms, line);
@@ -74,6 +75,7 @@ function createRandomFrame() {
                 var result = pickAPlaneColor(planeColors, room);
                 plane.color = result.color;
                 planeColors = result.planeColors;
+                plane.colorVariation = colorVariations[0];
 
                 frame.areas.push(plane);
                 frame.all.push(plane);
@@ -110,9 +112,9 @@ function pickAPlaneColor(planeColors, room) {
     return { color: color, planeColors: planeColors };
 }
 
-function createLine(lines, direction, minimumLineDistance, allowAlmostOpenLines) {
+function createLine(lines, direction, minimumLineDistance) {
     var pos = createPosition(lines, direction, minimumLineDistance);
-    var piece = createPiece(lines, direction, pos, allowAlmostOpenLines);
+    var piece = createPiece(lines, direction, pos);
 
     var line = {
         type: 'line',
@@ -194,18 +196,10 @@ function replaceRoom(rooms, index, room) {
     return newRooms;
 }
 
-function createPiece(lines, direction, pos, allowAlmostOpenLines) {
-    var r;
-
-    if (allowAlmostOpenLines) {
-        r = random(1, 3);
-    } else {
-        r = random(2, 3);
-    }
+function createPiece(lines, direction, pos) {
+    var r = random(1, 2);
 
     if (r === 1) {
-        return [1, 99];
-    } else if (r === 2) {
         return [0, 100];
     } else {
 

@@ -59,23 +59,24 @@ function drawLine(canvas, line, start, duration) {
     rect.classList.add(line.color);
 }
 
-function drawPlane(canvas, area, start, duration) {
+function drawPlane(canvas, plane, start, duration) {
 
     var rect = createRectangle();
 
     rect.classList.add("plane");
 
-    rect.style.top = area.top + '%';
-    rect.style.left = area.left + '%';
+    rect.style.top = plane.top + '%';
+    rect.style.left = plane.left + '%';
 
-    rect.style.height = (area.bottom - area.top) + '%';
-    rect.style.width = (area.right - area.left) + "%";
+    rect.style.height = (plane.bottom - plane.top) + '%';
+    rect.style.width = (plane.right - plane.left) + "%";
 
-    rect.classList.add(area.color);
+    rect.classList.add(plane.color);
+    rect.classList.add(plane.colorVariation);
 
     rect.style.display = 'none';
 
     canvas.appendChild(rect);
 
-    expandBottomToTop(rect, area.top, area.bottom, start, duration);
+    expandBottomToTop(rect, plane.top, plane.bottom, start, duration);
 }

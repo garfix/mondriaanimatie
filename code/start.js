@@ -26,8 +26,8 @@ function nextFrame(border) {
     var frame = createRandomFrame();
     var tearDownAnimation = createRandomTearDownAnimation(canvas);
 
-    var elementDuration = 500;
-    var holdDuration = 3000;
+    var elementDuration = 100;
+    var holdDuration = 1000;
     var buildDuration = (frame.all.length * elementDuration);
     var interFrameDuration = 1000;
     var tearDownAnimationDuration = tearDownAnimation.duration;
