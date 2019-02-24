@@ -14,12 +14,6 @@ function build(canvas, frame, duration) {
     }
 }
 
-function hideElement(element, time) {
-    setTimeout(function(){
-        element.style.display = 'none';
-    }, time)
-}
-
 function createRectangle()
 {
     var rect = document.createElement('div');
@@ -54,24 +48,15 @@ function drawLine(canvas, line, start, duration) {
 
         rect.style.display = "none";
         canvas.appendChild(rect);
-        animate(rect, start, duration, 'expand-left-to-right');
+        expandLeftToRight(rect, line.piece[0], line.piece[1], start, duration);
 
     } else {
         rect.style.display = "none";
         canvas.appendChild(rect);
-        animate(rect, start, duration, 'expand-top-to-bottom');
+        expandTopToBottom(rect, line.piece[0], line.piece[1], start, duration);
     }
 
     rect.classList.add(line.color);
-}
-
-function animate(element, start, duration, cssClass) {
-
-    setTimeout(function(){
-        element.classList.add(cssClass);
-        element.style['animation-duration'] = (duration / 1000) + "s";
-        element.style.display = "";
-    }, start);
 }
 
 function drawPlane(canvas, area, start, duration) {
@@ -89,7 +74,8 @@ function drawPlane(canvas, area, start, duration) {
     rect.classList.add(area.color);
 
     rect.style.display = 'none';
+
     canvas.appendChild(rect);
 
-    animate(rect, start, duration, 'expand-bottom-to-top');
+    expandBottomToTop(rect, area.top, area.bottom, start, duration);
 }

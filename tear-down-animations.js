@@ -18,7 +18,7 @@ function tearDownAnimation1(canvas) {
     return f;
 }
 
-function tearDownAnimation2() {
+function tearDownAnimation2(canvas) {
 
     const shutterCount = 5;
     const duration = 500;
@@ -28,6 +28,7 @@ function tearDownAnimation2() {
         const shutterHeight = 100 / shutterCount;
 
         for (var i = 0; i < shutterCount; i++) {
+
             var shutter = createRectangle();
             shutter.classList.add('shutter');
             shutter.style.width = "100%";
@@ -37,22 +38,13 @@ function tearDownAnimation2() {
             var from = (i % 2) === 0 ? "-100" : "100";
             var start = (i * 500);
             var duration = 500;
-            moveShutter(shutter, from, "0", start, duration)
+
+            shutter.style.display = "none";
+            canvas.appendChild(shutter);
+
+            moveHorizontal(shutter, from, "0", start, duration)
         }
     };
-
-    function moveShutter(element, from, to, start, duration) {
-
-        element.style.left = to  + "%";
-        element.style.display = "none";
-        canvas.appendChild(element);
-
-        if (from === "-100") {
-            animate(element, start, duration, 'move-from-left-to-right');
-        } else {
-            animate(element, start, duration, 'move-from-right-to-left');
-        }
-    }
 
     f.duration = shutterCount  * duration;
 
@@ -65,11 +57,7 @@ function tearDownAnimation3(canvas) {
 
     var f = function() {
 
-        setTimeout(function(){
-            canvas.style.transform = "translateX(-100%)";
-        }, 1);
-
-        animate(canvas, 0, duration, 'move-from-right-to-left-2');
+        moveHorizontal(canvas, 0, -100, 0, duration);
     };
 
     f.duration = duration;

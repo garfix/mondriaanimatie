@@ -3,12 +3,22 @@ html, body {
 	margin: 0;
     background-color: #888;
 }
-#canvas {
+#border {
     position: relative;
     margin: auto;
     background-color: #ffffff;
     overflow: hidden;
 }
+.canvas {
+    position: relative;
+    background-color: #ffffff;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .line {
 	position: absolute;
     z-index: 20;
@@ -41,91 +51,6 @@ html, body {
     z-index: 100;
 }
 
-@keyframes translate-left-to-right {
-    from {
-        transform: translateX(-100%);
-    }
-    to {
-        transform: translateX(0%);
-    }
-}
-
-@keyframes translate-left-to-right-2 {
-    from {
-        transform: translateX(0%);
-    }
-    to {
-        transform: translateX(100%);
-    }
-}
-
-@keyframes translate-right-to-left-2 {
-    from {
-        transform: translateX(0%);
-    }
-    to {
-        transform: translateX(-100%);
-    }
-}
-
-@keyframes translate-right-to-left {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(0%);
-    }
-}
-
-.move-from-left-to-right {
-    animation-name: translate-left-to-right;
-}
-
-.move-from-right-to-left {
-    animation-name: translate-right-to-left;
-}
-
-.move-from-left-to-right-2 {
-    animation-name: translate-left-to-right-2;
-    animation-timing-function: linear;
-}
-
-.move-from-right-to-left-2 {
-    animation-name: translate-right-to-left-2;
-    animation-timing-function: linear;
-}
-
-@keyframes expand-vertical {
-    from {
-        transform: scaleY(0);
-    }
-    to {
-        transform: scaleY(1);
-    }
-}
-
-@keyframes expand-horizontal {
-    from {
-        transform: scaleX(0);
-    }
-    to {
-        transform: scaleX(1);
-    }
-}
-
-.expand-left-to-right {
-    animation-name: expand-horizontal;
-    transform-origin: left;
-}
-
-.expand-top-to-bottom {
-    animation-name: expand-vertical;
-    transform-origin: top;
-}
-.expand-bottom-to-top {
-    animation-name: expand-vertical;
-    transform-origin: bottom;
-}
 
 .line, .plane, .shutter {
     will-change: transform;
