@@ -12,7 +12,7 @@ function shuffleArray(array) {
     }
 }
 
-// Sort lines by direction and position
+// Sort lines by orientation and position
 function sortLines(lines) {
 
     // sort
@@ -23,7 +23,7 @@ function sortLines(lines) {
 
         var line = lines[i];
 
-        if (line.direction === 'horizontal') {
+        if (line.orientation === 'horizontal') {
             hor.push(line);
         } else {
             ver.push(line);

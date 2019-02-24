@@ -27,7 +27,7 @@ function drawLine(canvas, line, start, duration) {
 
     rect.classList.add("line");
 
-    if (line.direction === 'horizontal') {
+    if (line.orientation === 'horizontal') {
 
         rect.style.left = line.piece[0] + '%';
         rect.style.width = (line.piece[1] - line.piece[0]) + '%';
@@ -44,14 +44,14 @@ function drawLine(canvas, line, start, duration) {
         rect.style.width = line.width + "%";
     }
 
-    if (line.direction === 'horizontal') {
+    if (line.orientation === 'horizontal') {
 
-        rect.style.display = "none";
+        rect.style.visibility = "hidden";
         canvas.appendChild(rect);
         expandLeftToRight(rect, line.piece[0], line.piece[1], start, duration);
 
     } else {
-        rect.style.display = "none";
+        rect.style.visibility = "hidden";
         canvas.appendChild(rect);
         expandTopToBottom(rect, line.piece[0], line.piece[1], start, duration);
     }
@@ -74,7 +74,7 @@ function drawPlane(canvas, plane, start, duration) {
     rect.classList.add(plane.color);
     rect.classList.add(plane.colorVariation);
 
-    rect.style.display = 'none';
+    rect.style.visibility = "hidden";
 
     canvas.appendChild(rect);
 

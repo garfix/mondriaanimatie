@@ -24,9 +24,9 @@ function nextFrame(border) {
 
     // create a new frame and animation
     var frame = createRandomFrame();
-    var tearDownAnimation = createRandomTearDownAnimation(canvas);
+    var tearDownAnimation = createRandomTearDownAnimation(canvas, frame);
 
-    var elementDuration = 100;
+    var elementDuration = 500;
     var holdDuration = 1000;
     var buildDuration = (frame.all.length * elementDuration);
     var interFrameDuration = 1000;
@@ -51,16 +51,18 @@ function resize() {
     border.style.height = minSize + 'px';
 }
 
-function createRandomTearDownAnimation(canvas) {
+function createRandomTearDownAnimation(canvas, frame) {
     var r = random(1, 3);
 
-//var r = 2;
+//var r = 1;
 
     if (r === 1) {
-        return tearDownAnimation1(canvas);
+        return tearDownAnimation1(canvas, frame);
     } else if (r === 2) {
-        return tearDownAnimation2(canvas);
+        return tearDownAnimation2(canvas, frame);
     } else if (r === 3) {
-        return tearDownAnimation3(canvas);
+        return tearDownAnimation3(canvas, frame);
+    } else if (r === 4) {
+        return tearDownAnimation4(canvas, frame);
     }
 }

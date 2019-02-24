@@ -17,10 +17,10 @@ function createRandomFrame() {
     shuffleArray(colorVariations);
 
     // add frame borders
-    frame.lines.push({ type: 'line', direction: 'horizontal', pos: 0, piece: [0, 100], color: 'none'});
-    frame.lines.push({ type: 'line', direction: 'horizontal', pos: 100, piece: [0, 100], color: 'none'});
-    frame.lines.push({ type: 'line', direction: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
-    frame.lines.push({ type: 'line', direction: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
+    frame.lines.push({ type: 'line', orientation: 'horizontal', pos: 0, piece: [0, 100], color: 'none'});
+    frame.lines.push({ type: 'line', orientation: 'horizontal', pos: 100, piece: [0, 100], color: 'none'});
+    frame.lines.push({ type: 'line', orientation: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
+    frame.lines.push({ type: 'line', orientation: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
 
     rooms.push({ left: 0, right: 100, top: 0, bottom: 100, color: 'none' });
 
@@ -112,15 +112,15 @@ function pickAPlaneColor(planeColors, room) {
     return { color: color, planeColors: planeColors };
 }
 
-function createLine(lines, direction, minimumLineDistance) {
-    var pos = createPosition(lines, direction, minimumLineDistance);
-    var piece = createPiece(lines, direction, pos);
+function createLine(lines, orientation, minimumLineDistance) {
+    var pos = createPosition(lines, orientation, minimumLineDistance);
+    var piece = createPiece(lines, orientation, pos);
 
     var line = {
         type: 'line',
         width: 2,
         color: 'black',
-        direction: direction,
+        orientation: orientation,
         pos: pos,
         piece: piece,
     };
@@ -135,9 +135,9 @@ function createPlane(room) {
     return plane;
 }
 
-function createPosition(lines, direction, minimumLineDistance) {
+function createPosition(lines, orientation, minimumLineDistance) {
     var sorted = sortLines(lines);
-    var sortedLines = sorted[direction];
+    var sortedLines = sorted[orientation];
     var segments = findFreeSegments(sortedLines, minimumLineDistance);
 
     if (segments.length === 0) {
@@ -196,7 +196,7 @@ function replaceRoom(rooms, index, room) {
     return newRooms;
 }
 
-function createPiece(lines, direction, pos) {
+function createPiece(lines, orientation, pos) {
     var r = random(1, 2);
 
     if (r === 1) {
@@ -206,7 +206,7 @@ function createPiece(lines, direction, pos) {
         var orthoLines = [];
         var sorted = sortLines(lines);
 
-        if (direction === 'horizontal') {
+        if (orientation === 'horizontal') {
             orthoLines = sorted.vertical;
         } else {
             orthoLines = sorted.horizontal;
@@ -239,7 +239,7 @@ function updateRooms(rooms, line) {
 
         var room = rooms[i];
 
-        if (line.direction === "horizontal") {
+        if (line.orientation === "horizontal") {
 
             if (room.top < line.pos && room.bottom > line.pos &&
                 room.left >= line.piece[0] && room.right <= line.piece[1]) {

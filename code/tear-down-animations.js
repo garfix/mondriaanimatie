@@ -1,4 +1,4 @@
-function tearDownAnimation1(canvas) {
+function tearDownAnimation1(canvas, frame) {
 
     const duration = 100;
 
@@ -9,16 +9,16 @@ function tearDownAnimation1(canvas) {
 
             var element = canvas.childNodes[count - 1 - i];
 
-            hideElement(element, i * duration);
+            fadeOut(element, i * duration, duration);
         }
     };
 
-    f.duration = canvas.childNodes.length * duration;
+    f.duration = frame.all.length * duration;
 
     return f;
 }
 
-function tearDownAnimation2(canvas) {
+function tearDownAnimation2(canvas, frame) {
 
     const shutterCount = 5;
     const duration = 500;
@@ -39,7 +39,7 @@ function tearDownAnimation2(canvas) {
             var start = (i * 500);
             var duration = 500;
 
-            shutter.style.display = "none";
+            shutter.style.visibility = "hidden";
             canvas.appendChild(shutter);
 
             moveHorizontal(shutter, from, "0", start, duration)
@@ -51,13 +51,42 @@ function tearDownAnimation2(canvas) {
     return f;
 }
 
-function tearDownAnimation3(canvas) {
+function tearDownAnimation3(canvas, frame) {
 
     const duration = 500;
 
     var f = function() {
 
         moveHorizontal(canvas, 0, -100, 0, duration);
+    };
+
+    f.duration = duration;
+
+    return f;
+}
+
+function tearDownAnimation4(canvas, frame) {
+
+    const duration = 1500;
+
+    var f = function() {
+
+        for (var i = 0; i < frame.all.length; i++) {
+
+            var element = frame.all[i];
+            var node = canvas.childNodes[i];
+
+            if (element.type === "plane") {
+                moveVertical(node, element.top, 125, 700, 200);
+            } else if (element.type === "line") {
+                if (element.orientation === "horizontal") {
+                    moveHorizontal(node, element.piece[0], 100, 0, 500);
+                } else {
+                    fadeOut(node, 1300, 200)
+                }
+            }
+
+        }
     };
 
     f.duration = duration;
