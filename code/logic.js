@@ -10,7 +10,7 @@ function createRandomFrame() {
 
     var allowAlmostOpenLines = 0;//random(0, 1);
     var minimumLineDistance = 5;
-    var planeColors = ['red', 'yellow', 'blue', 'grey', 'black'];
+    var planeColors = [];
 
     shuffleArray(planeColors);
 
@@ -60,13 +60,12 @@ function createRandomFrame() {
         } else if (instruction === 'area') {
             var roomIndex = pickARoom(rooms);
             if (roomIndex !== false) {
-                var plane = createPlane(rooms[roomIndex]);
+                var room = rooms[roomIndex];
+                var plane = createPlane(room);
 
-                plane.color = planeColors.shift();
-                if (planeColors.length === 0) {
-                    planeColors = ['red', 'yellow', 'blue', 'grey', 'black'];
-                    shuffleArray(planeColors);
-                }
+                var result = pickAPlaneColor(planeColors, room);
+                plane.color = result.color;
+                planeColors = result.planeColors;
 
                 frame.areas.push(plane);
                 frame.all.push(plane);
@@ -76,6 +75,31 @@ function createRandomFrame() {
     }
 
     return frame;
+}
+
+function pickAPlaneColor(planeColors, room) {
+
+    const allColors = ['red', 'yellow', 'blue', 'grey', 'black'];
+    const primaryColors = ['red', 'yellow', 'blue'];
+    const bignessSize = 40;
+
+    if (planeColors.length === 0) {
+        planeColors = allColors;
+        shuffleArray(planeColors);
+    }
+
+    var color = planeColors.shift();
+
+    // large room?
+    if ((room.right - room.left > bignessSize) || (room.bottom - room.top > bignessSize)) {
+        // not a primary color?
+        if (primaryColors.indexOf(color) === -1) {
+            // pick another color
+            return pickAPlaneColor(planeColors, room);
+        }
+    }
+
+    return { color: color, planeColors: planeColors };
 }
 
 function createLine(lines, direction, minimumLineDistance, allowAlmostOpenLines) {
