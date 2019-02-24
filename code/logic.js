@@ -11,6 +11,7 @@ function createRandomFrame() {
     var allowAlmostOpenLines = 0;//random(0, 1);
     var minimumLineDistance = 5;
     var planeColors = [];
+    var count;
 
     shuffleArray(planeColors);
 
@@ -30,18 +31,25 @@ function createRandomFrame() {
     instructions.push('horizontal-line');
     instructions.push('vertical-line');
 
-    // add some horizontal and vertical lines, and some areas
-
-    for (var i = 0; i < random(3, 30); i++) {
-        var r = random(0, 9);
-        if (r < 3) {
+    // create up to 16 lines
+    count = random(0, 14);
+    for (var i = 0; i < count; i++) {
+        var r = random(1, 2);
+        if (r === 1) {
             instructions.push('horizontal-line');
-        } else if (r < 6) {
-            instructions.push('vertical-line');
         } else {
-            instructions.push('area');
+            instructions.push('vertical-line');
         }
     }
+
+    // add up to 5 planes
+    count = random(0, 5);
+    for (var i = 0; i < count; i++) {
+        instructions.push('plane');
+    }
+
+    // randomize
+    shuffleArray(instructions);
 
     for (var i = 0; i < instructions.length; i++) {
 
@@ -57,7 +65,7 @@ function createRandomFrame() {
             frame.lines.push(line);
             frame.all.push(line);
             rooms = updateRooms(rooms, line);
-        } else if (instruction === 'area') {
+        } else if (instruction === 'plane') {
             var roomIndex = pickARoom(rooms);
             if (roomIndex !== false) {
                 var room = rooms[roomIndex];

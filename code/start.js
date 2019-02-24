@@ -22,13 +22,16 @@ function nextFrame(border) {
     // create new canvas
     border.appendChild(canvas);
 
+    // create a new frame and animation
     var frame = createRandomFrame();
     var tearDownAnimation = createRandomTearDownAnimation(canvas);
+
     var elementDuration = 500;
     var holdDuration = 3000;
     var buildDuration = (frame.all.length * elementDuration);
     var interFrameDuration = 1000;
-    var fullDuration = buildDuration + holdDuration + tearDownAnimation.duration + interFrameDuration;
+    var tearDownAnimationDuration = tearDownAnimation.duration;
+    var fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
 
     build(canvas, frame, elementDuration);
 
