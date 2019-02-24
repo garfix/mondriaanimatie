@@ -1,4 +1,6 @@
 
+var tearDownAnimationIndex;
+
 function start(borderEementId) {
 
     var border = document.getElementById(borderEementId);
@@ -6,10 +8,19 @@ function start(borderEementId) {
     resize();
     window.onresize = resize;
 
+    tearDownAnimationIndex = 0;
+
     nextFrame(border);
 }
 
 function nextFrame(border) {
+
+    var tearDownAnimations = [
+        tearDownAnimation1,
+        tearDownAnimation2,
+        tearDownAnimation3,
+        tearDownAnimation4
+    ];
 
     var canvas = createRectangle();
     canvas.classList.add('canvas');
@@ -24,7 +35,12 @@ function nextFrame(border) {
 
     // create a new frame and animation
     var frame = createRandomFrame();
-    var tearDownAnimation = createRandomTearDownAnimation(canvas, frame);
+    var tearDownAnimation = tearDownAnimations[tearDownAnimationIndex](canvas, frame);
+
+    tearDownAnimationIndex++;
+    if (tearDownAnimationIndex === tearDownAnimations.length) {
+        tearDownAnimationIndex = 0;
+    }
 
     var elementDuration = 500;
     var holdDuration = 1000;
@@ -49,20 +65,4 @@ function resize() {
 
     border.style.width = minSize + 'px';
     border.style.height = minSize + 'px';
-}
-
-function createRandomTearDownAnimation(canvas, frame) {
-    var r = random(1, 3);
-
-//var r = 1;
-
-    if (r === 1) {
-        return tearDownAnimation1(canvas, frame);
-    } else if (r === 2) {
-        return tearDownAnimation2(canvas, frame);
-    } else if (r === 3) {
-        return tearDownAnimation3(canvas, frame);
-    } else if (r === 4) {
-        return tearDownAnimation4(canvas, frame);
-    }
 }
