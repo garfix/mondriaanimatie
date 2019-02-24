@@ -52,9 +52,7 @@ The big plane is a large plane in the corner of the painting.
 
 ## Balance
 
-Many paintings show balance in the use of colored planes:
-
--
+Many paintings show balance in the use of colored planes.
 
 ## Single focus element
 

@@ -74,8 +74,9 @@ Aspects of planes
 * color hue: black, red, yellow, blue, grey
 * color chroma (brightness): colors vary from somewhat bright (mixed with some grey) to very bright
 * color lightness: the lightness (or value) of the colors is different in different paintings but the colors within a single painting must have the same lightness
+* large planes only use red, yellow and blue
 * a plane is bound by a line or a frame on each side
-* a plane may be crossed by lines
+* a plane may be crossed by one or more lines, but these must all have the same orientation
 
 Types of planes
 
