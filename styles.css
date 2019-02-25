@@ -77,7 +77,6 @@ html, body {
     z-index: 100;
 }
 
-
 .line, .plane, .shutter {
     will-change: transform;
 }

@@ -91,7 +91,7 @@ function pickAPlaneColor(planeColors, room) {
 
     const allColors = ['red', 'yellow', 'blue', 'grey', 'black'];
     const primaryColors = ['red', 'yellow', 'blue'];
-    const bignessSize = 40;
+    const bignessSize = 30 * 30;
 
     if (planeColors.length === 0) {
         planeColors = allColors;
@@ -101,7 +101,9 @@ function pickAPlaneColor(planeColors, room) {
     var color = planeColors.shift();
 
     // large room?
-    if ((room.right - room.left > bignessSize) || (room.bottom - room.top > bignessSize)) {
+    var width = room.right - room.left;
+    var height = room.bottom - room.top;
+    if (width * height > bignessSize) {
         // not a primary color?
         if (primaryColors.indexOf(color) === -1) {
             // pick another color

@@ -1,26 +1,33 @@
 
+var tearDownAnimations = [
+    tearDownAnimation1,
+    tearDownAnimation2,
+    tearDownAnimation3,
+    tearDownAnimation4
+];
+
 var tearDownAnimationIndex;
 
 function start(borderEementId) {
 
     var border = document.getElementById(borderEementId);
 
-    resize();
-    window.onresize = resize;
+    resize(border);
+    window.onresize = function(){ resize(border) };
 
     tearDownAnimationIndex = 0;
 
     nextFrame(border);
 }
 
-function nextFrame(border) {
+function resize(border) {
+    var minSize = Math.min(window.innerWidth, window.innerHeight);
 
-    var tearDownAnimations = [
-        tearDownAnimation1,
-        tearDownAnimation2,
-        tearDownAnimation3,
-        tearDownAnimation4
-    ];
+    border.style.width = minSize + 'px';
+    border.style.height = minSize + 'px';
+}
+
+function nextFrame(border) {
 
     var canvas = createRectangle();
     canvas.classList.add('canvas');
@@ -37,6 +44,7 @@ function nextFrame(border) {
     var frame = createRandomFrame();
     var tearDownAnimation = tearDownAnimations[tearDownAnimationIndex](canvas, frame);
 
+    // choose the next animation
     tearDownAnimationIndex++;
     if (tearDownAnimationIndex === tearDownAnimations.length) {
         tearDownAnimationIndex = 0;
@@ -58,11 +66,4 @@ function nextFrame(border) {
     setTimeout(function () {
         nextFrame(border)
     }, fullDuration);
-}
-
-function resize() {
-    var minSize = Math.min(window.innerWidth, window.innerHeight);
-
-    border.style.width = minSize + 'px';
-    border.style.height = minSize + 'px';
 }
