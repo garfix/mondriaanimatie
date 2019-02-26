@@ -76,7 +76,7 @@ Aspects of planes
 * color lightness: the lightness (or value) of the colors is different in different paintings but the colors within a single painting must have the same lightness
 * large planes only use red, yellow and blue
 * a plane is bound by a line or a frame on each side
-* a plane may be crossed by one or more lines, but these must all have the same orientation
+* a plane may be crossed by a few lines (say max 3), but no more
 
 Types of planes
 

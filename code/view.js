@@ -1,4 +1,4 @@
-function build(canvas, frame, duration) {
+function draw(canvas, frame, duration) {
 
     for (var i = 0; i < frame.all.length; i++) {
 

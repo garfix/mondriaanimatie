@@ -43,14 +43,15 @@ function createRandomFrame() {
         }
     }
 
-    // add up to 5 planes
-    count = random(0, 5);
-    for (var i = 0; i < count; i++) {
-        instructions.push('plane');
-    }
-
     // randomize
     shuffleArray(instructions);
+
+    // add up to 5 planes between the lines, somewhere at the end
+    count = random(0, 5);
+    for (var i = 0; i < count; i++) {
+        var position = random(Math.max(0, instructions.length - 3), instructions.length - 1);
+        instructions.splice(position, 0, 'plane');
+    }
 
     for (var i = 0; i < instructions.length; i++) {
 

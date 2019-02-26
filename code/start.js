@@ -40,24 +40,33 @@ function nextFrame(border) {
     // create new canvas
     border.appendChild(canvas);
 
-    // create a new frame and animation
+    // create a new frame
     var frame = createRandomFrame();
+
+    // select the animation
     var tearDownAnimation = tearDownAnimations[tearDownAnimationIndex](canvas, frame);
 
-    // choose the next animation
-    tearDownAnimationIndex++;
-    if (tearDownAnimationIndex === tearDownAnimations.length) {
-        tearDownAnimationIndex = 0;
-    }
+    tearDownAnimationIndex = (tearDownAnimationIndex === tearDownAnimations.length - 1) ? 0 : tearDownAnimationIndex + 1;
 
     var elementDuration = 500;
-    var holdDuration = 1000;
+    var holdDuration = 3000;
     var buildDuration = (frame.all.length * elementDuration);
     var interFrameDuration = 1000;
     var tearDownAnimationDuration = tearDownAnimation.duration;
     var fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
 
-    build(canvas, frame, elementDuration);
+    // dev mode
+    if (0) {
+         elementDuration = 100;
+         holdDuration = 100;
+         buildDuration = (frame.all.length * elementDuration);
+         interFrameDuration = 100;
+         tearDownAnimationDuration = 500
+         fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
+    }
+
+    // draw the picture on the canvas
+    draw(canvas, frame, elementDuration);
 
     setTimeout(function () {
         tearDownAnimation();
