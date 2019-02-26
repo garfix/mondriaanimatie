@@ -49,7 +49,7 @@ function createRandomFrame() {
     // add up to 5 planes between the lines, somewhere at the end
     count = random(0, 5);
     for (var i = 0; i < count; i++) {
-        var position = random(Math.max(0, instructions.length - 3), instructions.length - 1);
+        var position = random(Math.max(0, instructions.length - 2), instructions.length);
         instructions.splice(position, 0, 'plane');
     }
 
