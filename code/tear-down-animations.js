@@ -2,7 +2,7 @@ function tearDownAnimation1(canvas, frame) {
 
     const duration = 100;
 
-    var f = function() {
+    var f = function(lookup) {
         var count = canvas.childNodes.length;
 
         for (var i = 0; i < count; i++) {
@@ -23,7 +23,7 @@ function tearDownAnimation2(canvas, frame) {
     const shutterCount = 5;
     const duration = 500;
 
-    var f = function() {
+    var f = function(lookup) {
 
         const shutterHeight = 100 / shutterCount;
 
@@ -54,7 +54,7 @@ function tearDownAnimation3(canvas, frame) {
 
     const duration = 500;
 
-    var f = function() {
+    var f = function(lookup) {
 
         moveHorizontal(canvas, 0, -100, 0, duration);
     };
@@ -68,14 +68,18 @@ function tearDownAnimation4(canvas, frame) {
 
     const duration = 1500;
 
-    var f = function() {
+    var f = function(lookup) {
 
-        for (var i = 0; i < frame.all.length; i++) {
+        var count = canvas.childNodes.length;
 
-            var element = frame.all[i];
+        for (var i = 0; i < count; i++) {
+
             var node = canvas.childNodes[i];
+            var element = lookup[i];
 
             if (element.type === "plane") {
+                moveVertical(node, element.top, 125, 700, 200);
+            } else if (element.type === "step") {
                 moveVertical(node, element.top, 125, 700, 200);
             } else if (element.type === "line") {
                 if (element.orientation === "horizontal") {

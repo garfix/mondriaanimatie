@@ -29,8 +29,7 @@ function resize(border) {
 
 function nextFrame(border) {
 
-    var canvas = createRectangle();
-    canvas.classList.add('canvas');
+    var canvas = createRectangle('canvas');
 
     // remove old canvas
     while (border.firstChild) {
@@ -57,8 +56,8 @@ function nextFrame(border) {
 
     // dev mode
     if (0) {
-         elementDuration = 100;
-         holdDuration = 100;
+         elementDuration = 200;
+         holdDuration = 1000;
          buildDuration = (frame.all.length * elementDuration);
          interFrameDuration = 100;
          tearDownAnimationDuration = 500
@@ -66,10 +65,10 @@ function nextFrame(border) {
     }
 
     // draw the picture on the canvas
-    draw(canvas, frame, elementDuration);
+    var lookup = draw(canvas, frame, elementDuration);
 
     setTimeout(function () {
-        tearDownAnimation();
+       tearDownAnimation(lookup);
     }, buildDuration + holdDuration);
 
     setTimeout(function () {

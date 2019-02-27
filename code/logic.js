@@ -284,6 +284,7 @@ function createRandomSteps(room, orientation, colorVariation) {
         if (orientation === 'horizontal') {
 
             steps.push({
+                type: "step",
                 left: stepStart + room.left + i * (stepSize * 2),
                 right: stepStart + room.left + i * (stepSize * 2) + stepSize,
                 top: room.top,
@@ -295,6 +296,7 @@ function createRandomSteps(room, orientation, colorVariation) {
         } else {
 
             steps.push({
+                type: "step",
                 left: room.left,
                 right: room.right,
                 top: stepStart + room.top + i * (stepSize * 2),
