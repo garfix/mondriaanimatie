@@ -97,11 +97,13 @@ I named them like this because they look like the steps of a ladder.
 Aspects of steps
 
 * color: red, yellow, blue
-* One or more steps are located inside a plane-bordering-a-frame
 
 Restrictions
 
 * Steps do not touch
+* Steps may be placed in a colored plane
 * Two steps next to each other have different colors
+* There is an exception: Composition of red and white number 1, with two reds next to each other
+* Maximum number of steps per room: 5
+* The distance between two steps is the same between each two steps of a room, but the inter-step-distance can be different in another room in the same painting
 * A room with steps may not be crossed by a line
-

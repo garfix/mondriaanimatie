@@ -10,6 +10,8 @@ function draw(canvas, frame, duration) {
             drawLine(canvas, element, start, duration);
         } else if (element.type === 'plane') {
             drawPlane(canvas, element, start, duration);
+        } else if (element.type === 'steps') {
+            drawSteps(canvas, element, start, duration);
         }
     }
 }
@@ -79,4 +81,33 @@ function drawPlane(canvas, plane, start, duration) {
     canvas.appendChild(rect);
 
     expandBottomToTop(rect, plane.top, plane.bottom, start, duration);
+}
+
+function drawSteps(canvas, steps, start, duration) {
+
+    for (var i = 0; i < steps.elements.length; i++) {
+
+        var step = steps.elements[i];
+        var rect = createRectangle();
+
+        rect.classList.add("step");
+
+        rect.style.top = step.top + '%';
+        rect.style.left = step.left + '%';
+
+        rect.style.height = (step.bottom - step.top) + '%';
+        rect.style.width = (step.right - step.left) + "%";
+
+        rect.classList.add(step.color);
+        rect.classList.add(step.colorVariation);
+
+        rect.style.visibility = "hidden";
+
+        canvas.appendChild(rect);
+
+        var stepDuration = duration / steps.elements.length;
+        var stepStart = start + stepDuration * i;
+
+        expandBottomToTop(rect, step.top, step.bottom, stepStart, stepDuration);
+    }
 }

@@ -27,6 +27,10 @@ html, body {
     position: absolute;
     z-index: 10;
 }
+.step {
+    position: absolute;
+    z-index: 10;
+}
 .red {
 	background-color: hsl(0, 100%, 41%);
 }
@@ -77,6 +81,6 @@ html, body {
     z-index: 100;
 }
 
-.line, .plane, .shutter {
+.line, .plane, .step, .shutter {
     will-change: transform;
 }

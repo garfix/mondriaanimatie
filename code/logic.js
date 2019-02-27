@@ -28,7 +28,6 @@ function createRandomFrame() {
     var instructions = [];
 
     // each painting has at least a horizontal and a vertical line
-
     instructions.push('horizontal-line');
     instructions.push('vertical-line');
 
@@ -51,6 +50,12 @@ function createRandomFrame() {
     for (var i = 0; i < count; i++) {
         var position = random(Math.max(0, instructions.length - 2), instructions.length);
         instructions.splice(position, 0, 'plane');
+    }
+
+    // add steps in up to 2 rooms
+    count = random(0, 2);
+    for (var i = 0; i < count; i++) {
+        instructions.push('steps');
     }
 
     for (var i = 0; i < instructions.length; i++) {
@@ -81,6 +86,15 @@ function createRandomFrame() {
                 frame.areas.push(plane);
                 frame.all.push(plane);
                 rooms = replaceRoom(rooms, roomIndex, plane);
+            }
+        } else if (instruction === 'steps') {
+            var result = pickARoomForSteps(rooms);
+            if (result) {
+                var roomIndex = result[0];
+                var orientation = result[1];
+                var room = rooms[roomIndex];
+                var steps = createRandomSteps(room, orientation, colorVariations[0]);
+                frame.all.push(steps);
             }
         }
     }
@@ -182,6 +196,112 @@ function pickARoom(rooms) {
     var r = random(0, allowedIndexes.length - 1);
 
     return allowedIndexes[r];
+}
+
+function pickARoomForSteps(rooms) {
+
+    const minWidth = 15;
+    const maxHeight = 15;
+
+    // filter allowed rooms
+    var allowedIndexes = [];
+
+    for (var i = 0; i < rooms.length; i++) {
+
+        var room = rooms[i];
+        var orientation = null;
+        var width = room.right - room.left;
+        var height = room.bottom - room.top;
+
+        if (width > height) {
+            if (width >= minWidth) {
+                if (height < maxHeight) {
+                    orientation = "horizontal";
+                }
+            }
+        } else {
+            if (height >= minWidth) {
+                if (width < maxHeight) {
+                    orientation = "vertical";
+                }
+            }
+        }
+
+        if (orientation !== null) {
+            allowedIndexes.push([i, orientation]);
+        }
+    }
+
+    if (allowedIndexes.length === 0) {
+        return false;
+    }
+
+    var r = random(0, allowedIndexes.length - 1);
+
+    return allowedIndexes[r];
+}
+
+function createRandomSteps(room, orientation, colorVariation) {
+
+    var allColors = ['red', 'yellow', 'blue', 'black'];
+    const maxSteps = 5;
+
+    // exception case: all steps have same color
+    if ((random(1, 20)) === 1) {
+        allColors = [allColors[random(0, allColors.length - 1)]];
+    }
+
+    var steps = [];
+    var colors = allColors.slice(0);
+
+    var width = room.right - room.left;
+    var height = room.bottom - room.top;
+    var size = (orientation === 'horizontal') ? width : height;
+
+    var stepSize = random(4, 6);
+    var interStepSize = random(stepSize, 6 * stepSize);
+    var stepSpan = stepSize + interStepSize;
+    var maxStepCount = Math.min(size / stepSpan, maxSteps);
+    var stepCount = random(1, maxStepCount);
+    var spaceUsed = stepCount * stepSpan - interStepSize;
+    var stepStart = random(0, size - spaceUsed);
+
+     shuffleArray(colors);
+
+    for (var i = 0; i < stepCount; i++) {
+
+        var color = colors.shift();
+
+        if (colors.length === 0) {
+            colors = allColors.slice(0);
+        }
+
+        if (orientation === 'horizontal') {
+
+            steps.push({
+                left: stepStart + room.left + i * (stepSize * 2),
+                right: stepStart + room.left + i * (stepSize * 2) + stepSize,
+                top: room.top,
+                bottom: room.bottom,
+                color: color,
+                colorVariation: colorVariation
+            });
+
+        } else {
+
+            steps.push({
+                left: room.left,
+                right: room.right,
+                top: stepStart + room.top + i * (stepSize * 2),
+                bottom: stepStart + room.top + i * (stepSize * 2) + stepSize,
+                color: color,
+                colorVariation: colorVariation
+            });
+
+        }
+    }
+
+    return {type: 'steps', elements: steps };
 }
 
 function replaceRoom(rooms, index, room) {
