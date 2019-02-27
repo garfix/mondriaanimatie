@@ -95,6 +95,7 @@ function createRandomFrame() {
                 var room = rooms[roomIndex];
                 var steps = createRandomSteps(room, orientation, colorVariations[0]);
                 frame.all.push(steps);
+                room['has-steps'] = true;
             }
         }
     }
@@ -212,6 +213,10 @@ function pickARoomForSteps(rooms) {
         var orientation = null;
         var width = room.right - room.left;
         var height = room.bottom - room.top;
+
+        if (room['has-steps']) {
+            continue;
+        }
 
         if (width > height) {
             if (width >= minWidth) {
