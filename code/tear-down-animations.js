@@ -29,8 +29,7 @@ function tearDownAnimation2(canvas, frame) {
 
         for (var i = 0; i < shutterCount; i++) {
 
-            var shutter = createRectangle();
-            shutter.classList.add('shutter');
+            var shutter = createRectangle('shutter');
             shutter.style.width = "100%";
             shutter.style.height = shutterHeight + "%";
             shutter.style.top = (i * shutterHeight) + "%";

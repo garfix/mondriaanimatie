@@ -16,18 +16,18 @@ function draw(canvas, frame, duration) {
     }
 }
 
-function createRectangle()
+function createRectangle(className)
 {
     var rect = document.createElement('div');
+
+    rect.classList.add(className);
 
     return rect;
 }
 
 function drawLine(canvas, line, start, duration) {
 
-    var rect = createRectangle();
-
-    rect.classList.add("line");
+    var rect = createRectangle("line");
 
     if (line.orientation === 'horizontal') {
 
@@ -63,9 +63,7 @@ function drawLine(canvas, line, start, duration) {
 
 function drawPlane(canvas, plane, start, duration) {
 
-    var rect = createRectangle();
-
-    rect.classList.add("plane");
+    var rect = createRectangle("plane");
 
     rect.style.top = plane.top + '%';
     rect.style.left = plane.left + '%';
@@ -88,9 +86,7 @@ function drawSteps(canvas, steps, start, duration) {
     for (var i = 0; i < steps.elements.length; i++) {
 
         var step = steps.elements[i];
-        var rect = createRectangle();
-
-        rect.classList.add("step");
+        var rect = createRectangle("step");
 
         rect.style.top = step.top + '%';
         rect.style.left = step.left + '%';
