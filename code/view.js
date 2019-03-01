@@ -34,16 +34,16 @@ function drawLine(canvas, lookup, line, start, duration) {
 
     if (line.orientation === 'horizontal') {
 
-        rect.style.left = line.piece[0] + '%';
-        rect.style.width = (line.piece[1] - line.piece[0]) + '%';
+        rect.style.left = line.start + '%';
+        rect.style.width = (line.end - line.start) + '%';
 
         rect.style.top = line.pos - (line.width / 2) + '%';
         rect.style.height = line.width + "%";
 
     } else {
 
-        rect.style.top = line.piece[0] + '%';
-        rect.style.height = (line.piece[1] - line.piece[0]) + '%';
+        rect.style.top = line.start + '%';
+        rect.style.height = (line.end - line.start) + '%';
 
         rect.style.left = line.pos - (line.width / 2) + '%';
         rect.style.width = line.width + "%";
@@ -55,9 +55,9 @@ function drawLine(canvas, lookup, line, start, duration) {
     lookup.push(line);
 
     if (line.orientation === 'horizontal') {
-        expandLeftToRight(rect, line.piece[0], line.piece[1], start, duration);
+        expandLeftToRight(rect, line.start, line.end, start, duration);
     } else {
-        expandTopToBottom(rect, line.piece[0], line.piece[1], start, duration);
+        expandTopToBottom(rect, line.start, line.end, start, duration);
     }
 
     rect.classList.add(line.color);

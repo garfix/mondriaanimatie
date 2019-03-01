@@ -83,7 +83,7 @@ function tearDownAnimation4(canvas, frame) {
                 moveVertical(node, element.top, 125, 700, 200);
             } else if (element.type === "line") {
                 if (element.orientation === "horizontal") {
-                    moveHorizontal(node, element.piece[0], 100, 0, 500);
+                    moveHorizontal(node, element.start, 100, 0, 500);
                 } else {
                     fadeOut(node, 1300, 200)
                 }

@@ -3,15 +3,17 @@ html, body {
 	margin: 0;
     background-color: #888;
 }
+
 #border {
     position: relative;
     margin: auto;
     background-color: #ffffff;
     overflow: hidden;
 }
+
 .canvas {
     position: relative;
-    background-color: #ffffff;
+    background-color: #fbfbfb;
     overflow: hidden;
     left: 0;
     top: 0;
@@ -20,17 +22,27 @@ html, body {
 }
 
 .line {
+    will-change: transform;
 	position: absolute;
     z-index: 20;
 }
 .plane {
+    will-change: transform;
     position: absolute;
     z-index: 10;
 }
 .step {
+    will-change: transform;
     position: absolute;
     z-index: 10;
 }
+.shutter {
+    will-change: transform;
+    position: absolute;
+    background-color: #f8f8f8;
+    z-index: 100;
+}
+
 .red {
 	background-color: hsl(0, 100%, 41%);
 }
@@ -63,24 +75,14 @@ html, body {
     background-color: #000000;
 }
 .grey {
-    background-color: hsl(0, 0%, 60%);
+    background-color: hsl(0, 0%, 65%);
 }
     .grey.darker {
-        background-color: hsl(0, 0%, 55%);
+        background-color: hsl(0, 0%, 60%);
     }
     .grey.lighter {
-        background-color: hsl(0, 0%, 65%);
+        background-color: hsl(0, 0%, 70%);
     }
 .none {
 
-}
-
-.shutter {
-    position: absolute;
-    background-color: #f8f8f8;
-    z-index: 100;
-}
-
-.line, .plane, .step, .shutter {
-    will-change: transform;
 }

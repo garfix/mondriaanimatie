@@ -1,8 +1,6 @@
 function createRandomFrame() {
 
     var frame = {
-        lines: [],
-        areas: [],
         all: []
     };
 
@@ -12,15 +10,16 @@ function createRandomFrame() {
     var planeColors = [];
     var colorVariations = ['none', 'darker', 'lighter'];
     var count;
+    var lines = [];
 
     shuffleArray(planeColors);
     shuffleArray(colorVariations);
 
     // add frame borders
-    frame.lines.push({ type: 'line', orientation: 'horizontal', pos: 0, piece: [0, 100], color: 'none'});
-    frame.lines.push({ type: 'line', orientation: 'horizontal', pos: 100, piece: [0, 100], color: 'none'});
-    frame.lines.push({ type: 'line', orientation: 'vertical', pos: 0, piece: [0, 100], color: 'none'});
-    frame.lines.push({ type: 'line', orientation: 'vertical', pos: 100, piece: [0, 100], color: 'none'});
+    lines.push({ type: 'line', orientation: 'horizontal', pos: 0, start: 0, end: 100, color: 'none'});
+    lines.push({ type: 'line', orientation: 'horizontal', pos: 100, start: 0, end: 100, color: 'none'});
+    lines.push({ type: 'line', orientation: 'vertical', pos: 0, start: 0, end: 100, color: 'none'});
+    lines.push({ type: 'line', orientation: 'vertical', pos: 100, start: 0, end: 100, color: 'none'});
 
     rooms.push({ left: 0, right: 100, top: 0, bottom: 100, color: 'none' });
 
@@ -63,13 +62,13 @@ function createRandomFrame() {
         var instruction = instructions[i];
 
         if (instruction === 'horizontal-line') {
-            var line = createLine(frame.lines, 'horizontal', minimumLineDistance);
-            frame.lines.push(line);
+            var line = createLine(lines, 'horizontal', minimumLineDistance);
+            lines.push(line);
             frame.all.push(line);
             rooms = updateRooms(rooms, line);
         } else if (instruction === 'vertical-line') {
-            var line = createLine(frame.lines, 'vertical', minimumLineDistance);
-            frame.lines.push(line);
+            var line = createLine(lines, 'vertical', minimumLineDistance);
+            lines.push(line);
             frame.all.push(line);
             rooms = updateRooms(rooms, line);
         } else if (instruction === 'plane') {
@@ -83,9 +82,10 @@ function createRandomFrame() {
                 planeColors = result.planeColors;
                 plane.colorVariation = colorVariations[0];
 
-                frame.areas.push(plane);
                 frame.all.push(plane);
-                rooms = replaceRoom(rooms, roomIndex, plane);
+
+                room.color = plane.color;
+                rooms = replaceRoom(rooms, roomIndex, room);
             }
         } else if (instruction === 'steps') {
             var result = pickARoomForSteps(rooms);
@@ -140,7 +140,8 @@ function createLine(lines, orientation, minimumLineDistance) {
         color: 'black',
         orientation: orientation,
         pos: pos,
-        piece: piece,
+        start: piece[0],
+        end: piece[1]
     };
 
     return line;
@@ -350,8 +351,8 @@ function createPiece(lines, orientation, pos) {
         var end = orthoLines[index2].pos;
 
         // check if the delimiting lines extend to this position
-        if (pos >= orthoLines[index1].piece[0] && pos <= orthoLines[index1].piece[1]) {
-            if (pos >= orthoLines[index2].piece[0] && pos <= orthoLines[index2].piece[1]) {
+        if (pos >= orthoLines[index1].start && pos <= orthoLines[index1].end) {
+            if (pos >= orthoLines[index2].start && pos <= orthoLines[index2].end) {
                 return [start, end];
             }
         }
@@ -372,7 +373,7 @@ function updateRooms(rooms, line) {
         if (line.orientation === "horizontal") {
 
             if (room.top < line.pos && room.bottom > line.pos &&
-                room.left >= line.piece[0] && room.right <= line.piece[1]) {
+                room.left >= line.start && room.right <= line.end) {
 
                 newRooms = newRooms.concat([
                     {left: room.left, right: room.right, top: room.top, bottom: line.pos, color: room.color },
@@ -385,7 +386,7 @@ function updateRooms(rooms, line) {
         } else {
 
             if (room.left < line.pos && room.right > line.pos &&
-                room.top >= line.piece[0] && room.bottom <= line.piece[1]) {
+                room.top >= line.start && room.bottom <= line.end) {
 
                 newRooms = newRooms.concat([
                     { left: room.left, right: line.pos, top: room.top, bottom: room.bottom, color: room.color },

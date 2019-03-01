@@ -11,13 +11,25 @@ var tearDownAnimationIndex;
 function start(borderEementId) {
 
     var border = document.getElementById(borderEementId);
+    var frame = null;
 
     resize(border);
     window.onresize = function(){ resize(border) };
 
     tearDownAnimationIndex = 0;
 
-    nextFrame(border);
+     var matches = window.location.href.match(/\?frame=(.*)/);
+     if (matches && typeof matches[1] !== "undefined") {
+         var encodedFrame = matches[1];
+         frame = urlDecodeFrame(encodedFrame);
+     }
+
+    if (frame) {
+        animateFrame(border, frame);
+
+    } else {
+        animateRandomFrame(border);
+    }
 }
 
 function resize(border) {
@@ -27,7 +39,15 @@ function resize(border) {
     border.style.height = minSize + 'px';
 }
 
-function nextFrame(border) {
+function animateRandomFrame(border) {
+
+    // create a new frame
+    var frame = createRandomFrame();
+
+    animateFrame(border, frame);
+}
+
+function animateFrame(border, frame) {
 
     var canvas = createRectangle('canvas');
 
@@ -38,9 +58,6 @@ function nextFrame(border) {
 
     // create new canvas
     border.appendChild(canvas);
-
-    // create a new frame
-    var frame = createRandomFrame();
 
     // select the animation
     var tearDownAnimation = tearDownAnimations[tearDownAnimationIndex](canvas, frame);
@@ -64,6 +81,10 @@ function nextFrame(border) {
          fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
     }
 
+    // update url
+    var urlEncodedFrame = urlEncodeFrame(frame);
+    history.pushState(null, window.location.pathname, "?frame=" + urlEncodedFrame);
+
     // draw the picture on the canvas
     var lookup = draw(canvas, frame, elementDuration);
 
@@ -72,6 +93,6 @@ function nextFrame(border) {
     }, buildDuration + holdDuration);
 
     setTimeout(function () {
-        nextFrame(border)
+        animateRandomFrame(border)
     }, fullDuration);
 }

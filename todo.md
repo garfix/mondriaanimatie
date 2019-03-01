@@ -1,0 +1,7 @@
+- dikke lijnen
+- dubbele lijnen
+- gekleurde lijnen
+- kunnen de animaties beter met animation frames?
+- frame compact in url
+- animatie pauseren, en vooruit/terug bladeren
+- vlakken mogen niet heel klein zijn
