@@ -84,9 +84,6 @@ function urlEncodeItem(item) {
 }
 
 function urlDecodeFrame(url) {
-    console.log(url)
-    console.log(url.length)
-
     var result = urlDecodeObject(url, 0);
     return result[0];
 }
@@ -112,10 +109,13 @@ function urlDecodeObject(url, pointer) {
 
     var obj = {};
 
-    var head = url.substring(pointer, pointer + 1);
-    pointer++;
+    do {
+        var head = url.substring(pointer, pointer + 1);
+        pointer++;
 
-    while (head !== "-") {
+        if (head === "-") {
+            break;
+        }
 
         if (typeof keys[head] === "undefined") {
             console.log("url decode error: unknown key: " + head);
@@ -123,10 +123,8 @@ function urlDecodeObject(url, pointer) {
         }
 
         var key = keys[head];
-
         switch (key) {
             case 'elements':
-                var q = 1;
             case 'all':
                 var elements = [];
                 do {
@@ -136,6 +134,7 @@ function urlDecodeObject(url, pointer) {
                     if (element === null) {
                         return [null, pointer];
                     }
+                    // element == {}
                     if (Object.keys(element).length === 0) {
                         break;
                     }
@@ -147,20 +146,16 @@ function urlDecodeObject(url, pointer) {
                 break;
             default:
                 var result = urlDecodeValue(url, pointer);
-                obj[key] = result[0];
                 pointer = result[1];
+                var value = result[0];
+                if (value === null) {
+                    return [null, pointer];
+                }
+                obj[key] = value;
                 break;
         }
 
-        if (pointer >= url.length) {
-            console.log("url not complete");
-            return[null, pointer];
-        }
-
-        head = url.substring(pointer, pointer + 1);
-
-        pointer++;
-    }
+    } while (pointer <= url.length);
 
     return [obj, pointer];
 }
