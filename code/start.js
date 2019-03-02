@@ -25,9 +25,11 @@ function start(borderEementId, stateElementId) {
 
         border.innerHTML = "";
 
-        setState("paused");
-
-        loadFrameFromLocation(border, document.location.href)
+        var frame = loadFrameFromLocation(document.location.href);
+        if (frame) {
+            setState("paused");
+            animateFrame(border, frame, true);
+        }
     })};
 
     stateChangeListeners.push(function(newState){
@@ -40,7 +42,15 @@ function start(borderEementId, stateElementId) {
     });
 
     resize(border);
-    loadFrameFromLocation(border, window.location.href);
+
+    var frame = loadFrameFromLocation(window.location.href);
+
+    if (frame) {
+        setState("paused");
+        animateFrame(border, frame, true);
+    } else {
+        animateRandomFrame(border);
+    }
 }
 
 function processStateButtonClick() {
@@ -64,7 +74,7 @@ function setState(newState) {
     }
 }
 
-function loadFrameFromLocation(border, location) {
+function loadFrameFromLocation(location) {
 
     var frame = null;
 
@@ -74,11 +84,7 @@ function loadFrameFromLocation(border, location) {
         frame = urlDecodeFrame(encodedFrame);
     }
 
-    if (frame) {
-        animateFrame(border, frame);
-    } else {
-        animateRandomFrame(border);
-    }
+    return frame;
 }
 
 function resize(border) {
@@ -97,14 +103,15 @@ function animateRandomFrame(border) {
     var urlEncodedFrame = urlEncodeFrame(frame);
     history.pushState(null, window.location.pathname, "?frame=" + urlEncodedFrame);
 
-    animateFrame(border, frame);
+    animateFrame(border, frame, false);
 }
 
-function animateFrame(border, frame) {
+function animateFrame(border, frame, singleFrame) {
 
     var canvas = createRectangle('canvas');
+    var title = "Composition with " + frame.all.length + " elements";
 
-    document.title = "Composition with " + frame.all.length + " elements";
+    document.title = title;
 
     // remove old canvas
     while (border.firstChild) {
@@ -119,7 +126,7 @@ function animateFrame(border, frame) {
 
     tearDownAnimationIndex = (tearDownAnimationIndex === tearDownAnimations.length - 1) ? 0 : tearDownAnimationIndex + 1;
 
-    var elementDuration = 500;
+    var elementDuration = singleFrame ? 50 : 500;
     var holdDuration = 3000;
     var buildDuration = (frame.all.length * elementDuration);
     var interFrameDuration = 1000;
@@ -128,7 +135,7 @@ function animateFrame(border, frame) {
 
     // dev mode
     if (0) {
-         elementDuration = 100;
+         elementDuration = 50;
          holdDuration = 500;
          buildDuration = (frame.all.length * elementDuration);
          interFrameDuration = 100;
@@ -139,21 +146,15 @@ function animateFrame(border, frame) {
     // draw the picture on the canvas
     var lookup = draw(canvas, frame, elementDuration);
 
+    if (singleFrame) {
+        return;
+    }
+
     setTimeout(function () {
-
-        if (state === "paused") {
-            return;
-        }
-
         tearDownAnimation(lookup);
     }, buildDuration + holdDuration);
 
     setTimeout(function () {
-
-        if (state === "paused") {
-            return;
-        }
-
         animateRandomFrame(border)
     }, fullDuration);
 }
