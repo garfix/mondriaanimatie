@@ -9,6 +9,7 @@ var tearDownAnimations = [
 var tearDownAnimationIndex = 0;
 var state = "running";
 var stateChangeListeners = [];
+var nextFrameTimer = null;
 
 function start(borderEementId, stateElementId) {
 
@@ -22,8 +23,6 @@ function start(borderEementId, stateElementId) {
     window.onresize = function(){ resize(border) };
 
     window.onpopstate = function() { setTimeout(function () {
-
-        border.innerHTML = "";
 
         var frame = loadFrameFromLocation(document.location.href);
         if (frame) {
@@ -114,8 +113,11 @@ function animateFrame(border, frame, singleFrame) {
     document.title = title;
 
     // remove old canvas
-    while (border.firstChild) {
-        border.removeChild(border.firstChild);
+    border.innerHTML = "";
+
+    // stop any scheduled frames
+    if (nextFrameTimer) {
+        clearTimeout(nextFrameTimer);
     }
 
     // create new canvas
@@ -154,7 +156,7 @@ function animateFrame(border, frame, singleFrame) {
         tearDownAnimation(lookup);
     }, buildDuration + holdDuration);
 
-    setTimeout(function () {
+    nextFrameTimer = setTimeout(function () {
         animateRandomFrame(border)
     }, fullDuration);
 }
