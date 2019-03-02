@@ -10,6 +10,7 @@ var tearDownAnimationIndex = 0;
 var state = "running";
 var stateChangeListeners = [];
 var nextFrameTimer = null;
+var tearDownAnimationTimer = null;
 
 function start(borderEementId, stateElementId) {
 
@@ -36,6 +37,7 @@ function start(borderEementId, stateElementId) {
             animateRandomFrame(border);
             stateButton.classList.remove("play");
         } else {
+            stopExistingAnimation();
             stateButton.classList.add("play")
         }
     });
@@ -105,6 +107,15 @@ function animateRandomFrame(border) {
     animateFrame(border, frame, false);
 }
 
+function stopExistingAnimation() {
+    if (nextFrameTimer) {
+        clearTimeout(nextFrameTimer);
+    }
+    if (tearDownAnimationTimer) {
+        clearTimeout(tearDownAnimationTimer);
+    }
+}
+
 function animateFrame(border, frame, singleFrame) {
 
     var canvas = createRectangle('canvas');
@@ -116,9 +127,7 @@ function animateFrame(border, frame, singleFrame) {
     border.innerHTML = "";
 
     // stop any scheduled frames
-    if (nextFrameTimer) {
-        clearTimeout(nextFrameTimer);
-    }
+    stopExistingAnimation();
 
     // create new canvas
     border.appendChild(canvas);
@@ -136,12 +145,12 @@ function animateFrame(border, frame, singleFrame) {
     var fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
 
     // dev mode
-    if (0) {
+    if (1) {
          elementDuration = 50;
          holdDuration = 500;
          buildDuration = (frame.all.length * elementDuration);
          interFrameDuration = 100;
-         tearDownAnimationDuration = 500
+         tearDownAnimationDuration = 500;
          fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
     }
 
@@ -152,7 +161,7 @@ function animateFrame(border, frame, singleFrame) {
         return;
     }
 
-    setTimeout(function () {
+    tearDownAnimationTimer = setTimeout(function () {
         tearDownAnimation(lookup);
     }, buildDuration + holdDuration);
 

@@ -204,6 +204,7 @@ function pickARoomForSteps(rooms) {
 
     const minWidth = 15;
     const maxHeight = 15;
+    const maxDistanceToFrame = 30;
 
     // filter allowed rooms
     var allowedIndexes = [];
@@ -219,16 +220,24 @@ function pickARoomForSteps(rooms) {
             continue;
         }
 
+        if (room.color !== 'none') {
+            continue;
+        }
+
         if (width > height) {
             if (width >= minWidth) {
                 if (height < maxHeight) {
-                    orientation = "horizontal";
+                    if (room.bottom <= maxDistanceToFrame || room.top >= 100 - maxDistanceToFrame) {
+                        orientation = "horizontal";
+                    }
                 }
             }
         } else {
             if (height >= minWidth) {
                 if (width < maxHeight) {
-                    orientation = "vertical";
+                    if (room.right <= maxDistanceToFrame || room.left >= 100 - maxDistanceToFrame) {
+                        orientation = "vertical";
+                    }
                 }
             }
         }

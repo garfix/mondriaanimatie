@@ -92,18 +92,18 @@ Restrictions
 ### Steps
 
 A step is a colored rectangle inside a room. It does not have borders on all sides.
-I named them like this because they look like the steps of a ladder.
+I named them like this because they remind me of the steps of a ladder.
 
 Aspects of steps
 
-* color: red, yellow, blue
+* color: red, yellow, blue, black
 
 Restrictions
 
-* Steps do not touch
-* Steps may be placed in a colored plane
-* Two steps next to each other have different colors
-* There is an exception: Composition of red and white number 1, with two reds next to each other
+* Steps do not touch each other
+* Steps may be not placed in a colored plane. One possible exception: Composition 1939
+* Two steps next to each other have different colors. There is an exception: Composition of red and white number 1, with two reds next to each other
 * Maximum number of steps per room: 5
+* A room with steps is located adjacent to the frame, or it is bordered by parallel frame-to-frame lines
 * The distance between two steps is the same between each two steps of a room, but the inter-step-distance can be different in another room in the same painting
 * A room with steps may not be crossed by a line
