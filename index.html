@@ -1,10 +1,12 @@
 <html lang="nl">
 	<head>
         <title>Mondriaanimatie</title>
-    	<link href="styles.css" rel="stylesheet" type="text/css">
+    	<link href="style/style.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
-        <button id="state" type="button">running</button>
+        <div id="control-panel">
+            <button id="state-button" type="button"></button>
+        </div>
 		<div id="border"></div>
         <script src="code/helper.js" type="text/javascript" charset="utf-8"></script>
         <script src="code/url-logic.js" type="text/javascript" charset="utf-8"></script>
@@ -14,7 +16,7 @@
         <script src="code/view.js" type="text/javascript" charset="utf-8"></script>
         <script src="code/start.js" type="text/javascript" charset="utf-8"></script>
         <script>
-            start('border', 'state');
+            start('border', 'state-button');
         </script>
 	</body>
 </html>

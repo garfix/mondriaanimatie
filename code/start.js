@@ -15,6 +15,8 @@ function start(borderEementId, stateElementId) {
     var border = document.getElementById(borderEementId);
     var stateButton = document.getElementById(stateElementId);
 
+    stateButton.focus();
+
     stateButton.onclick = function() { processStateButtonClick() };
 
     window.onresize = function(){ resize(border) };
@@ -29,9 +31,11 @@ function start(borderEementId, stateElementId) {
     })};
 
     stateChangeListeners.push(function(newState){
-        stateButton.innerHTML = newState;
         if (newState === "running") {
             animateRandomFrame(border);
+            stateButton.classList.remove("play");
+        } else {
+            stateButton.classList.add("play")
         }
     });
 
@@ -123,7 +127,7 @@ function animateFrame(border, frame) {
     var fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
 
     // dev mode
-    if (1) {
+    if (0) {
          elementDuration = 100;
          holdDuration = 500;
          buildDuration = (frame.all.length * elementDuration);

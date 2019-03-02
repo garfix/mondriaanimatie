@@ -11,6 +11,23 @@ html, body {
     overflow: hidden;
 }
 
+#control-panel {
+    float: right;
+    padding: 5px;
+}
+
+    #state-button {
+        background:url(pause.png) no-repeat;
+        width: 50px;
+        height: 50px;
+        border: none;
+        cursor:pointer;
+    }
+
+    #state-button.play {
+        background:url(play.png) no-repeat;
+    }
+
 .canvas {
     position: relative;
     background-color: #fbfbfb;
@@ -85,4 +102,19 @@ html, body {
     }
 .none {
 
+}
+
+@media print {
+
+    html, body {
+        background-color: #ffffff;
+    }
+
+    #state-button {
+        display: none;
+    }
+
+    #border {
+        border: 5px solid #888888;
+    }
 }
