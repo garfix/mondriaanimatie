@@ -60,6 +60,7 @@ Restrictions
 * A painting has at least one horizontal and one vertical line
 * There is a minimum distance between two lines
 * There is a minimum distance between a line and the frame parallel to it
+* A painting has a maximum of about 11 lines
 
 ### Rooms
 
@@ -88,6 +89,7 @@ Restrictions
 * planes do not overlap
 * when a plane is bordered by a line-with-a-gap, the plane may extend to the start of the gapped lines, to the end of it, or somewhere halfway
 * when a painting has only a few planes, they all differ in color. Only when we're out of unique colors, duplicate colors kick in
+* a painting has up to 5 planes. In earlier paintings he used (much) more, but this looks crowded.
 
 ### Steps
 
@@ -107,3 +109,4 @@ Restrictions
 * A room with steps is located adjacent to the frame, or it is bordered by parallel frame-to-frame lines
 * The distance between two steps is the same between each two steps of a room, but the inter-step-distance can be different in another room in the same painting
 * A room with steps may not be crossed by a line
+* A painting must have at least 8 lines before it can contain any steps

@@ -42,6 +42,19 @@ function start(borderEementId, stateElementId) {
         }
     });
 
+    document.addEventListener("keydown", function (event) {
+        var key = event.key;
+
+        if (key === "ArrowLeft") {
+            history.go(-1);
+        } else if (key === "ArrowRight") {
+            history.go(1);
+        } else if (key === " ") {
+            processStateButtonClick();
+            event.preventDefault();
+        }
+    });
+
     resize(border);
 
     var frame = loadFrameFromLocation(window.location.href);
@@ -146,7 +159,7 @@ function animateFrame(border, frame, singleFrame) {
 
     // dev mode
     if (1) {
-         elementDuration = 50;
+         elementDuration = 100;
          holdDuration = 500;
          buildDuration = (frame.all.length * elementDuration);
          interFrameDuration = 100;

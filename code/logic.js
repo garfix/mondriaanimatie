@@ -9,7 +9,6 @@ function createRandomFrame() {
     var minimumLineDistance = 5;
     var planeColors = [];
     var colorVariations = ['none', 'darker', 'lighter'];
-    var count;
     var lines = [];
 
     shuffleArray(planeColors);
@@ -30,9 +29,9 @@ function createRandomFrame() {
     instructions.push('horizontal-line');
     instructions.push('vertical-line');
 
-    // create up to 16 lines
-    count = random(0, 14);
-    for (var i = 0; i < count; i++) {
+    // create up to 11 lines total
+    var lineCount = random(0, 9);
+    for (var i = 0; i < lineCount; i++) {
         var r = random(1, 2);
         if (r === 1) {
             instructions.push('horizontal-line');
@@ -40,21 +39,26 @@ function createRandomFrame() {
             instructions.push('vertical-line');
         }
     }
+    // add the standard hor and vert lines
+    lineCount += 2;
 
     // randomize
     shuffleArray(instructions);
 
     // add up to 5 planes between the lines, somewhere at the end
-    count = random(0, 5);
-    for (var i = 0; i < count; i++) {
+    var planeCount = random(0, 5);
+    for (var i = 0; i < planeCount; i++) {
         var position = random(Math.max(0, instructions.length - 2), instructions.length);
         instructions.splice(position, 0, 'plane');
     }
 
-    // add steps in up to 2 rooms
-    count = random(0, 2);
-    for (var i = 0; i < count; i++) {
-        instructions.push('steps');
+    // a minimum of lines is present in paintings with steps
+    if (lineCount >= 8) {
+        // add steps in up to 2 rooms
+        var stepsCount = random(0, 2);
+        for (var i = 0; i < stepsCount; i++) {
+            instructions.push('steps');
+        }
     }
 
     for (var i = 0; i < instructions.length; i++) {
@@ -204,7 +208,7 @@ function pickARoomForSteps(rooms) {
 
     const minWidth = 15;
     const maxHeight = 15;
-    const maxDistanceToFrame = 30;
+    const maxDistanceToFrame = 22;
 
     // filter allowed rooms
     var allowedIndexes = [];
