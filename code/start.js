@@ -6,27 +6,72 @@ var tearDownAnimations = [
     tearDownAnimation4
 ];
 
-var tearDownAnimationIndex;
+var tearDownAnimationIndex = 0;
+var state = "running";
+var stateChangeListeners = [];
 
-function start(borderEementId) {
+function start(borderEementId, stateElementId) {
 
     var border = document.getElementById(borderEementId);
-    var frame = null;
+    var stateButton = document.getElementById(stateElementId);
 
-    resize(border);
+    stateButton.onclick = function() { processStateButtonClick() };
+
     window.onresize = function(){ resize(border) };
 
-    tearDownAnimationIndex = 0;
+    window.onpopstate = function() { setTimeout(function () {
 
-     var matches = window.location.href.match(/\?frame=(.*)/);
-     if (matches && typeof matches[1] !== "undefined") {
-         var encodedFrame = matches[1];
-         frame = urlDecodeFrame(encodedFrame);
-     }
+        border.innerHTML = "";
+
+        setState("paused");
+
+        loadFrameFromLocation(border, document.location.href)
+    })};
+
+    stateChangeListeners.push(function(newState){
+        stateButton.innerHTML = newState;
+        if (newState === "running") {
+            animateRandomFrame(border);
+        }
+    });
+
+    resize(border);
+    loadFrameFromLocation(border, window.location.href);
+}
+
+function processStateButtonClick() {
+    if (state === "running") {
+        setState("paused");
+    } else {
+        setState("running");
+    }
+}
+
+function setState(newState) {
+
+    if (state === newState) {
+        return;
+    }
+
+    state = newState;
+
+    for (var i = 0; i < stateChangeListeners.length; i++) {
+        stateChangeListeners[i](state);
+    }
+}
+
+function loadFrameFromLocation(border, location) {
+
+    var frame = null;
+
+    var matches = location.match(/\?frame=(.*)/);
+    if (matches && typeof matches[1] !== "undefined") {
+        var encodedFrame = matches[1];
+        frame = urlDecodeFrame(encodedFrame);
+    }
 
     if (frame) {
         animateFrame(border, frame);
-
     } else {
         animateRandomFrame(border);
     }
@@ -44,12 +89,18 @@ function animateRandomFrame(border) {
     // create a new frame
     var frame = createRandomFrame();
 
+    // update url
+    var urlEncodedFrame = urlEncodeFrame(frame);
+    history.pushState(null, window.location.pathname, "?frame=" + urlEncodedFrame);
+
     animateFrame(border, frame);
 }
 
 function animateFrame(border, frame) {
 
     var canvas = createRectangle('canvas');
+
+    document.title = "Composition with " + frame.all.length + " elements";
 
     // remove old canvas
     while (border.firstChild) {
@@ -72,27 +123,33 @@ function animateFrame(border, frame) {
     var fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
 
     // dev mode
-    if (0) {
-         elementDuration = 200;
-         holdDuration = 1000;
+    if (1) {
+         elementDuration = 100;
+         holdDuration = 500;
          buildDuration = (frame.all.length * elementDuration);
          interFrameDuration = 100;
          tearDownAnimationDuration = 500
          fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
     }
 
-    // update url
-    var urlEncodedFrame = urlEncodeFrame(frame);
-    history.pushState(null, window.location.pathname, "?frame=" + urlEncodedFrame);
-
     // draw the picture on the canvas
     var lookup = draw(canvas, frame, elementDuration);
 
     setTimeout(function () {
-       tearDownAnimation(lookup);
+
+        if (state === "paused") {
+            return;
+        }
+
+        tearDownAnimation(lookup);
     }, buildDuration + holdDuration);
 
     setTimeout(function () {
+
+        if (state === "paused") {
+            return;
+        }
+
         animateRandomFrame(border)
     }, fullDuration);
 }
