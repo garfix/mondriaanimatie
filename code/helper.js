@@ -12,6 +12,10 @@ function shuffleArray(array) {
     }
 }
 
+function pickFromArray(array) {
+    return array[random(0, array.length - 1)];
+}
+
 // Sort lines by orientation and position
 function sortLines(lines) {
 

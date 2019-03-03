@@ -61,6 +61,10 @@ Restrictions
 * There is a minimum distance between two lines
 * There is a minimum distance between a line and the frame parallel to it
 * A painting has a maximum of about 11 lines
+* The thickest line is twice as thick as the thinnest line
+* In his normal (non-"lozenge") paintings Mondriaan only uses horizontal thick lines, not vertical ones
+* In most paintings all lines are about equal in thickness.
+* Paintings with thicker (horizontal) lines, may also contain some normal lines.
 
 ### Rooms
 

@@ -1,5 +1,7 @@
 function createRandomFrame() {
 
+    const defaultLineThickness = 2;
+
     var frame = {
         all: []
     };
@@ -10,6 +12,14 @@ function createRandomFrame() {
     var planeColors = [];
     var colorVariations = ['none', 'darker', 'lighter'];
     var lines = [];
+
+    // the thickness of lines
+    var horizontalLineThickness = defaultLineThickness;
+    var verticalLineThickness = defaultLineThickness;
+    // one in five paintings uses thicker horizontal lines
+    if (random(1, 5) === 1) {
+        horizontalLineThickness = pickFromArray([3, 3.5, 4]);
+    }
 
     shuffleArray(planeColors);
     shuffleArray(colorVariations);
@@ -66,12 +76,14 @@ function createRandomFrame() {
         var instruction = instructions[i];
 
         if (instruction === 'horizontal-line') {
-            var line = createLine(lines, 'horizontal', minimumLineDistance);
+            // exceptions to general thickness
+            var thickness = (random(1, 4) === 1) ? defaultLineThickness : horizontalLineThickness;
+            var line = createLine(lines, 'horizontal', minimumLineDistance, thickness);
             lines.push(line);
             frame.all.push(line);
             rooms = updateRooms(rooms, line);
         } else if (instruction === 'vertical-line') {
-            var line = createLine(lines, 'vertical', minimumLineDistance);
+            var line = createLine(lines, 'vertical', minimumLineDistance, verticalLineThickness);
             lines.push(line);
             frame.all.push(line);
             rooms = updateRooms(rooms, line);
@@ -134,13 +146,13 @@ function pickAPlaneColor(planeColors, room) {
     return { color: color, planeColors: planeColors };
 }
 
-function createLine(lines, orientation, minimumLineDistance) {
+function createLine(lines, orientation, minimumLineDistance, thickness) {
     var pos = createPosition(lines, orientation, minimumLineDistance);
     var piece = createPiece(lines, orientation, pos);
 
     var line = {
         type: 'line',
-        width: 2,
+        width: thickness,
         color: 'black',
         orientation: orientation,
         pos: pos,

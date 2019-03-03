@@ -181,7 +181,7 @@ function urlDecodeValue(url, pointer) {
 
     var value = null;
 
-    var matches = url.substring(pointer).match(/^([0-9]+)/);
+    var matches = url.substring(pointer).match(/^([0-9]+(\.[0-9]+)?)/);
     if (matches) {
         value = matches[1];
         pointer += value.length;
