@@ -13,14 +13,6 @@ function createRandomFrame() {
     var colorVariations = ['none', 'darker', 'lighter'];
     var lines = [];
 
-    // the thickness of lines
-    var horizontalLineThickness = defaultLineThickness;
-    var verticalLineThickness = defaultLineThickness;
-    // one in five paintings uses thicker horizontal lines
-    if (random(1, 5) === 1) {
-        horizontalLineThickness = pickFromArray([3, 3.5, 4]);
-    }
-
     shuffleArray(planeColors);
     shuffleArray(colorVariations);
 
@@ -34,13 +26,24 @@ function createRandomFrame() {
 
     // create a set of instructions
     var instructions = [];
+    var doubleLinesCount = 0;
 
     // each painting has at least a horizontal and a vertical line
-    instructions.push('horizontal-line');
-    instructions.push('vertical-line');
+    if (random(1, 5) === 1) {
+        instructions.push('double-horizontal-line');
+        doubleLinesCount++;
+    } else {
+        instructions.push('horizontal-line');
+    }
+    if (random(1, 5) === 1) {
+        instructions.push('double-vertical-line');
+        doubleLinesCount++;
+    } else {
+        instructions.push('vertical-line');
+    }
 
     // create up to 11 lines total
-    var lineCount = random(0, 9);
+    var lineCount = random(0, 9 - doubleLinesCount);
     for (var i = 0; i < lineCount; i++) {
         var r = random(1, 2);
         if (r === 1) {
@@ -52,8 +55,10 @@ function createRandomFrame() {
     // add the standard hor and vert lines
     lineCount += 2;
 
-    // randomize
-    shuffleArray(instructions);
+    // mix required lines with optional lines
+    if (doubleLinesCount === 0) {
+        shuffleArray(instructions);
+    }
 
     // add up to 5 planes between the lines, somewhere at the end
     var planeCount = random(0, 5);
@@ -71,11 +76,45 @@ function createRandomFrame() {
         }
     }
 
+    // the thickness of lines
+    var horizontalLineThickness = defaultLineThickness;
+    var verticalLineThickness = defaultLineThickness;
+    // one in five paintings uses thicker horizontal lines
+    if (doubleLinesCount === 0 && random(1, 5) === 1) {
+        horizontalLineThickness = pickFromArray([3, 3.5, 4]);
+    }
+
     for (var i = 0; i < instructions.length; i++) {
 
         var instruction = instructions[i];
 
-        if (instruction === 'horizontal-line') {
+        if (instruction === 'double-horizontal-line') {
+            var line = createLine(lines, 'horizontal', minimumLineDistance, defaultLineThickness);
+            line.start = 0; line.end = 100;
+            lines.push(line);
+            frame.all.push(line);
+            rooms = updateRooms(rooms, line);
+
+            var secondLine = Object.assign({}, line);
+            secondLine.pos += line.pos < 90 ? (2 * defaultLineThickness) : (-2 * defaultLineThickness);
+            lines.push(secondLine);
+            frame.all.push(secondLine);
+            rooms = updateRooms(rooms, secondLine);
+
+        } else if (instruction === 'double-vertical-line') {
+            var line = createLine(lines, 'vertical', minimumLineDistance, defaultLineThickness);
+            line.start = 0; line.end = 100;
+            lines.push(line);
+            frame.all.push(line);
+            rooms = updateRooms(rooms, line);
+
+            var secondLine = Object.assign({}, line);
+            secondLine.pos += line.pos < 90 ? (2 * defaultLineThickness) : (-2 * defaultLineThickness);
+            lines.push(secondLine);
+            frame.all.push(secondLine);
+            rooms = updateRooms(rooms, secondLine);
+
+        } else if (instruction === 'horizontal-line') {
             // exceptions to general thickness
             var thickness = (random(1, 4) === 1) ? defaultLineThickness : horizontalLineThickness;
             var line = createLine(lines, 'horizontal', minimumLineDistance, thickness);
@@ -88,7 +127,7 @@ function createRandomFrame() {
             frame.all.push(line);
             rooms = updateRooms(rooms, line);
         } else if (instruction === 'plane') {
-            var roomIndex = pickARoom(rooms);
+            var roomIndex = pickARoomForAPlane(rooms);
             if (roomIndex !== false) {
                 var room = rooms[roomIndex];
                 var plane = createPlane(room);
@@ -185,13 +224,26 @@ function createPosition(lines, orientation, minimumLineDistance) {
     return random(segment[0], segment[1]);
 }
 
-function pickARoom(rooms) {
+function pickARoomForAPlane(rooms) {
+
+    const tinyRoomSize = 5;
 
     // filter allowed rooms
     var allowedIndexes = [];
 
     for (var i = 0; i < rooms.length; i++) {
         var room = rooms[i];
+        var width = room.right - room.left;
+        var height = room.bottom - room.top;
+
+        // no tiny rooms in the center
+        if (room.left !== 0 && room.right !== 100 && width <= tinyRoomSize) {
+            continue;
+        }
+        if (room.top !== 0 && room.bottom !== 100 && height <= tinyRoomSize) {
+            continue;
+        }
+
         if (room.left === 0 && room.right === 100) {
             continue;
         }

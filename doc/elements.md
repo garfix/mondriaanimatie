@@ -65,6 +65,7 @@ Restrictions
 * In his normal (non-"lozenge") paintings Mondriaan only uses horizontal thick lines, not vertical ones
 * In most paintings all lines are about equal in thickness.
 * Paintings with thicker (horizontal) lines, may also contain some normal lines.
+* Thick lines and double lines are not applied in the same painting.
 
 ### Rooms
 
