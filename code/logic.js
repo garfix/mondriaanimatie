@@ -8,7 +8,7 @@ function createRandomFrame() {
 
     var rooms = [];
 
-    var minimumLineDistance = 5;
+    var minimumLineDistance = 6;
     var planeColors = [];
     var colorVariations = ['none', 'darker', 'lighter'];
     var lines = [];
@@ -25,10 +25,10 @@ function createRandomFrame() {
     shuffleArray(colorVariations);
 
     // add frame borders
-    lines.push({ type: 'line', orientation: 'horizontal', pos: 0, start: 0, end: 100, color: 'none'});
-    lines.push({ type: 'line', orientation: 'horizontal', pos: 100, start: 0, end: 100, color: 'none'});
-    lines.push({ type: 'line', orientation: 'vertical', pos: 0, start: 0, end: 100, color: 'none'});
-    lines.push({ type: 'line', orientation: 'vertical', pos: 100, start: 0, end: 100, color: 'none'});
+    lines.push({ type: 'line', orientation: 'horizontal', pos: 0, start: 0, end: 100, width: 0, color: 'none'});
+    lines.push({ type: 'line', orientation: 'horizontal', pos: 100, start: 0, end: 100, width: 0, color: 'none'});
+    lines.push({ type: 'line', orientation: 'vertical', pos: 0, start: 0, end: 100, width: 0, color: 'none'});
+    lines.push({ type: 'line', orientation: 'vertical', pos: 100, start: 0, end: 100, width: 0, color: 'none'});
 
     rooms.push({ left: 0, right: 100, top: 0, bottom: 100, color: 'none' });
 

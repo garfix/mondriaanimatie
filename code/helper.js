@@ -58,8 +58,8 @@ function findFreeSegments(sortedLines, minimumLineDistance) {
         var line1 = sortedLines[i];
         var line2 = sortedLines[i + 1];
 
-        var minPos = line1.pos + minimumLineDistance;
-        var maxPos = line2.pos - minimumLineDistance;
+        var minPos = line1.pos + line1.width / 2 + minimumLineDistance;
+        var maxPos = line2.pos - line2.width / 2 - minimumLineDistance;
 
         if (minPos <= maxPos) {
             segments.push([minPos, maxPos]);
