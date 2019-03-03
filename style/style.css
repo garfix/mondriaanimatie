@@ -8,14 +8,17 @@ html, body {
 #border {
     box-sizing: border-box;
     position: relative;
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
     background-color: #ffffff;
     overflow: hidden;
-    border: 10px solid #888888;
+    border: 10px solid #f0f0f0;
+    filter: drop-shadow(10px 10px 4px #404040);
 }
 
 #control-panel {
+    margin-right: 20px;
     float: right;
     padding: 5px;
 }
@@ -113,6 +116,10 @@ html, body {
     html, body {
         background-color: #ffffff;
         background-image: none;
+    }
+
+    #border {
+        filter: none;
     }
 
     #state-button {
