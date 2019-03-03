@@ -405,6 +405,9 @@ function replaceRoom(rooms, index, room) {
 }
 
 function createPiece(lines, orientation, pos) {
+
+    const tinyRoomSize = 4;
+
     var r = random(1, 2);
 
     if (r === 1) {
@@ -430,7 +433,10 @@ function createPiece(lines, orientation, pos) {
         // check if the delimiting lines extend to this position
         if (pos >= orthoLines[index1].start && pos <= orthoLines[index1].end) {
             if (pos >= orthoLines[index2].start && pos <= orthoLines[index2].end) {
-                return [start, end];
+                // do not draw lines inside a double line
+                if (end - start > tinyRoomSize) {
+                    return [start, end];
+                }
             }
         }
 
