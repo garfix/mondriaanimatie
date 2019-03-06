@@ -1,23 +1,23 @@
 
-var tearDownAnimations = [
+let tearDownAnimations = [
     tearDownAnimation1,
     tearDownAnimation2,
     tearDownAnimation3,
     tearDownAnimation4
 ];
 
-var devMode = false;
+let devMode = false;
 
-var tearDownAnimationIndex = 0;
-var state = "running";
-var stateChangeListeners = [];
-var nextFrameTimer = null;
-var tearDownAnimationTimer = null;
+let tearDownAnimationIndex = 0;
+let state = "running";
+let stateChangeListeners = [];
+let nextFrameTimer = null;
+let tearDownAnimationTimer = null;
 
 function start(borderEementId, stateElementId) {
 
-    var border = document.getElementById(borderEementId);
-    var stateButton = document.getElementById(stateElementId);
+    let border = document.getElementById(borderEementId);
+    let stateButton = document.getElementById(stateElementId);
 
     stateButton.focus();
 
@@ -30,7 +30,7 @@ function start(borderEementId, stateElementId) {
     // back, forward browser buttons
     window.onpopstate = function() { setTimeout(function () {
 
-        var frame = loadFrameFromLocation(document.location.href);
+        let frame = loadFrameFromLocation(document.location.href);
         if (frame) {
             setState("paused");
             animateFrame(border, frame, true);
@@ -50,7 +50,7 @@ function start(borderEementId, stateElementId) {
 
     // left, right, space buttons
     document.addEventListener("keydown", function (event) {
-        var key = event.key;
+        let key = event.key;
 
         if (key === "ArrowLeft") {
             history.go(-1);
@@ -65,7 +65,7 @@ function start(borderEementId, stateElementId) {
     resize(border);
 
     // get frame from url
-    var frame = loadFrameFromLocation(window.location.href);
+    let frame = loadFrameFromLocation(window.location.href);
 
     if (frame) {
         setState("paused");
@@ -91,18 +91,18 @@ function setState(newState) {
 
     state = newState;
 
-    for (var i = 0; i < stateChangeListeners.length; i++) {
+    for (let i = 0; i < stateChangeListeners.length; i++) {
         stateChangeListeners[i](state);
     }
 }
 
 function loadFrameFromLocation(location) {
 
-    var frame = null;
+    let frame = null;
 
-    var matches = location.match(/\?frame=(.*)/);
+    let matches = location.match(/\?frame=(.*)/);
     if (matches && typeof matches[1] !== "undefined") {
-        var encodedFrame = matches[1];
+        let encodedFrame = matches[1];
         frame = urlDecodeFrame(encodedFrame);
     }
 
@@ -110,7 +110,7 @@ function loadFrameFromLocation(location) {
 }
 
 function resize(border) {
-    var minSize = Math.min(window.innerWidth, window.innerHeight) - 40;
+    let minSize = Math.min(window.innerWidth, window.innerHeight) - 40;
 
     border.style.width = minSize + 'px';
     border.style.height = minSize + 'px';
@@ -119,10 +119,10 @@ function resize(border) {
 function animateRandomFrame(border) {
 
     // create a new frame
-    var frame = createRandomFrame();
+    let frame = createRandomFrame();
 
     // update url
-    var urlEncodedFrame = urlEncodeFrame(frame);
+    let urlEncodedFrame = urlEncodeFrame(frame);
     history.pushState(null, window.location.pathname, "?frame=" + urlEncodedFrame);
 
     animateFrame(border, frame, false);
@@ -139,8 +139,8 @@ function stopExistingAnimation() {
 
 function animateFrame(border, frame, singleFrame) {
 
-    var canvas = createRectangle('canvas');
-    var title = "Composition with " + frame.all.length + " elements";
+    let canvas = createRectangle('canvas');
+    let title = "Composition with " + frame.all.length + " elements";
 
     document.title = title;
 
@@ -154,16 +154,16 @@ function animateFrame(border, frame, singleFrame) {
     border.appendChild(canvas);
 
     // select the animation
-    var tearDownAnimation = tearDownAnimations[tearDownAnimationIndex](canvas, frame);
+    let tearDownAnimation = tearDownAnimations[tearDownAnimationIndex](canvas, frame);
 
     tearDownAnimationIndex = (tearDownAnimationIndex === tearDownAnimations.length - 1) ? 0 : tearDownAnimationIndex + 1;
 
-    var elementDuration = singleFrame ? 50 : 500;
-    var holdDuration = 3000;
-    var buildDuration = (frame.all.length * elementDuration);
-    var interFrameDuration = 1000;
-    var tearDownAnimationDuration = tearDownAnimation.duration;
-    var fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
+    let elementDuration = singleFrame ? 50 : 500;
+    let holdDuration = 3000;
+    let buildDuration = (frame.all.length * elementDuration);
+    let interFrameDuration = 1000;
+    let tearDownAnimationDuration = tearDownAnimation.duration;
+    let fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
 
     // dev mode
     if (devMode) {
@@ -176,7 +176,7 @@ function animateFrame(border, frame, singleFrame) {
     }
 
     // draw the picture on the canvas
-    var lookup = draw(canvas, frame, elementDuration);
+    let lookup = draw(canvas, frame, elementDuration);
 
     if (singleFrame) {
         return;

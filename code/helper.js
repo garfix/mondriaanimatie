@@ -4,9 +4,9 @@ function random(min, max) {
 
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        let temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
@@ -20,12 +20,12 @@ function pickFromArray(array) {
 function sortLines(lines) {
 
     // sort
-    var hor = [];
-    var ver = [];
+    let hor = [];
+    let ver = [];
 
-    for (var i = 0; i < lines.length; i++) {
+    for (let i = 0; i < lines.length; i++) {
 
-        var line = lines[i];
+        let line = lines[i];
 
         if (line.orientation === 'horizontal') {
             hor.push(line);
@@ -48,18 +48,18 @@ function sortLines(lines) {
 // Creates segments that have enough distance to the other lines, for a new line to be places
 function findFreeSegments(sortedLines, minimumLineDistance) {
 
-    var segments = [];
+    let segments = [];
 
     if (sortedLines.length === 0) {
         return [];
     }
 
-    for (var i = 0; i < sortedLines.length - 1; i++) {
-        var line1 = sortedLines[i];
-        var line2 = sortedLines[i + 1];
+    for (let i = 0; i < sortedLines.length - 1; i++) {
+        let line1 = sortedLines[i];
+        let line2 = sortedLines[i + 1];
 
-        var minPos = line1.pos + line1.width / 2 + minimumLineDistance;
-        var maxPos = line2.pos - line2.width / 2 - minimumLineDistance;
+        let minPos = line1.pos + line1.width / 2 + minimumLineDistance;
+        let maxPos = line2.pos - line2.width / 2 - minimumLineDistance;
 
         if (minPos <= maxPos) {
             segments.push([minPos, maxPos]);

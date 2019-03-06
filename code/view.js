@@ -1,11 +1,11 @@
 function draw(canvas, frame, duration) {
 
-    var lookup = [];
+    let lookup = [];
 
-    for (var i = 0; i < frame.all.length; i++) {
+    for (let i = 0; i < frame.all.length; i++) {
 
-        var element = frame.all[i];
-        var start = i * duration;
+        let element = frame.all[i];
+        let start = i * duration;
 
         if (element.type === 'line') {
             drawLine(canvas, lookup, element, start, duration);
@@ -21,7 +21,7 @@ function draw(canvas, frame, duration) {
 
 function createRectangle(className)
 {
-    var rect = document.createElement('div');
+    let rect = document.createElement('div');
 
     rect.classList.add(className);
 
@@ -30,7 +30,7 @@ function createRectangle(className)
 
 function drawLine(canvas, lookup, line, start, duration) {
 
-    var rect = createRectangle("line");
+    let rect = createRectangle("line");
 
     if (line.orientation === 'horizontal') {
 
@@ -65,7 +65,7 @@ function drawLine(canvas, lookup, line, start, duration) {
 
 function drawPlane(canvas, lookup, plane, start, duration) {
 
-    var rect = createRectangle("plane");
+    let rect = createRectangle("plane");
 
     rect.setAttribute('mondriaan-element-type', "plane");
 
@@ -89,10 +89,10 @@ function drawPlane(canvas, lookup, plane, start, duration) {
 
 function drawSteps(canvas, lookup, steps, start, duration) {
 
-    for (var i = 0; i < steps.elements.length; i++) {
+    for (let i = 0; i < steps.elements.length; i++) {
 
-        var step = steps.elements[i];
-        var rect = createRectangle("step");
+        let step = steps.elements[i];
+        let rect = createRectangle("step");
 
         rect.setAttribute('mondriaan-element', step);
 
@@ -111,8 +111,8 @@ function drawSteps(canvas, lookup, steps, start, duration) {
 
         lookup.push(step);
 
-        var stepDuration = duration / steps.elements.length;
-        var stepStart = start + stepDuration * i;
+        let stepDuration = duration / steps.elements.length;
+        let stepStart = start + stepDuration * i;
 
         expandBottomToTop(rect, step.top, step.bottom, stepStart, stepDuration);
     }

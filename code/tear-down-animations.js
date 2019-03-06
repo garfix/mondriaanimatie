@@ -2,12 +2,12 @@ function tearDownAnimation1(canvas, frame) {
 
     const duration = 100;
 
-    var f = function(lookup) {
-        var count = canvas.childNodes.length;
+    let f = function(lookup) {
+        let count = canvas.childNodes.length;
 
-        for (var i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
 
-            var element = canvas.childNodes[count - 1 - i];
+            let element = canvas.childNodes[count - 1 - i];
 
             fadeOut(element, i * duration, duration);
         }
@@ -23,20 +23,20 @@ function tearDownAnimation2(canvas, frame) {
     const shutterCount = 5;
     const duration = 500;
 
-    var f = function(lookup) {
+    let f = function(lookup) {
 
         const shutterHeight = 100 / shutterCount;
 
-        for (var i = 0; i < shutterCount; i++) {
+        for (let i = 0; i < shutterCount; i++) {
 
-            var shutter = createRectangle('shutter');
+            let shutter = createRectangle('shutter');
             shutter.style.width = "100%";
             shutter.style.height = shutterHeight + "%";
             shutter.style.top = (i * shutterHeight) + "%";
 
-            var from = (i % 2) === 0 ? "-100" : "100";
-            var start = (i * 500);
-            var duration = 500;
+            let from = (i % 2) === 0 ? "-100" : "100";
+            let start = (i * 500);
+            let duration = 500;
 
             shutter.style.visibility = "hidden";
             canvas.appendChild(shutter);
@@ -54,7 +54,7 @@ function tearDownAnimation3(canvas, frame) {
 
     const duration = 500;
 
-    var f = function(lookup) {
+    let f = function(lookup) {
 
         moveHorizontal(canvas, 0, -100, 0, duration);
     };
@@ -68,14 +68,14 @@ function tearDownAnimation4(canvas, frame) {
 
     const duration = 1500;
 
-    var f = function(lookup) {
+    let f = function(lookup) {
 
-        var count = canvas.childNodes.length;
+        let count = canvas.childNodes.length;
 
-        for (var i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
 
-            var node = canvas.childNodes[i];
-            var element = lookup[i];
+            let node = canvas.childNodes[i];
+            let element = lookup[i];
 
             if (element.type === "plane") {
                 moveVertical(node, element.top, 125, 700, 200);

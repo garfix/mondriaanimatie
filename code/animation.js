@@ -91,9 +91,9 @@ function moveHorizontal(element, from, to, start, duration) {
 
     setTimeout(function(){
 
-        var offset = from - to;
-        var elementWidthAsPercentage = (element.offsetWidth / element.parentNode.offsetWidth) * 100;
-        var percentage = (offset / elementWidthAsPercentage) * 100;
+        let offset = from - to;
+        let elementWidthAsPercentage = (element.offsetWidth / element.parentNode.offsetWidth) * 100;
+        let percentage = (offset / elementWidthAsPercentage) * 100;
 
         window.requestAnimationFrame(function(){
 
@@ -116,9 +116,9 @@ function moveVertical(element, from, to, start, duration) {
 
     setTimeout(function(){
 
-        var offset = from - to;
-        var elementHeightAsPercentage = (element.offsetHeight / element.parentNode.offsetHeight) * 100;
-        var percentage = (offset / elementHeightAsPercentage) * 100;
+        let offset = from - to;
+        let elementHeightAsPercentage = (element.offsetHeight / element.parentNode.offsetHeight) * 100;
+        let percentage = (offset / elementHeightAsPercentage) * 100;
 
         window.requestAnimationFrame(function(){
 

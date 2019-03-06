@@ -4,7 +4,7 @@ function urlEncodeFrame(frame) {
 }
 
 function urlEncodeItem(item) {
-    var url = "";
+    let url = "";
 
     const keys = {
         type: 'x',
@@ -41,7 +41,7 @@ function urlEncodeItem(item) {
         none: 'n'
     };
 
-    for (var k in item) {
+    for (let k in item) {
 
         if (typeof keys[k] === "undefined") {
             console.log("url encode error: unknown key: " + k)
@@ -52,7 +52,7 @@ function urlEncodeItem(item) {
 
         if (k === "all" || k === "elements") {
 
-            for (var i = 0; i < item[k].length; i++) {
+            for (let i = 0; i < item[k].length; i++) {
                 element = item[k][i];
                 url += urlEncodeItem(element);
             }
@@ -61,7 +61,7 @@ function urlEncodeItem(item) {
 
         } else {
 
-            var value = item[k];
+            let value = item[k];
 
             if (isNaN(parseInt(value))) {
 
@@ -84,7 +84,7 @@ function urlEncodeItem(item) {
 }
 
 function urlDecodeFrame(url) {
-    var result = urlDecodeObject(url, 0);
+    let result = urlDecodeObject(url, 0);
     return result[0];
 }
 
@@ -107,10 +107,10 @@ function urlDecodeObject(url, pointer) {
         e: 'elements'
     };
 
-    var obj = {};
+    let obj = {};
 
     do {
-        var head = url.substring(pointer, pointer + 1);
+        let head = url.substring(pointer, pointer + 1);
         pointer++;
 
         if (head === "-") {
@@ -122,15 +122,15 @@ function urlDecodeObject(url, pointer) {
             return [null, pointer];
         }
 
-        var key = keys[head];
+        let key = keys[head];
         switch (key) {
             case 'elements':
             case 'all':
-                var elements = [];
+                let elements = [];
                 do {
-                    var result = urlDecodeObject(url, pointer);
+                    let result = urlDecodeObject(url, pointer);
                     pointer = result[1];
-                    var element = result[0];
+                    let element = result[0];
                     if (element === null) {
                         return [null, pointer];
                     }
@@ -145,9 +145,9 @@ function urlDecodeObject(url, pointer) {
                 obj[key] = elements;
                 break;
             default:
-                var result = urlDecodeValue(url, pointer);
+                let result = urlDecodeValue(url, pointer);
                 pointer = result[1];
-                var value = result[0];
+                let value = result[0];
                 if (value === null) {
                     return [null, pointer];
                 }
@@ -179,9 +179,9 @@ function urlDecodeValue(url, pointer) {
         n: 'none'
     };
 
-    var value = null;
+    let value = null;
 
-    var matches = url.substring(pointer).match(/^([0-9]+(\.[0-9]+)?)/);
+    let matches = url.substring(pointer).match(/^([0-9]+(\.[0-9]+)?)/);
     if (matches) {
         value = matches[1];
         pointer += value.length;
