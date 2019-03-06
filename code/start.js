@@ -6,6 +6,8 @@ var tearDownAnimations = [
     tearDownAnimation4
 ];
 
+var devMode = false;
+
 var tearDownAnimationIndex = 0;
 var state = "running";
 var stateChangeListeners = [];
@@ -19,10 +21,13 @@ function start(borderEementId, stateElementId) {
 
     stateButton.focus();
 
+    // button: toggle state
     stateButton.onclick = function() { processStateButtonClick() };
 
+    // resize: resize border size in pixels
     window.onresize = function(){ resize(border) };
 
+    // back, forward browser buttons
     window.onpopstate = function() { setTimeout(function () {
 
         var frame = loadFrameFromLocation(document.location.href);
@@ -32,6 +37,7 @@ function start(borderEementId, stateElementId) {
         }
     })};
 
+    // state change actions
     stateChangeListeners.push(function(newState){
         if (newState === "running") {
             animateRandomFrame(border);
@@ -42,6 +48,7 @@ function start(borderEementId, stateElementId) {
         }
     });
 
+    // left, right, space buttons
     document.addEventListener("keydown", function (event) {
         var key = event.key;
 
@@ -57,6 +64,7 @@ function start(borderEementId, stateElementId) {
 
     resize(border);
 
+    // get frame from url
     var frame = loadFrameFromLocation(window.location.href);
 
     if (frame) {
@@ -158,7 +166,7 @@ function animateFrame(border, frame, singleFrame) {
     var fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
 
     // dev mode
-    if (1) {
+    if (devMode) {
          elementDuration = 100;
          holdDuration = 500;
          buildDuration = (frame.all.length * elementDuration);
