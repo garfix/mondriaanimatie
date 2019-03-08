@@ -123,11 +123,7 @@ function animateRandomFrame(border) {
 
     // update url
     let urlEncodedFrame = urlEncodeFrame(frame);
-
-
-//    history.pushState(null, window.location.pathname, "?frame=" + urlEncodedFrame);
-
-
+    history.pushState(null, window.location.pathname, "?frame=" + urlEncodedFrame);
 
     animateFrame(border, frame, false);
 }
