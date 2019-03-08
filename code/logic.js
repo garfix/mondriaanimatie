@@ -26,7 +26,8 @@ function pickAPlaneColor(planeColors, room) {
     return { color: color, planeColors: planeColors };
 }
 
-function createLine(lines, orientation, minimumLineDistance, thickness, color) {
+function createLine(lines, orientation, minimumLineDistance, thickness, color, useTape) {
+
     let pos = createPosition(lines, orientation, minimumLineDistance);
 
     if (pos === false) {
@@ -42,7 +43,8 @@ function createLine(lines, orientation, minimumLineDistance, thickness, color) {
         orientation: orientation,
         pos: pos,
         start: piece[0],
-        end: piece[1]
+        end: piece[1],
+        useTape: useTape ? 1 : 0
     };
 }
 

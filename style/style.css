@@ -52,13 +52,24 @@ html, body {
     z-index: 20;
 }
 
+    .line.tape {
+        filter: drop-shadow(0 0 3px #404040);
+    }
+        .line.tape.black {
+            filter: drop-shadow(0 0 2px #c0c0c0);
+        }
+
 
 .plane {
     will-change: transform;
     position: absolute;
-    opacity: 0.75;
     z-index: 10;
 }
+
+    .gray .plane {
+        opacity: 0.75;
+    }
+
 .step {
     will-change: transform;
     position: absolute;

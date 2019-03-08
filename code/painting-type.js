@@ -7,9 +7,11 @@ const defaultStyleConfig = {
     "grid": false,
     "white-lines": false,
     "colored-lines": false,
+    "tape": false,
 };
 
 const styleOrder = [
+    "tape",
     "grid",
     "colored-lines",
     "white-lines",
@@ -165,6 +167,8 @@ function createFrameFromInstructions(instructions, config) {
         horizontalLineThickness = pickFromArray([3, 3.5, 4]);
     }
 
+    let useTape = config['tape'];
+
     for (let i = 0; i < instructions.length; i++) {
 
         let instruction = instructions[i];
@@ -179,7 +183,7 @@ function createFrameFromInstructions(instructions, config) {
         }
 
         if (instruction === 'double-horizontal-line') {
-            let line = createLine(lines, 'horizontal', minimumLineDistance, defaultLineThickness, lineColor);
+            let line = createLine(lines, 'horizontal', minimumLineDistance, defaultLineThickness, lineColor, useTape);
             if (line) {
                 line.start = 0; line.end = 100;
                 lines.push(line);
@@ -194,7 +198,7 @@ function createFrameFromInstructions(instructions, config) {
             }
 
         } else if (instruction === 'double-vertical-line') {
-            let line = createLine(lines, 'vertical', minimumLineDistance, defaultLineThickness, lineColor);
+            let line = createLine(lines, 'vertical', minimumLineDistance, defaultLineThickness, lineColor, useTape);
             if (line) {
                 line.start = 0;
                 line.end = 100;
@@ -212,7 +216,7 @@ function createFrameFromInstructions(instructions, config) {
         } else if (instruction === 'horizontal-line') {
             // exceptions to general thickness
             let thickness = (random(1, 4) === 1) ? defaultLineThickness : horizontalLineThickness;
-            let line = createLine(lines, 'horizontal', minimumLineDistance, thickness, lineColor);
+            let line = createLine(lines, 'horizontal', minimumLineDistance, thickness, lineColor, useTape);
             if (line) {
                 if (config['grid']) {
                     line.start = 0;
@@ -223,7 +227,7 @@ function createFrameFromInstructions(instructions, config) {
                 rooms = updateRooms(rooms, line);
             }
         } else if (instruction === 'vertical-line') {
-            let line = createLine(lines, 'vertical', minimumLineDistance, verticalLineThickness, lineColor);
+            let line = createLine(lines, 'vertical', minimumLineDistance, verticalLineThickness, lineColor, useTape);
             if (line) {
                 if (config['grid']) {
                     line.start = 0;
