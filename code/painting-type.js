@@ -11,13 +11,13 @@ const defaultStyleConfig = {
 };
 
 const styleOrder = [
-    "tape",
+    "plain",
     "grid",
+    "double-lines",
+    "thick-lines",
     "colored-lines",
     "white-lines",
-    "plain",
-    "thick-lines",
-    "double-lines",
+    "tape",
 ];
 
 function createRandomFrame() {
@@ -45,26 +45,35 @@ function buildStyleElementConfigurations() {
 
         let baseElement = baseElements[i];
 
+        // config with just style element X
         let config = Object.assign({}, defaultStyleConfig);
         config[baseElement] = true;
         configs.push(config);
 
-        let others1 = removeFromArray(styleOrder, baseElement);
-        let others2 = others1.slice(0);
+        // pick 3 random other style elements
+        let others1 = removeFromArray(Object.keys(defaultStyleConfig), baseElement);
         shuffleArray(others1);
-        shuffleArray(others2);
+        others1 = others1.slice(0, 2);
+
+        // make a copy
+        let others2 = others1.slice(0);
+
+        // remove from that copy the base element of the next round, if available
         if (i < baseElements.length - 1) {
             let nextElement = baseElements[i + 1];
             others2 = removeFromArray(others2, nextElement);
         }
 
-        for (let j = 0; j < styleOrder.length - 1; j++) {
+        let others1Length = others1.length;
+        let others2Length = others2.length;
+
+        for (let j = 0; j < others1Length; j++) {
             config = Object.assign({}, config);
             config[others1.pop()] = true;
             configs.push(config);
         }
 
-        for (let j = 0; j < styleOrder.length - 2; j++) {
+        for (let j = 0; j < others2Length; j++) {
             config = Object.assign({}, config);
             config[others2.pop()] = false;
             configs.push(config);
