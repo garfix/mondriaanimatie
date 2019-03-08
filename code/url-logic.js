@@ -70,7 +70,7 @@ function urlEncodeItem(item) {
                 if (typeof values[value] !== "undefined") {
                     url += values[value];
                 } else {
-                    console.log("Unknown value: " + value);
+                    console.log("Unknown value: " + value + " from " + k);
                 }
 
             } else {

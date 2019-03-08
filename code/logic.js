@@ -28,6 +28,11 @@ function pickAPlaneColor(planeColors, room) {
 
 function createLine(lines, orientation, minimumLineDistance, thickness, color) {
     let pos = createPosition(lines, orientation, minimumLineDistance);
+
+    if (pos === false) {
+        return false;
+    }
+
     let piece = createPiece(lines, orientation, pos);
 
     return {

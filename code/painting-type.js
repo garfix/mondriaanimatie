@@ -180,48 +180,59 @@ function createFrameFromInstructions(instructions, config) {
 
         if (instruction === 'double-horizontal-line') {
             let line = createLine(lines, 'horizontal', minimumLineDistance, defaultLineThickness, lineColor);
-            line.start = 0; line.end = 100;
-            lines.push(line);
-            frame.all.push(line);
-            rooms = updateRooms(rooms, line);
+            if (line) {
+                line.start = 0; line.end = 100;
+                lines.push(line);
+                frame.all.push(line);
+                rooms = updateRooms(rooms, line);
 
-            let secondLine = Object.assign({}, line);
-            secondLine.pos += line.pos < 90 ? (2 * defaultLineThickness) : (-2 * defaultLineThickness);
-            lines.push(secondLine);
-            frame.all.push(secondLine);
-            rooms = updateRooms(rooms, secondLine);
+                let secondLine = Object.assign({}, line);
+                secondLine.pos += line.pos < 90 ? (2 * defaultLineThickness) : (-2 * defaultLineThickness);
+                lines.push(secondLine);
+                frame.all.push(secondLine);
+                rooms = updateRooms(rooms, secondLine);
+            }
 
         } else if (instruction === 'double-vertical-line') {
             let line = createLine(lines, 'vertical', minimumLineDistance, defaultLineThickness, lineColor);
-            line.start = 0; line.end = 100;
-            lines.push(line);
-            frame.all.push(line);
-            rooms = updateRooms(rooms, line);
+            if (line) {
+                line.start = 0;
+                line.end = 100;
+                lines.push(line);
+                frame.all.push(line);
+                rooms = updateRooms(rooms, line);
 
-            let secondLine = Object.assign({}, line);
-            secondLine.pos += line.pos < 90 ? (2 * defaultLineThickness) : (-2 * defaultLineThickness);
-            lines.push(secondLine);
-            frame.all.push(secondLine);
-            rooms = updateRooms(rooms, secondLine);
+                let secondLine = Object.assign({}, line);
+                secondLine.pos += line.pos < 90 ? (2 * defaultLineThickness) : (-2 * defaultLineThickness);
+                lines.push(secondLine);
+                frame.all.push(secondLine);
+                rooms = updateRooms(rooms, secondLine);
+            }
 
         } else if (instruction === 'horizontal-line') {
             // exceptions to general thickness
             let thickness = (random(1, 4) === 1) ? defaultLineThickness : horizontalLineThickness;
             let line = createLine(lines, 'horizontal', minimumLineDistance, thickness, lineColor);
-            if (config['grid']) {
-                line.start = 0; line.end = 100;
+            if (line) {
+                if (config['grid']) {
+                    line.start = 0;
+                    line.end = 100;
+                }
+                lines.push(line);
+                frame.all.push(line);
+                rooms = updateRooms(rooms, line);
             }
-            lines.push(line);
-            frame.all.push(line);
-            rooms = updateRooms(rooms, line);
         } else if (instruction === 'vertical-line') {
             let line = createLine(lines, 'vertical', minimumLineDistance, verticalLineThickness, lineColor);
-            if (config['grid']) {
-                line.start = 0; line.end = 100;
+            if (line) {
+                if (config['grid']) {
+                    line.start = 0;
+                    line.end = 100;
+                }
+                lines.push(line);
+                frame.all.push(line);
+                rooms = updateRooms(rooms, line);
             }
-            lines.push(line);
-            frame.all.push(line);
-            rooms = updateRooms(rooms, line);
         } else if (instruction === 'plane') {
             let roomIndex = pickARoomForAPlane(rooms);
             if (roomIndex !== false) {

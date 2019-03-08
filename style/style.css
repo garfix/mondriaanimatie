@@ -46,18 +46,17 @@ html, body {
     height: 100%;
 }
 
-.canvas.grey .plane {
-    opacity: 0.75;
-}
-
 .line {
     will-change: transform;
 	position: absolute;
     z-index: 20;
 }
+
+
 .plane {
     will-change: transform;
     position: absolute;
+    opacity: 0.75;
     z-index: 10;
 }
 .step {

@@ -137,9 +137,13 @@ function stopExistingAnimation() {
     }
 }
 
+function getTitle(frame) {
+    return "Composition in M with " + frame.all.length + " elements";
+}
+
 function animateFrame(border, frame, singleFrame) {
 
-    let title = "Composition in M with " + frame.all.length + " elements";
+    let title = getTitle(frame);
 
     document.title = title;
 
