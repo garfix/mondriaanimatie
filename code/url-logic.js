@@ -53,7 +53,7 @@ function urlEncodeItem(item) {
         if (k === "all" || k === "elements") {
 
             for (let i = 0; i < item[k].length; i++) {
-                element = item[k][i];
+                let element = item[k][i];
                 url += urlEncodeItem(element);
             }
 
@@ -188,7 +188,7 @@ function urlDecodeValue(url, pointer) {
     } else {
         matches = url.substring(pointer).match(/^(\w)/);
         if (matches) {
-            token = matches[1];
+            let token = matches[1];
             pointer += 1;
 
             if (typeof values[token] === "undefined") {
