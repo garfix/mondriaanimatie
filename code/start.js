@@ -123,7 +123,11 @@ function animateRandomFrame(border) {
 
     // update url
     let urlEncodedFrame = urlEncodeFrame(frame);
-    history.pushState(null, window.location.pathname, "?frame=" + urlEncodedFrame);
+
+
+//    history.pushState(null, window.location.pathname, "?frame=" + urlEncodedFrame);
+
+
 
     animateFrame(border, frame, false);
 }
@@ -139,8 +143,7 @@ function stopExistingAnimation() {
 
 function animateFrame(border, frame, singleFrame) {
 
-    let canvas = createRectangle('canvas');
-    let title = "Composition with " + frame.all.length + " elements";
+    let title = "Composition in M with " + frame.all.length + " elements";
 
     document.title = title;
 
@@ -151,6 +154,8 @@ function animateFrame(border, frame, singleFrame) {
     stopExistingAnimation();
 
     // create new canvas
+    let canvas = createRectangle('canvas');
+
     border.appendChild(canvas);
 
     // select the animation

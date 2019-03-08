@@ -21,7 +21,8 @@ function urlEncodeItem(item) {
         end: 'i',
         all: 'a',
         steps: 's',
-        elements: 'e'
+        elements: 'e',
+        backgroundColor: 'k'
     };
 
     const values = {
@@ -38,7 +39,8 @@ function urlEncodeItem(item) {
         black: 'k',
         lighter: 'x',
         darker: 'd',
-        none: 'n'
+        none: 'n',
+        white: 'w',
     };
 
     for (let k in item) {
@@ -104,7 +106,8 @@ function urlDecodeObject(url, pointer) {
         i: 'end',
         a: 'all',
         s: 'steps',
-        e: 'elements'
+        e: 'elements',
+        k: 'backgroundColor'
     };
 
     let obj = {};
@@ -176,7 +179,8 @@ function urlDecodeValue(url, pointer) {
         k: 'black',
         x: 'lighter',
         d: 'darker',
-        n: 'none'
+        n: 'none',
+        w: 'white',
     };
 
     let value = null;

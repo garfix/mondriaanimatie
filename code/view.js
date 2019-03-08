@@ -2,6 +2,11 @@ function draw(canvas, frame, duration) {
 
     let lookup = [];
 
+    if (frame.backgroundColor) {
+        canvas.classList.add(frame.backgroundColor);
+        canvas.classList.add("light");
+    }
+
     for (let i = 0; i < frame.all.length; i++) {
 
         let element = frame.all[i];
