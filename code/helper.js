@@ -16,6 +16,16 @@ function pickFromArray(array) {
     return array[random(0, array.length - 1)];
 }
 
+function removeFromArray(array, element) {
+    let newArray = [];
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] !== element) {
+            newArray.push(array[i]);
+        }
+    }
+    return newArray;
+}
+
 // Sort lines by orientation and position
 function sortLines(lines) {
 
