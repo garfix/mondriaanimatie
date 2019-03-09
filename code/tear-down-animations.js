@@ -117,15 +117,15 @@ function tearDownAnimation5(canvas, frame) {
             } else if (element.type === "line") {
                 if (element.orientation === "horizontal") {
                     if (element.pos < 50) {
-                        moveVertical(node, element.pos, -3, 50 - element.pos, 1000);
+                        moveVertical(node, element.pos, -5, 50 - element.pos, 1000);
                     } else {
-                        moveVertical(node, element.pos, 103, element.pos - 50, 1000);
+                        moveVertical(node, element.pos, 105, element.pos - 50, 1000);
                     }
                 } else {
                     if (element.pos < 50) {
-                        moveHorizontal(node, element.pos, -3, 50 - element.pos, 1000);
+                        moveHorizontal(node, element.pos, -5, 50 - element.pos, 1000);
                     } else {
-                        moveHorizontal(node, element.pos, 103, element.pos - 50, 1000);
+                        moveHorizontal(node, element.pos, 105, element.pos - 50, 1000);
                     }
                 }
             }

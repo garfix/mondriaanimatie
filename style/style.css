@@ -23,7 +23,7 @@ html, body {
     background-color: #f0f0f0;
     opacity: 0.6;
     float: right;
-    padding: 5px;
+    padding: 5px 20px;
     text-align: right;
     margin-bottom: 5px;
 }
@@ -61,7 +61,7 @@ html, body {
 .line {
     will-change: transform;
 	position: absolute;
-    z-index: 20;
+    z-index: 200;
 }
 
     .line.tape {
@@ -75,7 +75,7 @@ html, body {
 .plane {
     will-change: transform;
     position: absolute;
-    z-index: 10;
+    z-index: 100;
 }
 
     .gray .plane {
@@ -85,13 +85,13 @@ html, body {
 .step {
     will-change: transform;
     position: absolute;
-    z-index: 10;
+    z-index: 100;
 }
 .shutter {
     will-change: transform;
     position: absolute;
     background-color: #f8f8f8;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .red {

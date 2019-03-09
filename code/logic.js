@@ -305,8 +305,8 @@ function updateRooms(rooms, line) {
                 room.left >= line.start && room.right <= line.end) {
 
                 newRooms = newRooms.concat([
-                    {left: room.left, right: room.right, top: room.top, bottom: line.pos, color: room.color },
-                    {left: room.left, right: room.right, top: line.pos, bottom: room.bottom, color: room.color }]);
+                    {left: room.left, right: room.right, top: room.top, bottom: line.pos - line.width / 2, color: room.color },
+                    {left: room.left, right: room.right, top: line.pos + line.width / 2, bottom: room.bottom, color: room.color }]);
 
             } else {
                 newRooms.push(room)
@@ -318,8 +318,8 @@ function updateRooms(rooms, line) {
                 room.top >= line.start && room.bottom <= line.end) {
 
                 newRooms = newRooms.concat([
-                    { left: room.left, right: line.pos, top: room.top, bottom: room.bottom, color: room.color },
-                    { left: line.pos, right: room.right, top: room.top, bottom: room.bottom, color: room.color }]);
+                    { left: room.left, right: line.pos - line.width / 2, top: room.top, bottom: room.bottom, color: room.color },
+                    { left: line.pos + line.width / 2, right: room.right, top: room.top, bottom: room.bottom, color: room.color }]);
 
             } else {
                 newRooms.push(room)
