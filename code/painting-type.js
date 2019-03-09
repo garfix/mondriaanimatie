@@ -2,11 +2,11 @@
 let styleElementConfigurations = [];
 
 const defaultStyleConfig = {
+    "colored-lines": false,
     "thick-lines": false,
     "double-lines": false,
     "grid": false,
     "white-lines": false,
-    "colored-lines": false,
     "tape": false,
 };
 
@@ -100,6 +100,7 @@ function createInstructionsFromStyleElementConfiguration(config) {
     }
 
     // create up to 11 lines total
+    // grid: much more lines
     let minLineCount = config['grid'] ? 12 : 0;
     let maxLineCount = config['grid'] ? 23 : 9;
     let lineInstructions = getLineInstructions(random(minLineCount, maxLineCount - doubleLinesCount));
@@ -114,14 +115,16 @@ function createInstructionsFromStyleElementConfiguration(config) {
     }
 
     // add up to 5 planes between the lines, somewhere at the end
-    let maxPlaneCount = config['grid'] ? 10 : 5;
+    // grid: just 1 plane
+    let maxPlaneCount = config['grid'] ? 1 : 5;
     let planeInstructions = getPlaneInstructions(maxPlaneCount);
     instructions = instructions.concat(planeInstructions);
 
     // a minimum of lines is present in paintings with steps
     if (lineCount >= 8) {
         // add steps in up to 2 rooms
-        let stepsCount = random(0, 2);
+        let maxStepsCount = config['grid'] ? 0 : 5;
+        let stepsCount = random(0, maxStepsCount);
         for (let i = 0; i < stepsCount; i++) {
             instructions.push('steps');
         }
@@ -129,7 +132,6 @@ function createInstructionsFromStyleElementConfiguration(config) {
 
     return instructions;
 }
-
 
 function createFrameFromInstructions(instructions, config) {
 

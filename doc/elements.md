@@ -95,6 +95,7 @@ Restrictions
 * when a plane is bordered by a line-with-a-gap, the plane may extend to the start of the gapped lines, to the end of it, or somewhere halfway
 * when a painting has only a few planes, they all differ in color. Only when we're out of unique colors, duplicate colors kick in
 * a painting has up to 5 planes. In earlier paintings he used (much) more, but this looks crowded.
+* never are all blocks turned into planes
 
 ### Steps
 

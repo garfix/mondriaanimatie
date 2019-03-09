@@ -109,6 +109,11 @@ function pickARoomForAPlane(rooms) {
         return false;
     }
 
+    // do not fill all rooms with planes
+    if (allowedIndexes.length === 1) {
+        return false;
+    }
+
     let r = random(0, allowedIndexes.length - 1);
 
     return allowedIndexes[r];

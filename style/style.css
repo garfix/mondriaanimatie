@@ -78,7 +78,10 @@ html, body {
     z-index: 100;
 }
 
-    .grey .plane {
+    .add-transparency .plane {
+        opacity: 0.70;
+    }
+    .add-transparency .step {
         opacity: 0.70;
     }
 

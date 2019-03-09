@@ -2,9 +2,17 @@ function draw(canvas, frame, duration) {
 
     let lookup = [];
 
-    if (frame.backgroundColor) {
+    if (frame.backgroundColor !== "none") {
         canvas.classList.add(frame.backgroundColor);
         canvas.classList.add("light");
+        canvas.classList.add("add-transparency");
+    }
+
+    for (let i = 0; i < frame.all.length; i++) {
+        let element = frame.all[i];
+        if (element.type === "line" && element.color !== 'black') {
+            canvas.classList.add("add-transparency");
+        }
     }
 
     for (let i = 0; i < frame.all.length; i++) {
@@ -67,7 +75,7 @@ function drawLine(canvas, lookup, line, start, duration) {
 
     rect.classList.add(line.color);
 
-    if (line.useTape) {
+    if (line.useTape === "1") {
         rect.classList.add("tape");
     }
 }
