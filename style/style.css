@@ -78,8 +78,8 @@ html, body {
     z-index: 100;
 }
 
-    .gray .plane {
-        opacity: 0.75;
+    .grey .plane {
+        opacity: 0.70;
     }
 
 .step {
