@@ -184,7 +184,7 @@ function createFrameFromInstructions(instructions, config) {
             lineColor = pickFromArray(["yellow", "yellow", "red", "red", "blue"]);
         }
         if (config["white-lines"]) {
-            lineColor = pickFromArray(["yellow", "red", "blue", "white", "white", "black"]);
+            lineColor = pickFromArray(["yellow", "red", "blue", "white", "white", "white", "black"]);
         }
 
         if (instruction === 'double-horizontal-line') {
