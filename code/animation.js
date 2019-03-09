@@ -87,6 +87,26 @@ function expandBottomToTop(element, from, to, start, duration) {
     }, start);
 }
 
+function expandFromCenter(element, from, to, start, duration) {
+
+    setTimeout(function () {
+
+        window.requestAnimationFrame(function () {
+
+            element.style.transition = 'none';
+            element.style['transform-origin'] = 'center';
+            element.style.transform = "scale(" + (from / 100) + ", " + (from / 100) + ")";
+            element.style.visibility = "visible";
+
+            window.requestAnimationFrame(function () {
+                element.style.transition = "transform " + (duration / 1000) + "s";
+                element.style.transform = "scale(" + (to / 100) + ", " + (to / 100) + ")";
+            })
+
+        })
+    }, start);
+}
+
 function moveHorizontal(element, from, to, start, duration) {
 
     setTimeout(function(){

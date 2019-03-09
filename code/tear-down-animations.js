@@ -96,3 +96,44 @@ function tearDownAnimation4(canvas, frame) {
 
     return f;
 }
+
+function tearDownAnimation5(canvas, frame) {
+
+    const duration = 1500;
+
+    let f = function(lookup) {
+
+        let count = canvas.childNodes.length;
+
+        for (let i = 0; i < count; i++) {
+
+            let node = canvas.childNodes[i];
+            let element = lookup[i];
+
+            if (element.type === "plane") {
+                expandFromCenter(node, 100, 0, 1000, 500);
+            } else if (element.type === "step") {
+                expandFromCenter(node, 100, 0, 1000, 500);
+            } else if (element.type === "line") {
+                if (element.orientation === "horizontal") {
+                    if (element.pos < 50) {
+                        moveVertical(node, element.pos, -3, 50 - element.pos, 1000);
+                    } else {
+                        moveVertical(node, element.pos, 103, element.pos - 50, 1000);
+                    }
+                } else {
+                    if (element.pos < 50) {
+                        moveHorizontal(node, element.pos, -3, 50 - element.pos, 1000);
+                    } else {
+                        moveHorizontal(node, element.pos, 103, element.pos - 50, 1000);
+                    }
+                }
+            }
+
+        }
+    };
+
+    f.duration = duration;
+
+    return f;
+}

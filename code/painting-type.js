@@ -53,16 +53,11 @@ function buildStyleElementConfigurations() {
         // pick 3 random other style elements
         let others1 = removeFromArray(Object.keys(defaultStyleConfig), baseElement);
         shuffleArray(others1);
-        others1 = others1.slice(0, 2);
+        others1 = others1.slice(0, 3);
 
-        // make a copy
+        // create a random order to remove these elements
         let others2 = others1.slice(0);
-
-        // remove from that copy the base element of the next round, if available
-        if (i < baseElements.length - 1) {
-            let nextElement = baseElements[i + 1];
-            others2 = removeFromArray(others2, nextElement);
-        }
+        shuffleArray(others2);
 
         let others1Length = others1.length;
         let others2Length = others2.length;
@@ -119,7 +114,8 @@ function createInstructionsFromStyleElementConfiguration(config) {
     }
 
     // add up to 5 planes between the lines, somewhere at the end
-    let planeInstructions = getPlaneInstructions(5);
+    let maxPlaneCount = config['grid'] ? 10 : 5;
+    let planeInstructions = getPlaneInstructions(maxPlaneCount);
     instructions = instructions.concat(planeInstructions);
 
     // a minimum of lines is present in paintings with steps

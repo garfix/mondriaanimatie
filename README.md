@@ -1,4 +1,4 @@
-# Rambling through M-space
+# Wandering through M-space
 
 This demo plays with Mondriaan's paintings, the ones with the lines and the colored rectangles he made in his Paris, London, New York period.
 

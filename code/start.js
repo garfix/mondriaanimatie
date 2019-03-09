@@ -3,7 +3,8 @@ let tearDownAnimations = [
     tearDownAnimation1,
     tearDownAnimation2,
     tearDownAnimation3,
-    tearDownAnimation4
+    tearDownAnimation4,
+    tearDownAnimation5,
 ];
 
 let devMode = false;
