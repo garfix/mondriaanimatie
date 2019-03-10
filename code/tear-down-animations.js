@@ -1,3 +1,11 @@
+let tearDownAnimations = [
+    tearDownAnimation1,
+    tearDownAnimation2,
+    tearDownAnimation3,
+    tearDownAnimation4,
+    tearDownAnimation5,
+];
+
 function tearDownAnimation1(canvas, frame) {
 
     const duration = 100;

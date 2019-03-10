@@ -1,11 +1,4 @@
 
-function hideElement(element, start) {
-
-    setTimeout(function(){
-        element.style.visibility = "hidden";
-    }, start)
-}
-
 function fadeOut(element, start, duration) {
 
     setTimeout(function () {
