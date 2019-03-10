@@ -44,7 +44,7 @@ function createLine(lines, orientation, minimumLineDistance, thickness, color, u
         pos: pos,
         start: piece[0],
         end: piece[1],
-        useTape: useTape ? 1 : 0
+        useTape: useTape
     };
 }
 

@@ -42,6 +42,8 @@ function urlEncodeItem(item) {
         darker: 'd',
         none: 'n',
         white: 'w',
+        true: 'i',
+        false: 'j',
     };
 
     for (let k in item) {
@@ -66,7 +68,15 @@ function urlEncodeItem(item) {
 
             let value = item[k];
 
-            if (isNaN(parseInt(value))) {
+            if (value === true) {
+
+                url += values['true'];
+
+            } else if (value === false) {
+
+                url += values['false'];
+
+            } else if (isNaN(parseInt(value))) {
 
                 if (typeof values[value] !== "undefined") {
                     url += values[value];
@@ -183,6 +193,8 @@ function urlDecodeValue(url, pointer) {
         d: 'darker',
         n: 'none',
         w: 'white',
+        i: true,
+        j: false,
     };
 
     let value = null;

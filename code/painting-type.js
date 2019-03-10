@@ -1,6 +1,16 @@
 
 let styleElementConfigurations = [];
 
+const styleOrder = [
+    "plain",
+    "double-lines",
+    "grid",
+    "thick-lines",
+    "colored-lines",
+    "white-lines",
+    "tape",
+];
+
 const defaultStyleConfig = {
     "thick-lines": false,
     "double-lines": false,
@@ -9,16 +19,6 @@ const defaultStyleConfig = {
     "colored-lines": false,
     "tape": false,
 };
-
-const styleOrder = [
-    "white-lines",
-    "plain",
-    "grid",
-    "double-lines",
-    "thick-lines",
-    "colored-lines",
-    "tape",
-];
 
 function createRandomFrame() {
 

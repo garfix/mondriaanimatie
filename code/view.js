@@ -75,7 +75,7 @@ function drawLine(canvas, lookup, line, start, duration) {
 
     rect.classList.add(line.color);
 
-    if (line.useTape === "1") {
+    if (line.useTape) {
         rect.classList.add("tape");
     }
 }
