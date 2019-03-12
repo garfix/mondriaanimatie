@@ -1,18 +1,27 @@
 function draw(canvas, frame, duration) {
 
     let lookup = [];
+    let transparent = false;
+    let suppressTransparency = false;
 
     if (frame.backgroundColor !== "none") {
         canvas.classList.add(frame.backgroundColor);
         canvas.classList.add("light");
-        canvas.classList.add("add-transparency");
+        transparent = true;
     }
 
     for (let i = 0; i < frame.all.length; i++) {
         let element = frame.all[i];
         if (element.type === "line" && element.color !== 'black') {
-            canvas.classList.add("add-transparency");
+            transparent = true;
         }
+        if (element.checkered) {
+            suppressTransparency = true;
+        }
+    }
+
+    if (transparent && !suppressTransparency) {
+        canvas.classList.add("add-transparency");
     }
 
     for (let i = 0; i < frame.all.length; i++) {
@@ -21,9 +30,20 @@ function draw(canvas, frame, duration) {
         let start = i * duration;
 
         if (element.type === 'line') {
-            drawLine(canvas, lookup, element, start, duration);
+            let rect = drawLine(canvas, lookup, element, start, duration);
+
+            if (element.checkered) {
+                drawCheckers(element, rect, frame.all);
+            }
+
         } else if (element.type === 'plane') {
-            drawPlane(canvas, lookup, element, start, duration);
+
+            if (element.checkered) {
+                drawNestedPlanes(canvas, lookup, element, start, duration);
+            } else {
+                drawPlane(canvas, lookup, element, start, duration);
+            }
+
         } else if (element.type === 'steps') {
             drawSteps(canvas, lookup, element, start, duration);
         }
@@ -78,13 +98,81 @@ function drawLine(canvas, lookup, line, start, duration) {
     if (line.useTape) {
         rect.classList.add("tape");
     }
+
+    return rect;
+}
+
+function drawCheckers(line, lineRect, allElements) {
+
+    let lineLength = (line.end - line.start);
+    let unit = 100 / (lineLength / line.width);
+    let sortedLines = sortLines(allElements);
+
+    let orthoLines;
+    let colors = [];
+
+    if (line.orientation === "horizontal") {
+        orthoLines = sortedLines.vertical;
+    } else {
+        orthoLines = sortedLines.horizontal;
+    }
+    orthoLines.push({pos: 100, width: 0});
+
+    let pos = 2 * Math.random() * unit;
+
+    for (let i = 0; i < orthoLines.length; i++) {
+
+        let orthoLine = orthoLines[i];
+        let nextCrossingPos = orthoLine.pos - orthoLine.width / 2;
+        let width = (1 + 0.25 * Math.random()) * unit;
+
+        while (pos + width <= nextCrossingPos) {
+
+            let distance = pickFromArray([0, width, 2 * width]);
+
+            drawChecker(lineRect, pos, width, line.orientation, colors);
+
+            pos += width + distance;
+        }
+
+        let orthoUnit = 100 / (lineLength / orthoLine.width);
+
+        drawChecker(lineRect, nextCrossingPos, orthoUnit, line.orientation, colors);
+
+        pos = nextCrossingPos + orthoUnit + pickFromArray([0, width]);
+    }
+}
+
+function drawChecker(lineRect, pos, width, orientation, colors) {
+
+    if (colors.length === 0) {
+        colors.push('grey'); colors.push('blue'); colors.push('red');
+        shuffleArray(colors);
+    }
+
+    color = colors.pop();
+
+    let checker = createRectangle("checker");
+
+    if (orientation === "horizontal") {
+        checker.style.left = pos + '%';
+        checker.style.top = '0';
+        checker.style.width = width + '%';
+        checker.style.height = '100%';
+    } else {
+        checker.style.left = '0';
+        checker.style.top = pos + '%';
+        checker.style.width = '100%';
+        checker.style.height = width + '%';
+    }
+
+    checker.classList.add(color);
+    lineRect.appendChild(checker);
 }
 
 function drawPlane(canvas, lookup, plane, start, duration) {
 
     let rect = createRectangle("plane");
-
-    rect.setAttribute('mondriaan-element-type', "plane");
 
     rect.style.top = plane.top + '%';
     rect.style.left = plane.left + '%';
@@ -104,14 +192,92 @@ function drawPlane(canvas, lookup, plane, start, duration) {
     expandBottomToTop(rect, plane.top, plane.bottom, start, duration);
 }
 
+function drawNestedPlanes(canvas, lookup, plane, start, duration) {
+
+    const secondPlaneWidth = 9;
+    const secondPlaneHeight = 10;
+
+    let colors = ["red", "blue", "grey", "yellow"];
+
+    colors = removeFromArray(colors, plane.color);
+
+    let left = parseInt(plane.left);
+    let right = parseInt(plane.right);
+    let top = parseInt(plane.top);
+    let bottom = parseInt(plane.bottom);
+
+    let width = right - left;
+    let height = bottom - top;
+
+    let rect;
+
+    if (width < 9) {
+        return;
+    }
+
+    if (height < 10) {
+        return;
+    }
+
+    // first plane
+    left += Math.random() * (width - secondPlaneWidth);
+    right = left + secondPlaneWidth;
+    top += (height - secondPlaneHeight) / 2;
+    bottom = top + secondPlaneHeight;
+
+    rect = createNestedPlane(plane, plane.color, plane.colorVariation, colors, left, top, right, bottom);
+    rect.style.visibility = "hidden";
+    canvas.appendChild(rect);
+    lookup.push(plane);
+    expandBottomToTop(rect, plane.top, plane.bottom, start, duration);
+
+    // second plane
+    color = pickFromArray(colors);
+    colors = removeFromArray(colors, color);
+
+    left = 0;
+    right = 100;
+    let newHeight = (secondPlaneHeight / height) * 100;
+    top = 50 - newHeight / 2;
+    bottom = 50 + newHeight / 2;
+    let secondRect = createNestedPlane(plane, color, plane.colorVariation, colors, left, top, right, bottom);
+    rect.appendChild(secondRect);
+
+    // third plane
+    color = pickFromArray(colors);
+    colors = removeFromArray(colors, color);
+
+    left = 20;
+    right = 80;
+    top = 30;
+    bottom = 70;
+    let thirdRect = createNestedPlane(plane, color, plane.colorVariation, colors, left, top, right, bottom);
+    secondRect.appendChild(thirdRect);
+
+}
+
+function createNestedPlane(plane, color, colorVariation, colors, left, top, right, bottom) {
+
+    let rect = createRectangle("plane");
+
+    rect.style.top = top + '%';
+    rect.style.left = left + '%';
+
+    rect.style.height = (bottom - top) + '%';
+    rect.style.width = (right - left) + "%";
+
+    rect.classList.add(color);
+    rect.classList.add(colorVariation);
+
+    return rect;
+}
+
 function drawSteps(canvas, lookup, steps, start, duration) {
 
     for (let i = 0; i < steps.elements.length; i++) {
 
         let step = steps.elements[i];
         let rect = createRectangle("step");
-
-        rect.setAttribute('mondriaan-element', step);
 
         rect.style.top = step.top + '%';
         rect.style.left = step.left + '%';

@@ -37,10 +37,12 @@ function sortLines(lines) {
 
         let line = lines[i];
 
-        if (line.orientation === 'horizontal') {
-            hor.push(line);
-        } else {
-            ver.push(line);
+        if (typeof line.orientation !== "undefined") {
+            if (line.orientation === 'horizontal') {
+                hor.push(line);
+            } else {
+                ver.push(line);
+            }
         }
     }
 

@@ -2,6 +2,7 @@
 let styleElementConfigurations = [];
 
 const styleOrder = [
+    "checkered",
     "plain",
     "double-lines",
     "grid",
@@ -12,6 +13,7 @@ const styleOrder = [
 ];
 
 const defaultStyleConfig = {
+    "checkered": false,
     "thick-lines": false,
     "double-lines": false,
     "grid": false,

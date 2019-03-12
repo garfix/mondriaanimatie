@@ -26,7 +26,7 @@ function pickAPlaneColor(planeColors, room) {
     return { color: color, planeColors: planeColors };
 }
 
-function createLine(lines, orientation, minimumLineDistance, thickness, color, useTape) {
+function createLine(lines, orientation, minimumLineDistance, thickness, color, useTape, checkered) {
 
     let pos = createPosition(lines, orientation, minimumLineDistance);
 
@@ -44,13 +44,15 @@ function createLine(lines, orientation, minimumLineDistance, thickness, color, u
         pos: pos,
         start: piece[0],
         end: piece[1],
-        useTape: useTape
+        useTape: useTape,
+        checkered: checkered
     };
 }
 
-function createPlane(room) {
+function createPlane(room, checkered) {
     let plane = Object.assign({}, room);
     plane.type = 'plane';
+    plane.checkered = checkered;
 
     return plane;
 }

@@ -24,6 +24,7 @@ function urlEncodeItem(item) {
         elements: 'e',
         backgroundColor: 'k',
         useTape: 'u',
+        checkered: 'd'
     };
 
     const values = {
@@ -120,6 +121,7 @@ function urlDecodeObject(url, pointer) {
         e: 'elements',
         k: 'backgroundColor',
         u: 'useTape',
+        d: 'checkered',
     };
 
     let obj = {};

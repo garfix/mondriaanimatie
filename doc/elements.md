@@ -116,3 +116,14 @@ Restrictions
 * The distance between two steps is the same between each two steps of a room, but the inter-step-distance can be different in another room in the same painting
 * A room with steps may not be crossed by a line
 * A painting must have at least 8 lines before it can contain any steps
+
+### Checkered lines
+
+In the Boogie Woogie paintings, the lines are composed of little squares.
+
+Aspects of checked lines
+
+* Most squares are yellow, but some are red, blue and grey.
+* Squares have different widths and different distances between.
+* Each crossing of two lines has a square
+* All checkers in a line segment (between two line crossings) are the same width

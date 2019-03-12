@@ -41,6 +41,7 @@ function createFrameFromInstructions(instructions, config) {
     }
 
     let useTape = config['tape'];
+    let checkered = config["checkered"];
 
     for (let i = 0; i < instructions.length; i++) {
 
@@ -59,8 +60,12 @@ function createFrameFromInstructions(instructions, config) {
             }
         }
 
+        if (config["checkered"]) {
+            lineColor = "yellow";
+        }
+
         if (instruction === 'double-horizontal-line') {
-            let line = createLine(lines, 'horizontal', minimumLineDistance, defaultLineThickness, lineColor, useTape);
+            let line = createLine(lines, 'horizontal', minimumLineDistance, defaultLineThickness, lineColor, useTape, checkered);
             if (line) {
                 line.start = 0; line.end = 100;
                 lines.push(line);
@@ -75,7 +80,7 @@ function createFrameFromInstructions(instructions, config) {
             }
 
         } else if (instruction === 'double-vertical-line') {
-            let line = createLine(lines, 'vertical', minimumLineDistance, defaultLineThickness, lineColor, useTape);
+            let line = createLine(lines, 'vertical', minimumLineDistance, defaultLineThickness, lineColor, useTape, checkered);
             if (line) {
                 line.start = 0;
                 line.end = 100;
@@ -93,7 +98,7 @@ function createFrameFromInstructions(instructions, config) {
         } else if (instruction === 'horizontal-line') {
             // exceptions to general thickness
             let thickness = (random(1, 4) === 1) ? defaultLineThickness : horizontalLineThickness;
-            let line = createLine(lines, 'horizontal', minimumLineDistance, thickness, lineColor, useTape);
+            let line = createLine(lines, 'horizontal', minimumLineDistance, thickness, lineColor, useTape, checkered);
             if (line) {
                 if (config['grid']) {
                     line.start = 0;
@@ -104,7 +109,7 @@ function createFrameFromInstructions(instructions, config) {
                 rooms = updateRooms(rooms, line);
             }
         } else if (instruction === 'vertical-line') {
-            let line = createLine(lines, 'vertical', minimumLineDistance, verticalLineThickness, lineColor, useTape);
+            let line = createLine(lines, 'vertical', minimumLineDistance, verticalLineThickness, lineColor, useTape, checkered);
             if (line) {
                 if (config['grid']) {
                     line.start = 0;
@@ -118,7 +123,7 @@ function createFrameFromInstructions(instructions, config) {
             let roomIndex = pickARoomForAPlane(rooms);
             if (roomIndex !== false) {
                 let room = rooms[roomIndex];
-                let plane = createPlane(room);
+                let plane = createPlane(room, checkered);
 
                 let result = pickAPlaneColor(planeColors, room);
                 plane.color = result.color;

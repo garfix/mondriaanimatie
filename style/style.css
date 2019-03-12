@@ -61,6 +61,7 @@ html, body {
 .line {
     will-change: transform;
 	position: absolute;
+    overflow: hidden;
     z-index: 200;
 }
 
@@ -89,6 +90,9 @@ html, body {
     will-change: transform;
     position: absolute;
     z-index: 100;
+}
+.checker {
+    position: absolute;
 }
 .shutter {
     will-change: transform;
@@ -152,6 +156,7 @@ html, body {
     html, body {
         background-color: #ffffff;
         background-image: none;
+        -webkit-print-color-adjust: exact;
     }
 
     #border {
