@@ -1,5 +1,5 @@
 
-let devMode = false;
+let devMode = true;
 
 let tearDownAnimationIndex = 0;
 let state = "running";

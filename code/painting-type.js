@@ -1,24 +1,19 @@
 
 let styleElementConfigurations = [];
 
-const styleOrder = [
-    "checkered",
-    "plain",
-    "double-lines",
-    "grid",
-    "thick-lines",
-    "colored-lines",
-    "white-lines",
-    "tape",
+const paintingTypes = [
+    "thin-grid",
+    "sparse-black",
+    "sparse-colored",
+    "boogie-woogie",
+    "crowded",
+    "new-york",
 ];
 
 const defaultStyleConfig = {
-    "checkered": false,
     "thick-lines": false,
     "double-lines": false,
-    "grid": false,
     "white-lines": false,
-    "colored-lines": false,
     "tape": false,
 };
 
@@ -41,21 +36,21 @@ function buildStyleElementConfigurations() {
 
     let configs = [];
 
-    for (let i = 0 ; i < styleOrder.length; i++) {
+    for (let i = 0 ; i < paintingTypes.length; i++) {
 
-        let baseElement = styleOrder[i];
+        let paintingType = paintingTypes[i];
 
         // config with just style element X
         let config = Object.assign({}, defaultStyleConfig);
 
-        if (baseElement !== "plain") {
-            config[baseElement] = true;
+        if (paintingType !== "plain") {
+            config.paintingType = paintingType;
         }
 
         configs.push(config);
 
         // pick 3 random other style elements
-        let others1 = removeFromArray(Object.keys(defaultStyleConfig), baseElement);
+        let others1 = removeFromArray(Object.keys(defaultStyleConfig), paintingType);
         shuffleArray(others1);
         others1 = others1.slice(0, 3);
 

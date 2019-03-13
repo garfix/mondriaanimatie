@@ -211,13 +211,13 @@ function drawNestedPlanes(canvas, lookup, plane, start, duration) {
 
     let rect;
 
-    if (width < 9) {
-        return;
-    }
-
-    if (height < 10) {
-        return;
-    }
+    // if (width < 9) {
+    //     return;
+    // }
+    //
+    // if (height < 10) {
+    //     return;
+    // }
 
     // first plane
     left += Math.random() * (width - secondPlaneWidth);

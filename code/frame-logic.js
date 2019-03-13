@@ -49,6 +49,29 @@ function createLine(lines, orientation, minimumLineDistance, thickness, color, u
     };
 }
 
+function createGridLine(lines, orientation, minimumLineDistance, thickness, color, useTape, checkered) {
+
+    let pos = createPosition(lines, orientation, minimumLineDistance);
+
+    if (pos === false) {
+        return false;
+    }
+
+    let piece = createPiece(lines, orientation, pos);
+
+    return {
+        type: 'line',
+        width: thickness,
+        color: color,
+        orientation: orientation,
+        pos: pos,
+        start: piece[0],
+        end: piece[1],
+        useTape: useTape,
+        checkered: checkered
+    };
+}
+
 function createPlane(room, checkered) {
     let plane = Object.assign({}, room);
     plane.type = 'plane';

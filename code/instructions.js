@@ -21,10 +21,22 @@ function createInstructionsFromStyleElementConfiguration(config) {
     }
 
     // create up to 11 lines total
+    let minLineCount = 0;
+    let maxLineCount = 9;
+
     // grid: much more lines
-    let minLineCount = config['grid'] ? 12 : 0;
-    let maxLineCount = config['grid'] ? 23 : 9;
-    let lineInstructions = getLineInstructions(random(minLineCount, maxLineCount - doubleLinesCount));
+    if (config.paintingType === "boogie-woogie") {
+        minLineCount = 16;
+        maxLineCount = 24;
+    } else if (config.paintingType === "new-york") {
+        minLineCount = 12;
+        maxLineCount = 23;
+    } else if (config.paintingType === "thin-grid") {
+        minLineCount = 30;
+        maxLineCount = 30;
+    }
+
+    let lineInstructions = getLineInstructions(minLineCount, maxLineCount - doubleLinesCount);
     instructions = instructions.concat(lineInstructions);
 
     // add the standard hor and vert lines
@@ -37,14 +49,30 @@ function createInstructionsFromStyleElementConfiguration(config) {
 
     // add up to 5 planes between the lines, somewhere at the end
     // grid: just 1 plane
-    let maxPlaneCount = config['grid'] ? 1 : 5;
-    let planeInstructions = getPlaneInstructions(maxPlaneCount);
+    let minPlaneCount = 0;
+    let maxPlaneCount = 5;
+
+    if (config.paintingType === 'new-york') {
+        maxPlaneCount = 1;
+    } else if (config.paintingType === 'boogie-woogie') {
+        minPlaneCount = lineCount;
+        maxPlaneCount = lineCount;
+    } else if (config.paintingType === 'thin-grid') {
+console.log(lineCount)
+        minPlaneCount = 225;
+        maxPlaneCount = 225;
+    } else if (config.paintingType === 'crowded') {
+        maxPlaneCount = lineCount;
+    }
+
+    let planeInstructions = getPlaneInstructions(minPlaneCount, maxPlaneCount);
     instructions = instructions.concat(planeInstructions);
 
     // a minimum of lines is present in paintings with steps
+    if (config.paintingType === 'sparse-colored' || config.paintingType === 'sparse-black')
     if (lineCount >= 8) {
         // add steps in up to 2 rooms
-        let maxStepsCount = config['grid'] ? 0 : 5;
+        let maxStepsCount = 5;
         let stepsCount = random(0, maxStepsCount);
         for (let i = 0; i < stepsCount; i++) {
             instructions.push('steps');
@@ -54,9 +82,9 @@ function createInstructionsFromStyleElementConfiguration(config) {
     return instructions;
 }
 
-function getLineInstructions(n) {
+function getLineInstructions(min, max) {
     let instructions = [];
-    let lineCount = random(0, n);
+    let lineCount = random(min, max);
     for (let i = 0; i < lineCount; i++) {
         let r = random(1, 2);
         if (r === 1) {
@@ -68,9 +96,10 @@ function getLineInstructions(n) {
     return instructions;
 }
 
-function getPlaneInstructions(n) {
+function getPlaneInstructions(min, max) {
     let instructions = [];
-    let planeCount = random(0, n);
+    let planeCount = random(min, max);
+console.log(planeCount)
     for (let i = 0; i < planeCount; i++) {
         let position = random(Math.max(0, instructions.length - 2), instructions.length);
         instructions.splice(position, 0, 'plane');

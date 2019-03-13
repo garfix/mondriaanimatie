@@ -1,11 +1,41 @@
 # Types of painting
 
-Two types of painting interest me here:
+## Types
 
-## Paris style
+### Thin line grids
 
-These paintings only have black lines.
+* thin, frame-to-frame lines
+* many planes
 
-## New York style
+### Crowded compositions
 
-These paintings have colored lines and no planes.
+* many thick lines
+* many planes
+
+### Sparse compositions
+
+* few thick lines
+* few planes
+
+### Sparse compositions with mixed colors
+
+* few black and colored lines
+* few planes
+
+### New york
+
+* thick, colored frame-to-frame lines, with white lines
+* few planes
+
+### Boogie woogie
+
+* many yellow checkered lines
+* many checkered planes
+
+## Style elements
+
+* thick lines
+* double lines
+* tape
+* shades of color
+* white lines / grey background
