@@ -203,7 +203,7 @@ function urlDecodeValue(url, pointer) {
 
     let matches = url.substring(pointer).match(/^([0-9]+(\.[0-9]+)?)/);
     if (matches) {
-        value = matches[1];
+        value = parseFloat(matches[1]);
         pointer += value.length;
     } else {
         matches = url.substring(pointer).match(/^(\w)/);

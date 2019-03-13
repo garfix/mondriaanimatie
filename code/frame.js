@@ -25,6 +25,8 @@ function createFrameFromInstructions(instructions, config) {
     shuffleArray(planeColors);
     shuffleArray(colorVariations);
 
+    let colorVariation = colorVariations[0];
+
     // add grey background
     if (config["white-lines"]) {
         frame.backgroundColor = "grey";
@@ -72,7 +74,7 @@ function createFrameFromInstructions(instructions, config) {
         }
 
         if (instruction === 'double-horizontal-line') {
-            let line = createLine(lines, 'horizontal', minimumLineDistance, defaultLineThickness, lineColor, useTape, checkered);
+            let line = createLine(lines, 'horizontal', minimumLineDistance, defaultLineThickness, lineColor, colorVariation, useTape, checkered);
             if (line) {
                 line.start = 0; line.end = 100;
                 lines.push(line);
@@ -87,7 +89,7 @@ function createFrameFromInstructions(instructions, config) {
             }
 
         } else if (instruction === 'double-vertical-line') {
-            let line = createLine(lines, 'vertical', minimumLineDistance, defaultLineThickness, lineColor, useTape, checkered);
+            let line = createLine(lines, 'vertical', minimumLineDistance, defaultLineThickness, lineColor, colorVariation, useTape, checkered);
             if (line) {
                 line.start = 0;
                 line.end = 100;
@@ -105,7 +107,7 @@ function createFrameFromInstructions(instructions, config) {
         } else if (instruction === 'horizontal-line') {
             // exceptions to general thickness
             let thickness = (random(1, 4) === 1) ? defaultLineThickness : thickLineThickness;
-            let line = createLine(lines, 'horizontal', minimumLineDistance, thickness, lineColor, useTape, checkered);
+            let line = createLine(lines, 'horizontal', minimumLineDistance, thickness, lineColor, colorVariation, useTape, checkered);
             if (line) {
                 if (config.paintingType === 'thin-grid' || config.paintingType === 'new-york') {
                     line.start = 0;
@@ -116,7 +118,7 @@ function createFrameFromInstructions(instructions, config) {
                 rooms = updateRooms(rooms, line);
             }
         } else if (instruction === 'vertical-line') {
-            let line = createLine(lines, 'vertical', minimumLineDistance, defaultLineThickness, lineColor, useTape, checkered);
+            let line = createLine(lines, 'vertical', minimumLineDistance, defaultLineThickness, lineColor, colorVariation, useTape, checkered);
             if (line) {
                 if (config.paintingType === 'thin-grid' || config.paintingType === 'new-york') {
                     line.start = 0;
@@ -135,7 +137,7 @@ function createFrameFromInstructions(instructions, config) {
                 let result = pickAPlaneColor(planeColors, room);
                 plane.color = result.color;
                 planeColors = result.planeColors;
-                plane.colorVariation = colorVariations[0];
+                plane.colorVariation = colorVariation;
 
                 frame.all.push(plane);
 
@@ -148,7 +150,7 @@ function createFrameFromInstructions(instructions, config) {
                 let roomIndex = result[0];
                 let orientation = result[1];
                 let room = rooms[roomIndex];
-                let steps = createRandomSteps(room, orientation, colorVariations[0]);
+                let steps = createRandomSteps(room, orientation, colorVariation);
                 frame.all.push(steps);
                 room['has-steps'] = true;
             }

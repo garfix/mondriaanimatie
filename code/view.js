@@ -94,6 +94,7 @@ function drawLine(canvas, lookup, line, start, duration) {
     }
 
     rect.classList.add(line.color);
+    rect.classList.add(line.colorVariation);
 
     if (line.useTape) {
         rect.classList.add("tape");
@@ -118,11 +119,20 @@ function drawCheckers(line, lineRect, allElements) {
     }
     orthoLines.push({pos: 100, width: 0});
 
+    let selectedOrthoLines = [];
+    for (let i = 0; i < orthoLines.length; i++) {
+        let orthoLine = orthoLines[i];
+        if (orthoLine.pos < line.start || orthoLine.pos > line.end) {
+             continue;
+        }
+        selectedOrthoLines.push(orthoLine);
+    }
+
     let pos = 2 * Math.random() * unit;
 
-    for (let i = 0; i < orthoLines.length; i++) {
+    for (let i = 0; i < selectedOrthoLines.length; i++) {
 
-        let orthoLine = orthoLines[i];
+        let orthoLine = selectedOrthoLines[i];
         let nextCrossingPos = orthoLine.pos - orthoLine.width / 2;
         let width = (1 + 0.25 * Math.random()) * unit;
 
@@ -194,9 +204,6 @@ function drawPlane(canvas, lookup, plane, start, duration) {
 
 function drawNestedPlanes(canvas, lookup, plane, start, duration) {
 
-    const secondPlaneWidth = 9;
-    const secondPlaneHeight = 10;
-
     let colors = ["red", "blue", "grey", "yellow"];
 
     colors = removeFromArray(colors, plane.color);
@@ -209,15 +216,10 @@ function drawNestedPlanes(canvas, lookup, plane, start, duration) {
     let width = right - left;
     let height = bottom - top;
 
-    let rect;
+    let secondPlaneWidth = Math.min(right - left, 9);
+    let secondPlaneHeight = Math.min(bottom - top, 10);
 
-    // if (width < 9) {
-    //     return;
-    // }
-    //
-    // if (height < 10) {
-    //     return;
-    // }
+    let rect;
 
     // first plane
     left += Math.random() * (width - secondPlaneWidth);
