@@ -30,10 +30,11 @@ function draw(canvas, frame, duration) {
         let start = i * duration;
 
         if (element.type === 'line') {
-            let rect = drawLine(canvas, lookup, element, start, duration);
+            let lineDuration = element.checkered ? duration / 2 : duration;
+            let rect = drawLine(canvas, lookup, element, start, lineDuration);
 
             if (element.checkered) {
-                drawCheckers(element, rect, frame.all);
+                drawCheckers(element, rect, frame.all, start + lineDuration);
             }
 
         } else if (element.type === 'plane') {
@@ -103,7 +104,7 @@ function drawLine(canvas, lookup, line, start, duration) {
     return rect;
 }
 
-function drawCheckers(line, lineRect, allElements) {
+function drawCheckers(line, lineRect, allElements, start) {
 
     let lineLength = (line.end - line.start);
     let unit = 100 / lineLength;
@@ -139,7 +140,7 @@ function drawCheckers(line, lineRect, allElements) {
         innerPos = (crossing.pos - crossing.width / 2 - line.start) * unit;
         innerWidth = crossing.width * unit;
 
-        drawChecker(lineRect, innerPos, innerWidth, line.orientation, colors);
+        drawChecker(lineRect, innerPos, innerWidth, line.orientation, colors, start);
     }
 
     for (let i = 0; i < crossings.length - 1; i++) {
@@ -157,38 +158,44 @@ function drawCheckers(line, lineRect, allElements) {
             innerPos = (pos - line.start) * unit;
             innerWidth = width * unit;
 
-            drawChecker(lineRect, innerPos, innerWidth, line.orientation, colors);
+            drawChecker(lineRect, innerPos, innerWidth, line.orientation, colors, start);
 
             pos += width + distance;
         }
     }
 }
 
-function drawChecker(lineRect, pos, width, orientation, colors) {
+function drawChecker(lineRect, pos, width, orientation, colors, start) {
 
-    if (colors.length === 0) {
-        colors.push('grey'); colors.push('blue'); colors.push('red');
-        shuffleArray(colors);
-    }
+    setTimeout(function() {
 
-    color = colors.pop();
+        if (colors.length === 0) {
+            colors.push('grey');
+            colors.push('blue');
+            colors.push('red');
+            shuffleArray(colors);
+        }
 
-    let checker = createRectangle("checker");
+        color = colors.pop();
 
-    if (orientation === "horizontal") {
-        checker.style.left = pos + '%';
-        checker.style.top = '0';
-        checker.style.width = width + '%';
-        checker.style.height = '100%';
-    } else {
-        checker.style.left = '0';
-        checker.style.top = pos + '%';
-        checker.style.width = '100%';
-        checker.style.height = width + '%';
-    }
+        let checker = createRectangle("checker");
 
-    checker.classList.add(color);
-    lineRect.appendChild(checker);
+        if (orientation === "horizontal") {
+            checker.style.left = pos + '%';
+            checker.style.top = '0';
+            checker.style.width = width + '%';
+            checker.style.height = '100%';
+        } else {
+            checker.style.left = '0';
+            checker.style.top = pos + '%';
+            checker.style.width = '100%';
+            checker.style.height = width + '%';
+        }
+
+        checker.classList.add(color);
+        lineRect.appendChild(checker);
+
+    }, start);
 }
 
 function drawPlane(canvas, lookup, plane, start, duration) {
