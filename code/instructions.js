@@ -21,16 +21,20 @@ function createInstructionsFromStyleElementConfiguration(config) {
     }
 
     // create up to 11 lines total
+    // sparse:
     let minLineCount = 0;
     let maxLineCount = 9;
 
     // grid: much more lines
-    if (config.paintingType === "boogie-woogie") {
-        minLineCount = 16;
-        maxLineCount = 24;
+    if (config.paintingType === "crowded") {
+        minLineCount = 9;
+        maxLineCount = 18;
     } else if (config.paintingType === "new-york") {
         minLineCount = 12;
         maxLineCount = 23;
+    } else if (config.paintingType === "boogie-woogie") {
+        minLineCount = 16;
+        maxLineCount = 24;
     } else if (config.paintingType === "thin-grid") {
         minLineCount = 30;
         maxLineCount = 30;
@@ -48,11 +52,14 @@ function createInstructionsFromStyleElementConfiguration(config) {
     }
 
     // add up to 5 planes between the lines, somewhere at the end
-    // grid: just 1 plane
+    // sparse:
     let minPlaneCount = 0;
     let maxPlaneCount = 5;
 
-    if (config.paintingType === 'new-york') {
+    if (config.paintingType === 'crowded') {
+        minPlaneCount = lineCount;
+        maxPlaneCount = lineCount;
+    } else if (config.paintingType === 'new-york') {
         maxPlaneCount = 1;
     } else if (config.paintingType === 'boogie-woogie') {
         minPlaneCount = lineCount / 2;
@@ -60,8 +67,6 @@ function createInstructionsFromStyleElementConfiguration(config) {
     } else if (config.paintingType === 'thin-grid') {
         minPlaneCount = 225;
         maxPlaneCount = 225;
-    } else if (config.paintingType === 'crowded') {
-        maxPlaneCount = lineCount;
     }
 
     let planeInstructions = getPlaneInstructions(minPlaneCount, maxPlaneCount);
