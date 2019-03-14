@@ -106,7 +106,7 @@ function drawLine(canvas, lookup, line, start, duration) {
 function drawCheckers(line, lineRect, allElements) {
 
     let lineLength = (line.end - line.start);
-    let unit = 100 / (lineLength / line.width);
+    let unit = 100 / lineLength;
     let sortedLines = sortLines(allElements);
 
     let orthoLines;
@@ -117,39 +117,50 @@ function drawCheckers(line, lineRect, allElements) {
     } else {
         orthoLines = sortedLines.horizontal;
     }
-    orthoLines.push({pos: 100, width: 0});
+    orthoLines.unshift({pos: 0, width: 0, start: 0, end: 100});
+    orthoLines.push({pos: 100, width: 0, start: 0, end: 100});
 
-    let selectedOrthoLines = [];
+    let crossings = [];
+    let w = line.width;
     for (let i = 0; i < orthoLines.length; i++) {
         let orthoLine = orthoLines[i];
-        if (orthoLine.pos < line.start || orthoLine.pos > line.end) {
-             continue;
+        let ow = orthoLine.width;
+
+        if (orthoLine.pos >= line.start - w && orthoLine.pos <= line.end + w) {
+            if (line.pos >= orthoLine.start - ow && line.pos <= orthoLine.end + ow) {
+                crossings.push(orthoLine)
+            }
         }
-        selectedOrthoLines.push(orthoLine);
     }
 
-    let pos = 2 * Math.random() * unit;
+    for (let i = 0; i < crossings.length; i++) {
+        let crossing = crossings[i];
 
-    for (let i = 0; i < selectedOrthoLines.length; i++) {
+        innerPos = (crossing.pos - crossing.width / 2 - line.start) * unit;
+        innerWidth = crossing.width * unit;
 
-        let orthoLine = selectedOrthoLines[i];
-        let nextCrossingPos = orthoLine.pos - orthoLine.width / 2;
-        let width = (1 + 0.25 * Math.random()) * unit;
+        drawChecker(lineRect, innerPos, innerWidth, line.orientation, colors);
+    }
+
+    for (let i = 0; i < crossings.length - 1; i++) {
+
+        let crossing = crossings[i];
+        let nextCrossing  = crossings[i + 1];
+        let width = (line.width + 0.25 * line.width * Math.random());
+        let pos = crossing.pos + crossing.width / 2 + pickFromArray([0, width]);
+        let nextCrossingPos = nextCrossing.pos - nextCrossing.width / 2;
 
         while (pos + width <= nextCrossingPos) {
 
             let distance = pickFromArray([0, width, 2 * width]);
 
-            drawChecker(lineRect, pos, width, line.orientation, colors);
+            innerPos = (pos - line.start) * unit;
+            innerWidth = width * unit;
+
+            drawChecker(lineRect, innerPos, innerWidth, line.orientation, colors);
 
             pos += width + distance;
         }
-
-        let orthoUnit = 100 / (lineLength / orthoLine.width);
-
-        drawChecker(lineRect, nextCrossingPos, orthoUnit, line.orientation, colors);
-
-        pos = nextCrossingPos + orthoUnit + pickFromArray([0, width]);
     }
 }
 

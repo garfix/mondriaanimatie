@@ -55,10 +55,9 @@ function createInstructionsFromStyleElementConfiguration(config) {
     if (config.paintingType === 'new-york') {
         maxPlaneCount = 1;
     } else if (config.paintingType === 'boogie-woogie') {
-        minPlaneCount = lineCount;
-        maxPlaneCount = lineCount;
+        minPlaneCount = lineCount / 2;
+        maxPlaneCount = lineCount / 2;
     } else if (config.paintingType === 'thin-grid') {
-console.log(lineCount)
         minPlaneCount = 225;
         maxPlaneCount = 225;
     } else if (config.paintingType === 'crowded') {
@@ -99,7 +98,7 @@ function getLineInstructions(min, max) {
 function getPlaneInstructions(min, max) {
     let instructions = [];
     let planeCount = random(min, max);
-console.log(planeCount)
+
     for (let i = 0; i < planeCount; i++) {
         let position = random(Math.max(0, instructions.length - 2), instructions.length);
         instructions.splice(position, 0, 'plane');
