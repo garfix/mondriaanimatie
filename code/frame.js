@@ -9,7 +9,8 @@ function createFrameFromInstructions(instructions, config) {
 
     let frame = {
         all: [],
-        backgroundColor: "none"
+        backgroundColor: "none",
+        paintingType: config.paintingType
     };
 
     // default room: entire canvas
@@ -38,7 +39,6 @@ function createFrameFromInstructions(instructions, config) {
     lines.push({ type: 'line', orientation: 'vertical', pos: 0, start: 0, end: 100, width: 0, color: 'none'});
     lines.push({ type: 'line', orientation: 'vertical', pos: 100, start: 0, end: 100, width: 0, color: 'none'});
 
-
     // the thickness of lines
     let thickLineThickness = defaultLineThickness;
 
@@ -48,6 +48,9 @@ function createFrameFromInstructions(instructions, config) {
 
     let useTape = config['tape'];
     let checkered = config.paintingType === "boogie-woogie";
+
+    let gridHorPos = 0;
+    let gridVertPos = 0;
 
     for (let i = 0; i < instructions.length; i++) {
 
@@ -77,6 +80,9 @@ function createFrameFromInstructions(instructions, config) {
             let line = createLine(lines, 'horizontal', minimumLineDistance, defaultLineThickness, lineColor, colorVariation, useTape, checkered);
             if (line) {
                 line.start = 0; line.end = 100;
+                if (config.paintingType === 'thin-grid') {
+                    line.pos = 10 * gridHorPos++;
+                }
                 lines.push(line);
                 frame.all.push(line);
                 rooms = updateRooms(rooms, line);
@@ -93,6 +99,9 @@ function createFrameFromInstructions(instructions, config) {
             if (line) {
                 line.start = 0;
                 line.end = 100;
+                if (config.paintingType === 'thin-grid') {
+                    line.pos = 10 * gridVertPos++;
+                }
                 lines.push(line);
                 frame.all.push(line);
                 rooms = updateRooms(rooms, line);
@@ -113,6 +122,9 @@ function createFrameFromInstructions(instructions, config) {
                     line.start = 0;
                     line.end = 100;
                 }
+                if (config.paintingType === 'thin-grid') {
+                    line.pos = 10 * gridHorPos++;
+                }
                 lines.push(line);
                 frame.all.push(line);
                 rooms = updateRooms(rooms, line);
@@ -123,6 +135,9 @@ function createFrameFromInstructions(instructions, config) {
                 if (config.paintingType === 'thin-grid' || config.paintingType === 'new-york') {
                     line.start = 0;
                     line.end = 100;
+                }
+                if (config.paintingType === 'thin-grid') {
+                    line.pos = 10 * gridVertPos++;
                 }
                 lines.push(line);
                 frame.all.push(line);

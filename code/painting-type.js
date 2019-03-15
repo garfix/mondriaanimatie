@@ -3,11 +3,11 @@ let styleElementConfigurations = [];
 
 const paintingTypes = [
     "thin-grid",
-    "sparse-black",
+    "crowded",
+    "sparse",
+    "new-york",
     "sparse-colored",
     "boogie-woogie",
-    "crowded",
-    "new-york",
 ];
 
 const defaultStyleConfig = {
@@ -74,6 +74,12 @@ function buildStyleElementConfigurations() {
         }
     }
 
+    // distribute the thin grids over the series
+    let thinGrids = configs.slice(0, 7);
+    configs = configs.slice(7);
+    for (let i = 0; i < 3; i++) {
+        configs.splice(i * 14 + i, 0, thinGrids[i]);
+    }
+
     return configs;
 }
-

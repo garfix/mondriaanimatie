@@ -35,12 +35,16 @@ function createInstructionsFromStyleElementConfiguration(config) {
     } else if (config.paintingType === "boogie-woogie") {
         minLineCount = 16;
         maxLineCount = 24;
-    } else if (config.paintingType === "thin-grid") {
-        minLineCount = 30;
-        maxLineCount = 30;
     }
 
-    let lineInstructions = getLineInstructions(minLineCount, maxLineCount - doubleLinesCount);
+    let lineInstructions;
+
+    if (config.paintingType === "thin-grid") {
+        lineInstructions = getGridInstructions();
+    } else {
+        lineInstructions = getLineInstructions(minLineCount, maxLineCount - doubleLinesCount);
+    }
+
     instructions = instructions.concat(lineInstructions);
 
     // add the standard hor and vert lines
@@ -65,15 +69,15 @@ function createInstructionsFromStyleElementConfiguration(config) {
         minPlaneCount = lineCount / 2;
         maxPlaneCount = lineCount / 2;
     } else if (config.paintingType === 'thin-grid') {
-        minPlaneCount = 225;
-        maxPlaneCount = 225;
+        minPlaneCount = 80;
+        maxPlaneCount = 80;
     }
 
     let planeInstructions = getPlaneInstructions(minPlaneCount, maxPlaneCount);
     instructions = instructions.concat(planeInstructions);
 
     // a minimum of lines is present in paintings with steps
-    if (config.paintingType === 'sparse-colored' || config.paintingType === 'sparse-black')
+    if (config.paintingType === 'sparse-colored' || config.paintingType === 'sparse')
     if (lineCount >= 8) {
         // add steps in up to 2 rooms
         let maxStepsCount = 5;
@@ -96,6 +100,17 @@ function getLineInstructions(min, max) {
         } else {
             instructions.push('vertical-line');
         }
+    }
+    return instructions;
+}
+
+function getGridInstructions() {
+    let instructions = [];
+    for (let i = 0; i < 9; i++) {
+        instructions.push('horizontal-line');
+    }
+    for (let i = 0; i < 9; i++) {
+        instructions.push('vertical-line');
     }
     return instructions;
 }

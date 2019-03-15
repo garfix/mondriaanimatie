@@ -24,7 +24,8 @@ function urlEncodeItem(item) {
         elements: 'e',
         backgroundColor: 'k',
         useTape: 'u',
-        checkered: 'd'
+        checkered: 'd',
+        paintingType: 'f',
     };
 
     const values = {
@@ -45,6 +46,12 @@ function urlEncodeItem(item) {
         white: 'w',
         true: 'i',
         false: 'j',
+        "thin-grid": 'a',
+        "new-york": 'c',
+        "crowded": 'e',
+        "sparse-colored": 'f',
+        "sparse": 'm',
+        "boogie-woogie": 'o'
     };
 
     for (let k in item) {
@@ -99,6 +106,7 @@ function urlEncodeItem(item) {
 
 function urlDecodeFrame(url) {
     let result = urlDecodeObject(url, 0);
+
     return result[0];
 }
 
@@ -122,6 +130,7 @@ function urlDecodeObject(url, pointer) {
         k: 'backgroundColor',
         u: 'useTape',
         d: 'checkered',
+        f: 'paintingType'
     };
 
     let obj = {};
@@ -135,7 +144,7 @@ function urlDecodeObject(url, pointer) {
         }
 
         if (typeof keys[head] === "undefined") {
-            console.log("url decode error: unknown key: " + head);
+            console.log("url decode error: unknown key: " + head + " at position " + pointer + " of " + url.length);
             return [null, pointer];
         }
 
@@ -197,29 +206,38 @@ function urlDecodeValue(url, pointer) {
         w: 'white',
         i: true,
         j: false,
+        a: "thin-grid",
+        c: "new-york",
+        e: "crowded",
+        f: "sparse-colored",
+        m: "sparse",
+        o: "boogie-woogie"
     };
 
     let value = null;
+    let newPointer = pointer;
 
     let matches = url.substring(pointer).match(/^([0-9]+(\.[0-9]+)?)/);
     if (matches) {
         value = parseFloat(matches[1]);
-        pointer += value.length;
+        newPointer += matches[1].length;
     } else {
         matches = url.substring(pointer).match(/^(\w)/);
         if (matches) {
             let token = matches[1];
-            pointer += 1;
+            newPointer += 1;
 
             if (typeof values[token] === "undefined") {
                 console.log("url decode error: unknown value: " + value);
-                return [null, pointer];
+                return [null, newPointer];
             }
 
             value = values[token];
 
+        } else {
+            console.log("url decode error: did not match number nor letter: " + url.substring(pointer));
         }
     }
 
-    return [value, pointer];
+    return [value, newPointer];
 }

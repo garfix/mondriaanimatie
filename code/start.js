@@ -173,6 +173,13 @@ function animateFrame(border, frame, singleFrame) {
          fullDuration = buildDuration + holdDuration + tearDownAnimationDuration + interFrameDuration;
     }
 
+    // painting frame size
+    if (frame.paintingType === "thin-grid") {
+        border.style.transform = "scaleY(0.75)";
+    } else {
+        border.style.transform = "none";
+    }
+
     // draw the picture on the canvas
     let lookup = draw(canvas, frame, elementDuration);
 
