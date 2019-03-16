@@ -23,10 +23,13 @@ html, body {
     margin-right: 20px;
     background-color: #f0f0f0;
     opacity: 0.6;
-    float: right;
+    position: absolute;
+    top: 20px;
+    right: 20px;
     padding: 5px 20px;
     text-align: right;
     margin-bottom: 5px;
+    border: 2px outset #f8f8f8;
 }
 
 .title {
@@ -47,6 +50,23 @@ html, body {
 
 #state-button.play {
     background:url(play.png) no-repeat;
+}
+
+@media screen and (max-width: 1400px) {
+    #control-panel {
+        position: static;
+        margin-right: 0;
+        text-align: left;
+        min-height: 52px;
+    }
+
+    .title {
+        display: inline;
+    }
+
+    #state-button {
+        float: right;
+    }
 }
 
 .canvas {
