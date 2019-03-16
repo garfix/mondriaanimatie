@@ -106,8 +106,6 @@ function loadFrameFromLocation(location) {
 function resize(border) {
     let minSize = Math.min(window.outerWidth, window.innerHeight) - 40;
 
-    console.log(window.outerHeight, window.innerHeight)
-
     border.style.width = minSize + 'px';
     border.style.height = minSize + 'px';
 }

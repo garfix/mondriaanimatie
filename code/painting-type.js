@@ -2,12 +2,10 @@
 let styleElementConfigurations = [];
 
 const paintingTypes = [
-    "thin-grid",
-    "crowded",
     "sparse",
     "new-york",
+    "crowded",
     "sparse-colored",
-    "boogie-woogie",
 ];
 
 const defaultStyleConfig = {
@@ -72,13 +70,15 @@ function buildStyleElementConfigurations() {
             config[others2.pop()] = false;
             configs.push(config);
         }
-    }
 
-    // distribute the thin grids over the series
-    let thinGrids = configs.slice(0, 7);
-    configs = configs.slice(7);
-    for (let i = 0; i < 3; i++) {
-        configs.splice(i * 14 + i, 0, thinGrids[i]);
+        config = Object.assign({}, defaultStyleConfig);
+        if (i % 2 === 0) {
+            config.paintingType = "thin-grid";
+        } else {
+            config.paintingType = "boogie-woogie";
+        }
+        configs.push(config);
+
     }
 
     return configs;
