@@ -5,8 +5,9 @@
 	</head>
 	<body>
         <div id="control-panel">
-            <div class="title">Wandering through M-space</div>
             <button id="state-button" type="button"></button>
+            <div class="title">Wandering through M-space</div>
+            <div id="name" class="name"></div>
         </div>
 		<div id="border"></div>
         <script src="code/start.js" type="text/javascript" charset="utf-8"></script>
@@ -20,7 +21,7 @@
         <script src="code/animation.js" type="text/javascript" charset="utf-8"></script>
         <script src="code/helper.js" type="text/javascript" charset="utf-8"></script>
         <script>
-            start('border', 'state-button');
+            start('border', 'state-button', 'name');
         </script>
 	</body>
 </html>

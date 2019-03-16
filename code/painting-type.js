@@ -25,7 +25,7 @@ function createRandomFrame() {
 
     let styleElementConfiguration = styleElementConfigurations.shift();
 
-console.log(styleElementConfiguration);
+//console.log(styleElementConfiguration);
 
     let instructions = createInstructionsFromStyleElementConfiguration(styleElementConfiguration);
 

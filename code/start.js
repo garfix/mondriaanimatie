@@ -7,10 +7,11 @@ let stateChangeListeners = [];
 let nextFrameTimer = null;
 let tearDownAnimationTimer = null;
 
-function start(borderEementId, stateElementId) {
+function start(borderEementId, stateElementId, nameElementId) {
 
     let border = document.getElementById(borderEementId);
     let stateButton = document.getElementById(stateElementId);
+    let nameElement = document.getElementById(nameElementId);
 
     stateButton.focus();
 
@@ -26,14 +27,14 @@ function start(borderEementId, stateElementId) {
         let frame = loadFrameFromLocation(document.location.href);
         if (frame) {
             setState("paused");
-            animateFrame(border, frame, true);
+            animateFrame(border, frame, true, nameElement);
         }
     })};
 
     // state change actions
     stateChangeListeners.push(function(newState){
         if (newState === "running") {
-            animateRandomFrame(border);
+            animateRandomFrame(border, nameElement);
             stateButton.classList.remove("play");
         } else {
             stopExistingAnimation();
@@ -62,9 +63,9 @@ function start(borderEementId, stateElementId) {
 
     if (frame) {
         setState("paused");
-        animateFrame(border, frame, true);
+        animateFrame(border, frame, true, nameElement);
     } else {
-        animateRandomFrame(border);
+        animateRandomFrame(border, nameElement);
     }
 }
 
@@ -103,13 +104,15 @@ function loadFrameFromLocation(location) {
 }
 
 function resize(border) {
-    let minSize = Math.min(window.innerWidth, window.innerHeight) - 40;
+    let minSize = Math.min(window.outerWidth, window.innerHeight) - 40;
+
+    console.log(window.outerHeight, window.innerHeight)
 
     border.style.width = minSize + 'px';
     border.style.height = minSize + 'px';
 }
 
-function animateRandomFrame(border) {
+function animateRandomFrame(border, nameElement) {
 
     // create a new frame
     let frame = createRandomFrame();
@@ -118,7 +121,7 @@ function animateRandomFrame(border) {
     let urlEncodedFrame = urlEncodeFrame(frame);
     history.pushState(null, window.location.pathname, "?frame=" + urlEncodedFrame);
 
-    animateFrame(border, frame, false);
+    animateFrame(border, frame, false, nameElement);
 }
 
 function stopExistingAnimation() {
@@ -131,14 +134,38 @@ function stopExistingAnimation() {
 }
 
 function getTitle(frame) {
-    return "Composition in M with " + frame.all.length + " elements";
+
+    let title = "Composition";
+
+    switch (frame.paintingType) {
+        case 'thin-grid':
+            title = "Grid";
+            break;
+        case 'sparse-colored':
+            title = "Colored lines composition";
+            break;
+        case 'crowded':
+            title = "Crowded composition";
+            break;
+        case 'new-york':
+            title = "New York composition";
+            break;
+        case 'boogie-woogie':
+            title = "Boogie woogie composition";
+            break;
+    }
+
+    title += " in M";
+
+    return title;
 }
 
-function animateFrame(border, frame, singleFrame) {
+function animateFrame(border, frame, singleFrame, nameElement) {
 
     let title = getTitle(frame);
 
     document.title = title;
+    nameElement.innerHTML = title;
 
     // remove old canvas
     border.innerHTML = "";
@@ -192,6 +219,6 @@ function animateFrame(border, frame, singleFrame) {
     }, buildDuration + holdDuration);
 
     nextFrameTimer = setTimeout(function () {
-        animateRandomFrame(border)
+        animateRandomFrame(border, nameElement);
     }, fullDuration);
 }
