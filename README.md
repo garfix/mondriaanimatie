@@ -9,3 +9,5 @@ In order to generate a painting we need to know [the elements](doc/elements.md),
 Each frame is crafted from a series of style elements: double-lines, colored-lines, thick-lines, grid, and tape.
 
 The tour in this demo highlights each of these style elements in order.
+
+![Example image][doc/m1.png]
