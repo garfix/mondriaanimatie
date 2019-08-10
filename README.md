@@ -10,6 +10,10 @@ Each frame is crafted from a series of style elements: double-lines, colored-lin
 
 The tour in this demo highlights each of these style elements in order.
 
+## Website
+
+You can see this demo [in action](https://patrickvanbergen.com/mondriaanimatie/index.html)
+
 ## Example image
 
 ![Example image](doc/m1.png)
