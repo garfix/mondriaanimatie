@@ -181,7 +181,7 @@ function animateFrame(border, frame, singleFrame, nameElement) {
 
     tearDownAnimationIndex = (tearDownAnimationIndex === tearDownAnimations.length - 1) ? 0 : tearDownAnimationIndex + 1;
 
-    let elementDuration = singleFrame ? 50 : 500;
+    let elementDuration = singleFrame || (frame.paintingType === 'thin-grid') ? 50 : 500;
     let holdDuration = 3000;
     let buildDuration = (frame.all.length * elementDuration);
     let interFrameDuration = 1000;
